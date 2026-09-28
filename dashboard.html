@@ -404,6 +404,53 @@ a{
     line-height:1.6;
 }
 
+/* ================= LIVE SESSIONS ================= */
+
+.session-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.session-item{
+    border:1px solid #e2e8ef;
+    border-radius:11px;
+    padding:16px;
+    background:#fbfcfe;
+}
+
+.session-item-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+}
+
+.session-item h4{
+    color:#10233f;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.session-item p{
+    color:#7b899d;
+    font-size:10px;
+    line-height:1.6;
+    margin-top:4px;
+}
+
+.session-status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.session-status.current{background:#e5f4ff;color:#0878b7;}
+.session-status.upcoming{background:#fff4d7;color:#9a6a00;}
+.session-status.completed{background:#e7f8ee;color:#16814b;}
+
 /* ================= PROFILE ================= */
 
 .profile{
@@ -1215,7 +1262,9 @@ from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import {
     getFirestore,
     doc,
-    getDoc
+    getDoc,
+    collection,
+    getDocs
 }
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
@@ -1304,6 +1353,138 @@ function showNoSession(){
 
 }
 
+
+/* ================= LIVE SESSIONS ================= */
+
+function normalizeSessionStatus(value){
+    return String(value || "").trim().toLowerCase();
+}
+
+function sessionDateValue(session){
+    const date = String(session.date || "").trim();
+    let time = String(session.time || "00:00").trim();
+
+    if(/AM|PM/i.test(time)){
+        const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if(match){
+            let hour = Number(match[1]);
+            const minute = match[2];
+            const period = match[3].toUpperCase();
+            if(period === "PM" && hour !== 12) hour += 12;
+            if(period === "AM" && hour === 12) hour = 0;
+            time = `${String(hour).padStart(2,"0")}:${minute}`;
+        }
+    }
+
+    const value = new Date(`${date}T${time || "00:00"}`);
+    return Number.isNaN(value.getTime()) ? new Date(8640000000000000) : value;
+}
+
+function formatSessionDate(value){
+    if(!value) return "Date not announced";
+    const parts = String(value).split("-");
+    if(parts.length !== 3) return value;
+    const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    if(Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString("en-IN", {day:"2-digit", month:"short", year:"numeric"});
+}
+
+function formatSessionTime(value){
+    if(!value) return "—";
+    value = String(value).trim();
+    if(/AM|PM/i.test(value)) return value;
+    const parts = value.split(":");
+    if(parts.length < 2) return value;
+    let hour = Number(parts[0]);
+    if(Number.isNaN(hour)) return value;
+    const period = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+    return `${String(hour).padStart(2,"0")}:${parts[1]} ${period}`;
+}
+
+function escapeSessionHTML(value){
+    return String(value || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+async function loadLearningSessions(){
+    try{
+        const snapshot = await getDocs(collection(db,"Sessions"));
+        const sessions = [];
+        snapshot.forEach(item => sessions.push({id:item.id, ...item.data()}));
+        sessions.sort((a,b) => sessionDateValue(a) - sessionDateValue(b));
+        renderLearningSessions(sessions);
+        renderNextSession(sessions);
+    }
+    catch(error){
+        console.error("DTE Sessions Load Error:", error);
+        showNoSession();
+    }
+}
+
+function renderLearningSessions(sessions){
+    const container = document.getElementById("sessionsContainer");
+    if(!sessions.length){
+        container.innerHTML = `
+        <div class="no-session" id="noSessionsMessage">
+            <div class="no-session-icon">📚</div>
+            <h4>No Learning Sessions Yet</h4>
+            <p>No learning session has been announced or completed yet.<br>Your sessions will appear here when they are published by DTE.</p>
+        </div>`;
+        return;
+    }
+
+    const order = {current:0, upcoming:1, completed:2};
+    const displaySessions = [...sessions].sort((a,b) => {
+        const sa = order[normalizeSessionStatus(a.status)] ?? 3;
+        const sb = order[normalizeSessionStatus(b.status)] ?? 3;
+        if(sa !== sb) return sa - sb;
+        return sessionDateValue(a) - sessionDateValue(b);
+    });
+
+    container.innerHTML = `<div class="session-list">${displaySessions.map(session => {
+        const status = String(session.status || "Upcoming").trim();
+        const statusClass = normalizeSessionStatus(status);
+        return `
+        <div class="session-item">
+            <div class="session-item-top">
+                <div>
+                    <h4>${escapeSessionHTML(session.title || "Learning Session")}</h4>
+                    <p>📅 ${escapeSessionHTML(formatSessionDate(session.date))} &nbsp; 🕐 ${escapeSessionHTML(formatSessionTime(session.time))}</p>
+                    <p>📍 ${escapeSessionHTML(session.mode || "Not Assigned")}</p>
+                </div>
+                <span class="session-status ${escapeSessionHTML(statusClass)}">${escapeSessionHTML(status)}</span>
+            </div>
+            ${session.description ? `<p>${escapeSessionHTML(session.description)}</p>` : ""}
+        </div>`;
+    }).join("")}</div>`;
+}
+
+function renderNextSession(sessions){
+    const current = sessions
+        .filter(s => normalizeSessionStatus(s.status) === "current")
+        .sort((a,b) => sessionDateValue(a) - sessionDateValue(b));
+
+    const upcoming = sessions
+        .filter(s => normalizeSessionStatus(s.status) === "upcoming")
+        .sort((a,b) => sessionDateValue(a) - sessionDateValue(b));
+
+    const next = current[0] || upcoming[0];
+    if(!next){
+        showNoSession();
+        return;
+    }
+
+    document.getElementById("nextSessionName").textContent = next.title || "Learning Session";
+    document.getElementById("nextSessionDate").textContent = "📅 " + formatSessionDate(next.date);
+    document.getElementById("nextSessionTime").textContent = "🕐 Time: " + formatSessionTime(next.time);
+    document.getElementById("sessionMode").textContent = "📍 Mode: " + (next.mode || "Not Assigned");
+    document.getElementById("sessionAnnouncement").textContent = next.description || (normalizeSessionStatus(next.status) === "current" ? "This session is currently active." : "Upcoming DTE learning session.");
+}
 
 /* =====================================================
    ACCESS DENIED
@@ -1655,12 +1836,9 @@ async function loadStudentData(user){
         "● Active Student";
 
 
-        /*
-           Sessions are intentionally
-           not connected yet.
-        */
+        /* ================= LIVE LEARNING SESSIONS ================= */
 
-        showNoSession();
+        await loadLearningSessions();
 
 
         /*
