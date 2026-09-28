@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance | DTE Student Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;visibility:hidden}
+a{text-decoration:none}
+.sidebar{width:255px;height:100vh;background:#06152e;position:fixed;left:0;top:0;padding:25px 18px;color:white;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px;padding-bottom:25px;border-bottom:1px solid #18304e}
+.logo{width:48px;height:48px;background:linear-gradient(135deg,#19b9f2,#0756a5);border:2px solid #ffc532;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold}
+.brand h2{font-size:17px}.brand p{font-size:9px;color:#8fa7c7}
+.menu-title{font-size:10px;color:#627995;letter-spacing:1.5px;margin:25px 10px 10px}
+.menu{list-style:none}.menu a{display:flex;align-items:center;gap:12px;color:#aebed1;padding:12px 13px;margin:4px 0;border-radius:8px;font-size:13px;transition:.3s}
+.menu a:hover,.menu .active{background:#0b3158;color:white}.logout{margin-top:30px}.logout a{display:block;padding:12px;border:1px solid #344b67;color:#aebed1;border-radius:8px;text-align:center;font-size:13px}.logout a:hover{background:#c83b3b;color:white}
+.main{margin-left:255px;min-height:100vh}.topbar{background:white;height:75px;display:flex;align-items:center;justify-content:space-between;padding:0 35px;border-bottom:1px solid #e1e7ef}
+.topbar h2{color:#10213b;font-size:20px}.topbar p{color:#8492a6;font-size:11px;margin-top:2px}.top-user{display:flex;align-items:center;gap:11px}.avatar{width:42px;height:42px;border-radius:50%;background:#dff4fc;display:flex;align-items:center;justify-content:center;font-size:19px}.top-user h4{font-size:13px}.top-user p{font-size:10px;color:#8290a3}
+.content{padding:30px 35px 50px;max-width:1500px;margin:auto}.hero{background:linear-gradient(110deg,#071a38,#0b4771);border-radius:17px;padding:28px 30px;color:white;margin-bottom:25px}.hero small{color:#54cfff;font-weight:bold;letter-spacing:1.4px}.hero h1{font-size:25px;margin:7px 0}.hero p{font-size:12px;color:#b7c8db}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:25px}.stat{background:white;border:1px solid #e1e7ef;border-radius:12px;padding:20px}.stat-head{display:flex;justify-content:space-between;align-items:center;color:#0787c2;font-size:10px}.stat-icon{width:40px;height:40px;background:#eaf7fc;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px}.stat h2{font-size:25px;color:#0c2442;margin-top:12px}.stat p{font-size:10px;color:#8492a6;margin-top:3px}
+.card{background:white;border:1px solid #e0e6ee;border-radius:13px;overflow:hidden}.card-header{padding:20px 22px;border-bottom:1px solid #e8edf2;display:flex;justify-content:space-between;align-items:center;gap:15px}.card-header h3{font-size:16px;color:#12243e}.card-header p{font-size:10px;color:#8492a6;margin-top:4px}.refresh{border:1px solid #d7e0e9;background:white;color:#33465d;padding:9px 13px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:bold}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:760px}th{background:#f8fafc;color:#68788c;font-size:10px;text-align:left;padding:12px 16px;border-bottom:1px solid #e7ecf1;text-transform:uppercase}td{padding:15px 16px;border-bottom:1px solid #edf0f4;font-size:11px}.session-name{font-weight:bold;color:#20344d;font-size:12px}.small{font-size:9px;color:#8492a5;margin-top:3px}.badge{display:inline-block;padding:5px 10px;border-radius:20px;font-size:9px;font-weight:bold}.present{background:#e7f8ee;color:#16814b}.absent{background:#ffeded;color:#c14444}.empty{text-align:center;padding:55px 20px;color:#8593a5}.empty div{font-size:35px;margin-bottom:10px}.empty h3{font-size:14px;color:#43556c}.empty p{font-size:10px;margin-top:5px}.footer{text-align:center;padding:22px;color:#8a97a7;font-size:10px}
+@media(max-width:1000px){.stats{grid-template-columns:1fr 1fr}}@media(max-width:750px){.sidebar{display:none}.main{margin-left:0}.topbar{padding:0 18px}.content{padding:20px 15px}.top-user>div:last-child{display:none}}@media(max-width:480px){.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+ <div class="brand"><div class="logo">DTE</div><div><h2>Student Portal</h2><p>DIGITAL TECH ECOSYSTEM</p></div></div>
+ <p class="menu-title">MAIN MENU</p>
+ <ul class="menu">
+  <li><a href="dashboard.html">🏠 Dashboard</a></li>
+  <li><a href="profile.html">👤 My Profile</a></li>
+  <li><a href="courses.html">📚 My Learning</a></li>
+  <li><a href="attendance.html" class="active">📅 Attendance</a></li>
+  <li><a href="#">📝 Assignments</a></li>
+  <li><a href="projects.html">🚀 Projects</a></li>
+  <li><a href="certificates.html">🏆 Certificates</a></li>
+ </ul>
+ <p class="menu-title">SUPPORT</p>
+ <ul class="menu"><li><a href="index.html#contact">💬 Contact DTE</a></li></ul>
+ <div class="logout"><a href="#" id="logoutButton">↪ Logout</a></div>
+</aside>
+
+<div class="main">
+ <div class="topbar">
+  <div><h2>My Attendance</h2><p>DTE Digital Tech Ecosystem</p></div>
+  <div class="top-user"><div class="avatar">🎓</div><div><h4 id="topName">Loading...</h4><p>DTE Student</p></div></div>
+ </div>
+ <div class="content">
+  <div class="hero"><small>ATTENDANCE RECORD</small><h1>Your Learning Attendance</h1><p>View your session-wise attendance and overall attendance performance.</p></div>
+  <div class="stats">
+   <div class="stat"><div class="stat-head"><span>OVERALL</span><div class="stat-icon">📊</div></div><h2 id="overallAttendance">0%</h2><p>Overall Attendance</p></div>
+   <div class="stat"><div class="stat-head"><span>PRESENT</span><div class="stat-icon">✅</div></div><h2 id="presentCount">0</h2><p>Sessions Attended</p></div>
+   <div class="stat"><div class="stat-head"><span>ABSENT</span><div class="stat-icon">❌</div></div><h2 id="absentCount">0</h2><p>Sessions Missed</p></div>
+   <div class="stat"><div class="stat-head"><span>TOTAL</span><div class="stat-icon">📚</div></div><h2 id="totalCount">0</h2><p>Attendance Records</p></div>
+  </div>
+  <div class="card">
+   <div class="card-header"><div><h3>Attendance History</h3><p>Your attendance for DTE learning sessions.</p></div><button class="refresh" id="refreshButton">↻ Refresh</button></div>
+   <div id="attendanceContainer"><div class="empty"><div>📅</div><h3>Loading Attendance...</h3></div></div>
+  </div>
+ </div>
+ <div class="footer">© 2026 DTE — Digital Tech Ecosystem | Student Learning Portal</div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,collection,getDocs,query,where} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+ authDomain:"dte-learning-portal.firebaseapp.com",
+ projectId:"dte-learning-portal",
+ storageBucket:"dte-learning-portal.firebasestorage.app",
+ messagingSenderId:"229529830631",
+ appId:"1:229529830631:web:970c1c827d05795bca4e42"
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+let currentUser=null;
+
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function formatDate(v){
+ if(!v)return "-"; const p=String(v).split("-"); if(p.length!==3)return esc(v);
+ const d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+ return Number.isNaN(d.getTime())?esc(v):d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+function norm(v){return String(v||"").trim().toLowerCase()}
+
+async function deny(){
+ try{if(auth.currentUser)await signOut(auth)}catch(e){console.error(e)}
+ window.location.replace("login.html");
+}
+
+async function verifyStudent(user){
+ try{
+  const snap=await getDoc(doc(db,"Students",user.uid));
+  if(!snap.exists())return false;
+  const data=snap.data();
+  if(norm(data.status)!=="active" || norm(data.role)!=="student")return false;
+  document.getElementById("topName").textContent=data.name||user.displayName||"DTE Student";
+  return true;
+ }catch(e){console.error(e);return false}
+}
+
+async function loadAttendance(){
+ if(!currentUser)return;
+ const container=document.getElementById("attendanceContainer");
+ container.innerHTML='<div class="empty"><div>📅</div><h3>Loading Attendance...</h3></div>';
+ try{
+  const q=query(collection(db,"Attendance"),where("studentId","==",currentUser.uid));
+  const snap=await getDocs(q);
+  const records=[];
+  snap.forEach(x=>records.push({id:x.id,...x.data()}));
+  records.sort((a,b)=>String(b.sessionDate||"").localeCompare(String(a.sessionDate||"")));
+
+  const present=records.filter(x=>norm(x.status)==="present").length;
+  const absent=records.filter(x=>norm(x.status)==="absent").length;
+  const total=records.length;
+  const overall=total?Math.round((present/total)*100):0;
+
+  document.getElementById("overallAttendance").textContent=overall+"%";
+  document.getElementById("presentCount").textContent=present;
+  document.getElementById("absentCount").textContent=absent;
+  document.getElementById("totalCount").textContent=total;
+
+  if(!total){
+   container.innerHTML='<div class="empty"><div>📅</div><h3>No Attendance Records Yet</h3><p>Your attendance will appear here after DTE marks a learning session.</p></div>';
+   return;
+  }
+
+  let rows="";
+  records.forEach(r=>{
+   const status=norm(r.status)==="absent"?"Absent":"Present";
+   const cls=status==="Present"?"present":"absent";
+   rows+=`<tr>
+    <td><div class="session-name">${esc(r.sessionTitle||"Learning Session")}</div><div class="small">Session ID: ${esc(r.sessionId||"-")}</div></td>
+    <td>${formatDate(r.sessionDate)}</td>
+    <td>${esc(r.sessionTime||"-")}</td>
+    <td><span class="badge ${cls}">${status==="Present"?"✓":"✕"} ${status}</span></td>
+   </tr>`;
+  });
+
+  container.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Session</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ }catch(e){
+  console.error("Attendance load error:",e);
+  container.innerHTML='<div class="empty"><div>⚠️</div><h3>Unable to Load Attendance</h3><p>Please try again or contact DTE Support.</p></div>';
+ }
+}
+
+onAuthStateChanged(auth,async user=>{
+ if(!user){window.location.replace("login.html");return}
+ const ok=await verifyStudent(user);
+ if(!ok){await deny();return}
+ currentUser=user;
+ await loadAttendance();
+ document.body.style.visibility="visible";
+});
+
+document.getElementById("refreshButton").addEventListener("click",loadAttendance);
+document.getElementById("logoutButton").addEventListener("click",async e=>{
+ e.preventDefault();
+ try{await signOut(auth);window.location.replace("login.html")}catch(err){console.error(err);alert("Unable to logout. Please try again.")}
+});
+</script>
+</body>
+</html>
