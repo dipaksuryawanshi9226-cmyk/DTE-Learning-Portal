@@ -404,6 +404,87 @@ a{
     line-height:1.6;
 }
 
+/* ================= LIVE ATTENDANCE ================= */
+
+let attendanceBySession = new Map();
+
+function startOfWeek(date){
+    const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const day = copy.getDay();
+    copy.setDate(copy.getDate() + (day === 0 ? -6 : 1 - day));
+    copy.setHours(0,0,0,0);
+    return copy;
+}
+
+function endOfWeek(date){
+    const end = startOfWeek(date);
+    end.setDate(end.getDate() + 6);
+    end.setHours(23,59,59,999);
+    return end;
+}
+
+function attendanceDateValue(value){
+    if(!value) return null;
+    const parts = String(value).split("-");
+    if(parts.length !== 3) return null;
+    const date = new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+async function loadStudentAttendance(userId){
+    attendanceBySession = new Map();
+
+    try{
+        const attendanceQuery = query(
+            collection(db,"Attendance"),
+            where("studentId","==",userId)
+        );
+
+        const snapshot = await getDocs(attendanceQuery);
+        const records = [];
+
+        snapshot.forEach(item => {
+            const data = {id:item.id, ...item.data()};
+            records.push(data);
+            if(data.sessionId){
+                attendanceBySession.set(String(data.sessionId), String(data.status || "").trim());
+            }
+        });
+
+        const total = records.length;
+        const present = records.filter(item =>
+            String(item.status || "").trim().toLowerCase() === "present"
+        ).length;
+
+        const overall = total ? Math.round((present / total) * 100) : 0;
+
+        const now = new Date();
+        const weekStart = startOfWeek(now);
+        const weekEnd = endOfWeek(now);
+
+        const weeklyRecords = records.filter(item => {
+            const date = attendanceDateValue(item.sessionDate);
+            return date && date >= weekStart && date <= weekEnd;
+        });
+
+        const weeklyPresent = weeklyRecords.filter(item =>
+            String(item.status || "").trim().toLowerCase() === "present"
+        ).length;
+
+        document.getElementById("attendanceValue").textContent = overall + "%";
+        document.getElementById("weeklyClasses").textContent =
+            weeklyPresent + " / " + weeklyRecords.length;
+
+        return records;
+    }
+    catch(error){
+        console.error("DTE Attendance Load Error:", error);
+        document.getElementById("attendanceValue").textContent = "0%";
+        document.getElementById("weeklyClasses").textContent = "0 / 0";
+        return [];
+    }
+}
+
 /* ================= LIVE SESSIONS ================= */
 
 .session-list{
@@ -450,6 +531,10 @@ a{
 .session-status.current{background:#e5f4ff;color:#0878b7;}
 .session-status.upcoming{background:#fff4d7;color:#9a6a00;}
 .session-status.completed{background:#e7f8ee;color:#16814b;}
+.session-attendance{display:inline-block;margin-top:8px;padding:5px 9px;border-radius:20px;font-size:9px;font-weight:bold;}
+.session-attendance.present{background:#e7f8ee;color:#16814b;}
+.session-attendance.absent{background:#ffeded;color:#c14444;}
+.session-attendance.unmarked{background:#eef2f6;color:#6f7f92;}
 
 /* ================= PROFILE ================= */
 
@@ -1264,7 +1349,9 @@ import {
     doc,
     getDoc,
     collection,
-    getDocs
+    getDocs,
+    query,
+    where
 }
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
@@ -1460,6 +1547,17 @@ function renderLearningSessions(sessions){
                 <span class="session-status ${escapeSessionHTML(statusClass)}">${escapeSessionHTML(status)}</span>
             </div>
             ${session.description ? `<p>${escapeSessionHTML(session.description)}</p>` : ""}
+            ${(() => {
+                const attendanceStatus = attendanceBySession.get(String(session.id)) || "";
+                const normalizedAttendance = attendanceStatus.toLowerCase();
+                if(normalizedAttendance === "present"){
+                    return `<span class="session-attendance present">✓ Attendance: Present</span>`;
+                }
+                if(normalizedAttendance === "absent"){
+                    return `<span class="session-attendance absent">✕ Attendance: Absent</span>`;
+                }
+                return `<span class="session-attendance unmarked">Attendance: Not Marked</span>`;
+            })()}
         </div>`;
     }).join("")}</div>`;
 }
@@ -1751,18 +1849,8 @@ async function loadStudentData(user){
         progress + "%";
 
 
-        document.getElementById(
-            "attendanceValue"
-        ).textContent =
-        attendance + "%";
-
-
-        document.getElementById(
-            "weeklyClasses"
-        ).textContent =
-        weeklyAttended +
-        " / " +
-        weeklyTotal;
+        document.getElementById("attendanceValue").textContent = "0%";
+        document.getElementById("weeklyClasses").textContent = "0 / 0";
 
 
         document.getElementById(
@@ -1834,6 +1922,11 @@ async function loadStudentData(user){
             "studentStatus"
         ).textContent =
         "● Active Student";
+
+
+        /* ================= LIVE ATTENDANCE ================= */
+
+        await loadStudentAttendance(user.uid);
 
 
         /* ================= LIVE LEARNING SESSIONS ================= */
