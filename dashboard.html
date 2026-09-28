@@ -404,79 +404,6 @@ a{
     line-height:1.6;
 }
 
-/* ================= MODULES ================= */
-
-.module{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:13px 0;
-    border-bottom:1px solid #edf0f4;
-}
-
-.module:last-child{
-    border-bottom:none;
-}
-
-.module-left{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.module-status{
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-}
-
-.completed{
-    background:#e3f8ee;
-    color:#148b56;
-}
-
-.current{
-    background:#e1f4fc;
-    color:#0786c5;
-}
-
-.locked{
-    background:#f0f2f5;
-    color:#8995a5;
-}
-
-.module h4{
-    font-size:12px;
-    color:#273951;
-}
-
-.module p{
-    font-size:10px;
-    color:#8b97a8;
-    margin-top:2px;
-}
-
-.status-text{
-    font-size:10px;
-    font-weight:bold;
-}
-
-.green{
-    color:#15945b;
-}
-
-.blue{
-    color:#0b8cc8;
-}
-
-.grey{
-    color:#8b97a8;
-}
-
 /* ================= PROFILE ================= */
 
 .profile{
@@ -664,7 +591,7 @@ a{
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -752,11 +679,11 @@ a{
 </aside>
 
 
-<!-- ================= MAIN ================= -->
+<!-- MAIN -->
 
 <div class="main">
 
-<!-- ================= TOPBAR ================= -->
+<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -793,7 +720,7 @@ a{
 </div>
 
 
-<!-- ================= CONTENT ================= -->
+<!-- CONTENT -->
 
 <div class="content">
 
@@ -803,7 +730,7 @@ a{
 </div>
 
 
-<!-- ================= WELCOME ================= -->
+<!-- WELCOME -->
 
 <div class="welcome">
 
@@ -843,7 +770,7 @@ a{
 </div>
 
 
-<!-- ================= STATS ================= -->
+<!-- STATS -->
 
 <div class="stats">
 
@@ -949,17 +876,17 @@ a{
 </div>
 
 
-<!-- ================= MAIN GRID ================= -->
+<!-- MAIN GRID -->
 
 <div class="dashboard-grid">
 
 
-<!-- ================= LEFT ================= -->
+<!-- LEFT -->
 
 <div>
 
 
-<!-- ================= COURSE PROGRESS ================= -->
+<!-- COURSE PROGRESS -->
 
 <div class="card">
 
@@ -1022,7 +949,7 @@ a{
 </div>
 
 
-<!-- ================= LEARNING SESSIONS ================= -->
+<!-- LEARNING SESSIONS -->
 
 <div class="card">
 
@@ -1039,16 +966,7 @@ a{
     </div>
 
 
-    <!--
-        LATER:
-        Sessions will be loaded automatically
-        from Firestore here.
-    -->
-
     <div id="sessionsContainer">
-
-
-        <!-- CURRENTLY NO SESSION -->
 
         <div
             class="no-session"
@@ -1072,7 +990,6 @@ a{
 
         </div>
 
-
     </div>
 
 </div>
@@ -1081,12 +998,12 @@ a{
 </div>
 
 
-<!-- ================= RIGHT ================= -->
+<!-- RIGHT -->
 
 <div>
 
 
-<!-- ================= PROFILE ================= -->
+<!-- PROFILE -->
 
 <div class="card profile">
 
@@ -1179,7 +1096,7 @@ a{
 </div>
 
 
-<!-- ================= NEXT SESSION ================= -->
+<!-- NEXT SESSION -->
 
 <div class="card next-class">
 
@@ -1220,7 +1137,7 @@ a{
 </div>
 
 
-<!-- ================= CERTIFICATE ================= -->
+<!-- CERTIFICATE -->
 
 <div class="card">
 
@@ -1265,7 +1182,7 @@ a{
 </div>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
 <div class="footer">
 
@@ -1277,22 +1194,15 @@ a{
 </div>
 
 
-<!-- =====================================================
-     FIREBASE AUTHENTICATION + FIRESTORE
-====================================================== -->
+<!-- FIREBASE AUTHENTICATION + FIRESTORE -->
 
 <script type="module">
-
-
-/* ================= FIREBASE APP ================= */
 
 import {
     initializeApp
 }
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 
-
-/* ================= AUTHENTICATION ================= */
 
 import {
     getAuth,
@@ -1302,8 +1212,6 @@ import {
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
 
-/* ================= FIRESTORE ================= */
-
 import {
     getFirestore,
     doc,
@@ -1311,8 +1219,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-
-/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
@@ -1337,8 +1243,6 @@ const firebaseConfig = {
 };
 
 
-/* ================= INITIALIZE ================= */
-
 const app =
 initializeApp(firebaseConfig);
 
@@ -1349,9 +1253,7 @@ const db =
 getFirestore(app);
 
 
-/* =====================================================
-   HELPER FUNCTION
-===================================================== */
+/* ================= SAFE NUMBER ================= */
 
 function safeNumber(value){
 
@@ -1367,19 +1269,7 @@ function safeNumber(value){
 }
 
 
-/* =====================================================
-   DEFAULT SESSION DISPLAY
-===================================================== */
-
-/*
-    Currently we intentionally show:
-
-    No Learning Sessions Yet
-    No Session Available
-
-    Later this section will read the
-    Sessions collection from Firestore.
-*/
+/* ================= NO SESSION ================= */
 
 function showNoSession(){
 
@@ -1416,7 +1306,48 @@ function showNoSession(){
 
 
 /* =====================================================
-   LOAD STUDENT DATA
+   ACCESS DENIED
+===================================================== */
+
+async function denyDashboardAccess(){
+
+    /*
+       Keep dashboard hidden.
+       Logout the Firebase user.
+       Then return them to login page.
+    */
+
+    document.body.style.visibility =
+    "hidden";
+
+    try{
+
+        if(auth.currentUser){
+
+            await signOut(auth);
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "DTE Access Sign Out Error:",
+            error
+        );
+
+    }
+
+
+    window.location.replace(
+        "login.html"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD + VERIFY STUDENT
 ===================================================== */
 
 async function loadStudentData(user){
@@ -1425,11 +1356,9 @@ async function loadStudentData(user){
 
 
         /*
-            Firestore collection:
-
-            Students/{Firebase UID}
+           Student document MUST have
+           same ID as Firebase Auth UID.
         */
-
 
         const studentReference =
         doc(
@@ -1445,78 +1374,91 @@ async function loadStudentData(user){
         );
 
 
-        /* ================= PROFILE NOT FOUND ================= */
+        /*
+           SECURITY CHECK 1
+
+           No Firestore profile =
+           no dashboard access.
+        */
 
         if(!studentSnapshot.exists()){
 
-
             console.error(
-                "No Firestore student profile found for UID:",
-                user.uid
+                "Dashboard denied: Student profile not found."
             );
 
+            await denyDashboardAccess();
 
-            document.getElementById(
-                "databaseError"
-            ).style.display =
-            "block";
-
-
-            document.getElementById(
-                "databaseError"
-            ).textContent =
-            "Your login account is valid, but your DTE student profile was not found. Please contact DTE Support.";
-
-
-            document.getElementById(
-                "topName"
-            ).textContent =
-            user.displayName ||
-            "DTE Student";
-
-
-            document.getElementById(
-                "studentName"
-            ).textContent =
-            user.displayName ||
-            "Student";
-
-
-            document.getElementById(
-                "profileName"
-            ).textContent =
-            user.displayName ||
-            "DTE Student";
-
-
-            document.getElementById(
-                "studentEmail"
-            ).textContent =
-            user.email ||
-            "Not Available";
-
-
-            showNoSession();
-
-            return;
+            return false;
 
         }
 
-
-        /* ================= GET FIRESTORE DATA ================= */
 
         const data =
         studentSnapshot.data();
 
 
+        /*
+           SECURITY CHECK 2
+
+           DO NOT use Active as a default.
+
+           Student must explicitly have:
+           status = Active
+        */
+
+        const status =
+        String(
+            data.status || ""
+        ).trim();
+
+
+        /*
+           SECURITY CHECK 3
+
+           Only exact Active status
+           is allowed.
+
+           Pending = denied
+           Rejected = denied
+           Empty = denied
+           Unknown status = denied
+        */
+
+        if(
+            status.toLowerCase() !==
+            "active"
+        ){
+
+            console.warn(
+                "Dashboard denied. Student status:",
+                status || "Missing"
+            );
+
+
+            await denyDashboardAccess();
+
+            return false;
+
+        }
+
+
+        /*
+           From this point student is:
+
+           1. Firebase authenticated
+           2. Firestore profile exists
+           3. status = Active
+        */
+
+
         console.log(
-            "DTE Firestore Student Data:",
-            data
+            "DTE Active Student Verified:",
+            user.email
         );
 
 
         /* ================= BASIC PROFILE ================= */
-
 
         const name =
         data.name ||
@@ -1545,13 +1487,7 @@ async function loadStudentData(user){
         "DTE Learning Program";
 
 
-        const status =
-        data.status ||
-        "Active";
-
-
         /* ================= NUMERIC DATA ================= */
-
 
         let progress =
         safeNumber(
@@ -1583,9 +1519,6 @@ async function loadStudentData(user){
         );
 
 
-        /* ================= VALID PERCENTAGES ================= */
-
-
         progress =
         Math.min(
             100,
@@ -1608,7 +1541,6 @@ async function loadStudentData(user){
 
         /* ================= TOP BAR ================= */
 
-
         document.getElementById(
             "topName"
         ).textContent =
@@ -1616,7 +1548,6 @@ async function loadStudentData(user){
 
 
         /* ================= WELCOME ================= */
-
 
         document.getElementById(
             "studentName"
@@ -1632,7 +1563,6 @@ async function loadStudentData(user){
 
 
         /* ================= STATS ================= */
-
 
         document.getElementById(
             "courseProgress"
@@ -1662,7 +1592,6 @@ async function loadStudentData(user){
 
         /* ================= LEARNING PROGRESS ================= */
 
-
         document.getElementById(
             "programName"
         ).textContent =
@@ -1682,7 +1611,6 @@ async function loadStudentData(user){
 
 
         /* ================= PROFILE ================= */
-
 
         document.getElementById(
             "profileName"
@@ -1724,26 +1652,22 @@ async function loadStudentData(user){
         document.getElementById(
             "studentStatus"
         ).textContent =
-        "● " +
-        status +
-        " Student";
+        "● Active Student";
 
 
         /*
-            IMPORTANT:
-
-            We no longer use:
-            data.currentSession
-
-            for the Next Session card.
-
-            Sessions will later come from
-            a separate Firestore Sessions
-            collection.
+           Sessions are intentionally
+           not connected yet.
         */
 
-
         showNoSession();
+
+
+        /*
+           Student passed every check.
+        */
+
+        return true;
 
     }
 
@@ -1752,24 +1676,20 @@ async function loadStudentData(user){
 
 
         console.error(
-            "DTE Firestore Error:",
+            "DTE Firestore / Dashboard Verification Error:",
             error
         );
 
 
-        document.getElementById(
-            "databaseError"
-        ).style.display =
-        "block";
+        /*
+           IMPORTANT:
+           If Firestore verification fails,
+           do NOT show the dashboard.
+        */
 
+        await denyDashboardAccess();
 
-        document.getElementById(
-            "databaseError"
-        ).textContent =
-        "Unable to load student data from DTE database. Please try again later.";
-
-
-        showNoSession();
+        return false;
 
     }
 
@@ -1777,7 +1697,7 @@ async function loadStudentData(user){
 
 
 /* =====================================================
-   AUTHENTICATION GUARD
+   AUTHENTICATION + ACTIVE STATUS GUARD
 ===================================================== */
 
 onAuthStateChanged(
@@ -1785,49 +1705,44 @@ onAuthStateChanged(
     async (user) => {
 
 
-        /* ================= USER LOGGED IN ================= */
+        /*
+           No Firebase login:
+           dashboard denied.
+        */
 
-
-        if(user){
-
-
-            console.log(
-                "DTE authenticated student:",
-                user.email
-            );
-
-
-            await loadStudentData(
-                user
-            );
-
-
-            /*
-                Show dashboard only after
-                authentication check.
-            */
-
-
-            document.body.style.visibility =
-            "visible";
-
-        }
-
-
-        /* ================= NOT LOGGED IN ================= */
-
-
-        else{
-
-
-            console.log(
-                "Dashboard access denied."
-            );
-
+        if(!user){
 
             window.location.replace(
                 "login.html"
             );
+
+            return;
+
+        }
+
+
+        /*
+           Firebase login exists.
+
+           Now Firestore approval MUST
+           also be verified.
+        */
+
+        const accessAllowed =
+        await loadStudentData(
+            user
+        );
+
+
+        /*
+           Only after successful verification
+           make dashboard visible.
+        */
+
+        if(accessAllowed === true){
+
+            document.body.style.visibility =
+            "visible";
 
         }
 
