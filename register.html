@@ -159,6 +159,7 @@ body{
     border-radius:7px;
     font-size:11px;
     margin-bottom:16px;
+    line-height:1.5;
 }
 
 .error{
@@ -284,6 +285,7 @@ body{
                     placeholder="Enter mobile number"
                     maxlength="10"
                     pattern="[0-9]{10}"
+                    inputmode="numeric"
                     required
                 >
 
@@ -416,6 +418,14 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
 
@@ -437,6 +447,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+
+const db = getFirestore(app);
 
 
 const form =
@@ -460,7 +472,7 @@ async function(event){
     document.getElementById("fullName").value.trim();
 
     const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email").value.trim().toLowerCase();
 
     const mobile =
     document.getElementById("mobile").value.trim();
@@ -477,6 +489,16 @@ async function(event){
 
     message.className = "message";
     message.textContent = "";
+
+
+    if(fullName.length < 3){
+
+        showError(
+            "Please enter your full name."
+        );
+
+        return;
+    }
 
 
     if(password !== confirmPassword){
@@ -499,17 +521,31 @@ async function(event){
     }
 
 
+    if(!learningMode){
+
+        showError(
+            "Please select your learning mode."
+        );
+
+        return;
+    }
+
+
     registerButton.disabled = true;
 
     registerButton.textContent =
     "Creating Account...";
 
 
+    let createdUser = null;
+
+
     try{
 
 
         /*
-        CREATE FIREBASE AUTH ACCOUNT
+        STEP 1:
+        CREATE FIREBASE AUTHENTICATION ACCOUNT
         */
 
         const userCredential =
@@ -523,9 +559,12 @@ async function(event){
         const user =
         userCredential.user;
 
+        createdUser = user;
+
 
         /*
-        STORE NAME IN FIREBASE AUTH PROFILE
+        STEP 2:
+        SAVE STUDENT NAME IN FIREBASE AUTH PROFILE
         */
 
         await updateProfile(
@@ -537,23 +576,85 @@ async function(event){
 
 
         /*
-        IMPORTANT
+        STEP 3:
+        CREATE STUDENT PROFILE IN FIRESTORE
 
-        Mobile Number and Learning Mode
-        are NOT being stored yet.
+        Document ID = Firebase Authentication UID
 
-        We will save them in Firestore
-        in the next stage.
+        IMPORTANT:
+        Every new website registration starts
+        with status = "Pending".
 
-        Password is NEVER stored in Firestore.
+        Student cannot activate themselves.
+        DTE Admin will verify the student
+        and change Pending to Active manually.
+        */
+
+        await setDoc(
+            doc(
+                db,
+                "Students",
+                user.uid
+            ),
+            {
+
+                name: fullName,
+
+                email: email,
+
+                mobile: mobile,
+
+                mode: learningMode,
+
+                program:
+                "Cyber Security & Digital Skills",
+
+                role:
+                "student",
+
+                status:
+                "Pending",
+
+                progress:
+                0,
+
+                attendance:
+                0,
+
+                weeklyAttended:
+                0,
+
+                weeklyTotal:
+                0,
+
+                projectsCompleted:
+                0,
+
+                profilePhotoURL:
+                "",
+
+                registeredAt:
+                serverTimestamp()
+
+            }
+        );
+
+
+        /*
+        PASSWORD IS NEVER STORED IN FIRESTORE.
+
+        Firebase Authentication handles
+        the student's password securely.
         */
 
 
         /*
-        Logout after registration.
+        STEP 4:
+        LOGOUT AFTER REGISTRATION
 
-        Student will login normally
-        from login.html.
+        Student account is currently Pending.
+        DTE Admin must approve it before
+        dashboard access is allowed.
         */
 
         await signOut(auth);
@@ -563,7 +664,14 @@ async function(event){
         "message success";
 
         message.textContent =
-        "Account created successfully! Redirecting to login...";
+        "Registration successful! Your account is pending DTE approval. You can login after your account is approved.";
+
+
+        form.reset();
+
+
+        registerButton.textContent =
+        "Registration Submitted";
 
 
         setTimeout(
@@ -574,7 +682,7 @@ async function(event){
                 );
 
             },
-            1800
+            3000
         );
 
 
@@ -587,6 +695,12 @@ async function(event){
             error
         );
 
+
+        /*
+        If Auth account was created but
+        Firestore profile creation failed,
+        do not claim full registration success.
+        */
 
         if(
             error.code ===
@@ -621,10 +735,47 @@ async function(event){
 
         }
 
+        else if(
+            error.code ===
+            "permission-denied" ||
+            error.code ===
+            "firestore/permission-denied"
+        ){
+
+            showError(
+                "Account was created, but the student profile could not be submitted. Please contact DTE Admin."
+            );
+
+        }
+
         else{
 
             showError(
-                "Unable to create account. Please try again."
+                "Unable to complete registration. Please try again or contact DTE Admin."
+            );
+
+        }
+
+
+        /*
+        Sign out in case Authentication
+        succeeded before another step failed.
+        */
+
+        try{
+
+            if(auth.currentUser){
+
+                await signOut(auth);
+
+            }
+
+        }
+        catch(signOutError){
+
+            console.error(
+                "Sign Out Error:",
+                signOutError
             );
 
         }
