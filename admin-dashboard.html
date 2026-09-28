@@ -506,6 +506,20 @@ td{
     font-size:23px;
 }
 
+
+/* ATTENDANCE */
+.attendance-controls{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;padding:20px 21px;border-bottom:1px solid #e8edf2;background:#fbfcfe;}
+.attendance-controls label{display:block;font-size:10px;font-weight:bold;color:#52647a;margin-bottom:6px;}
+.attendance-controls select{width:100%;padding:11px 12px;border:1px solid #d7e0e9;border-radius:8px;background:white;font-size:12px;}
+.attendance-choice{display:flex;gap:6px;flex-wrap:wrap;}
+.attendance-choice label{cursor:pointer;margin:0;}
+.attendance-choice input{display:none;}
+.attendance-pill{display:inline-block;padding:7px 10px;border:1px solid #dce4ec;border-radius:18px;font-size:9px;font-weight:bold;background:white;color:#65758a;}
+.attendance-choice input[value="Present"]:checked + .attendance-pill{background:#e6f8ee;color:#16844b;border-color:#9edbb9;}
+.attendance-choice input[value="Absent"]:checked + .attendance-pill{background:#ffeded;color:#bf3f3f;border-color:#efb5b5;}
+.attendance-meta{font-size:9px;color:#8492a5;margin-top:3px;}
+@media(max-width:520px){.attendance-controls{grid-template-columns:1fr;}}
+
 /* MODAL */
 
 .modal{
@@ -811,10 +825,9 @@ td{
             Sessions
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-page="attendancePage">
             <span>📅</span>
             Attendance
-            <span class="coming">NEXT</span>
         </div>
 
         <div class="menu-item">
@@ -1064,6 +1077,38 @@ td{
 
 </section>
 
+<!-- ATTENDANCE PAGE -->
+
+<section class="page" id="attendancePage">
+    <div class="section">
+        <div class="section-header">
+            <div>
+                <h2>Attendance Management</h2>
+                <p>Select a learning session and mark attendance for Active students.</p>
+            </div>
+            <button class="refresh" id="attendanceRefresh">↻ Refresh</button>
+        </div>
+
+        <div class="attendance-controls">
+            <div>
+                <label>SELECT LEARNING SESSION</label>
+                <select id="attendanceSessionSelect">
+                    <option value="">Choose a session...</option>
+                </select>
+            </div>
+            <button class="primary-btn" id="loadAttendanceButton">Load Students</button>
+        </div>
+
+        <div id="attendanceContainer">
+            <div class="empty">
+                <div class="empty-icon">📅</div>
+                <h3>Select a Session</h3>
+                <p>Choose a learning session to mark or edit student attendance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 </main>
 </div>
 
@@ -1212,6 +1257,7 @@ import {
     getDocs,
     doc,
     getDoc,
+    setDoc,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -1270,6 +1316,7 @@ document.getElementById("toast");
 
 let studentsData = [];
 let sessionsData = [];
+let attendanceData = [];
 
 
 /* ADMIN SECURITY */
@@ -1429,6 +1476,12 @@ menuItems.forEach(function(item){
 
                 pageSubtitle.textContent =
                 "Manage DTE learning sessions";
+            }
+
+            else if(target === "attendancePage"){
+                pageTitle.textContent = "Attendance Management";
+                pageSubtitle.textContent = "Mark and manage session-wise student attendance";
+                populateAttendanceSessions();
             }
 
             sidebar.classList.remove("open");
@@ -1916,6 +1969,7 @@ async function loadSessions(){
 
         renderSessionStatistics();
         renderSessions();
+        populateAttendanceSessions();
 
     }
     catch(error){
@@ -2498,6 +2552,207 @@ async function(event){
 
 });
 
+
+/* ATTENDANCE */
+
+function activeStudentsList(){
+    return studentsData.filter(function(student){
+        return normalize(student.status) === "active";
+    });
+}
+
+function populateAttendanceSessions(){
+    const select = document.getElementById("attendanceSessionSelect");
+    if(!select){ return; }
+
+    const selected = select.value;
+    let options = `<option value="">Choose a session...</option>`;
+
+    sessionsData.forEach(function(session){
+        options += `<option value="${escapeHTML(session.id)}">${escapeHTML(session.title || "Learning Session")} — ${formatDate(session.date)} — ${escapeHTML(formatTime(session.time))}</option>`;
+    });
+
+    select.innerHTML = options;
+
+    if(sessionsData.some(function(session){ return session.id === selected; })){
+        select.value = selected;
+    }
+}
+
+async function loadAttendanceForSelectedSession(){
+    const sessionIdValue = document.getElementById("attendanceSessionSelect").value;
+    const container = document.getElementById("attendanceContainer");
+
+    if(!sessionIdValue){
+        showToast("Please select a learning session.","error");
+        return;
+    }
+
+    const session = sessionsData.find(function(item){ return item.id === sessionIdValue; });
+    if(!session){
+        showToast("Selected session was not found.","error");
+        return;
+    }
+
+    container.innerHTML = `<div class="empty">Loading attendance...</div>`;
+
+    try{
+        const snapshot = await getDocs(collection(db,"Attendance"));
+        attendanceData = [];
+        snapshot.forEach(function(item){
+            const data = item.data();
+            if(data.sessionId === sessionIdValue){
+                attendanceData.push({id:item.id,...data});
+            }
+        });
+        renderAttendanceTable(session);
+    }
+    catch(error){
+        console.error("Attendance load error:",error);
+        container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Unable to Load Attendance</h3><p>Please check Firestore permissions.</p></div>`;
+        showToast("Unable to load attendance.","error");
+    }
+}
+
+function renderAttendanceTable(session){
+    const container = document.getElementById("attendanceContainer");
+    const students = activeStudentsList();
+
+    if(students.length === 0){
+        container.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><h3>No Active Students</h3><p>Approve students before marking attendance.</p></div>`;
+        return;
+    }
+
+    let rows = "";
+    students.forEach(function(student){
+        const existing = attendanceData.find(function(record){ return record.studentId === student.id; });
+        const value = existing ? String(existing.status || "") : "";
+        const safeId = escapeHTML(student.id);
+
+        rows += `<tr>
+            <td><div class="student-name">${escapeHTML(student.name || "Student")}</div><div class="student-email">${escapeHTML(student.email || "-")}</div></td>
+            <td>${escapeHTML(student.mode || "-")}</td>
+            <td>
+                <div class="attendance-choice">
+                    <label><input type="radio" name="attendance_${safeId}" value="Present" data-attendance-student="${safeId}" ${value === "Present" ? "checked" : ""}><span class="attendance-pill">✓ Present</span></label>
+                    <label><input type="radio" name="attendance_${safeId}" value="Absent" data-attendance-student="${safeId}" ${value === "Absent" ? "checked" : ""}><span class="attendance-pill">✕ Absent</span></label>
+                </div>
+                <div class="attendance-meta">${existing ? "Saved: " + escapeHTML(value) : "Not marked yet"}</div>
+            </td>
+        </tr>`;
+    });
+
+    container.innerHTML = `
+        <div style="padding:17px 21px;border-bottom:1px solid #e8edf2;background:#f8fbfd;">
+            <div class="session-title">${escapeHTML(session.title || "Learning Session")}</div>
+            <div class="small-text">${formatDate(session.date)} • ${escapeHTML(formatTime(session.time))} • ${escapeHTML(session.mode || "-")}</div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Student</th><th>Mode</th><th>Attendance</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div style="padding:18px 21px;text-align:right;border-top:1px solid #edf0f4;">
+            <button class="primary-btn" id="saveAttendanceButton">Save Attendance</button>
+        </div>`;
+
+    document.getElementById("saveAttendanceButton").addEventListener("click",function(){ saveAttendance(session); });
+}
+
+async function saveAttendance(session){
+    const students = activeStudentsList();
+    const button = document.getElementById("saveAttendanceButton");
+    const records = [];
+
+    for(const student of students){
+        const selected = document.querySelector(`input[data-attendance-student="${CSS.escape(student.id)}"]:checked`);
+        if(!selected){
+            showToast(`Please mark Present or Absent for ${student.name || "every student"}.`,"error");
+            return;
+        }
+        records.push({student:student,status:selected.value});
+    }
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    try{
+        await Promise.all(records.map(function(record){
+            const attendanceId = `${session.id}_${record.student.id}`;
+            return setDoc(doc(db,"Attendance",attendanceId),{
+                sessionId:session.id,
+                sessionTitle:session.title || "Learning Session",
+                sessionDate:session.date || "",
+                sessionTime:session.time || "",
+                studentId:record.student.id,
+                studentName:record.student.name || "Student",
+                status:record.status,
+                updatedAt:serverTimestamp()
+            },{merge:true});
+        }));
+
+        await updateAllStudentAttendanceStatistics();
+        await loadStudents();
+        await loadAttendanceForSelectedSession();
+        showToast("Attendance saved successfully ✓","success");
+    }
+    catch(error){
+        console.error("Attendance save error:",error);
+        showToast("Unable to save attendance.","error");
+    }
+    finally{
+        if(button && document.body.contains(button)){
+            button.disabled = false;
+            button.textContent = "Save Attendance";
+        }
+    }
+}
+
+function isDateInCurrentWeek(dateString){
+    if(!dateString){ return false; }
+    const parts = dateString.split("-");
+    if(parts.length !== 3){ return false; }
+    const target = new Date(Number(parts[0]),Number(parts[1])-1,Number(parts[2]));
+    if(Number.isNaN(target.getTime())){ return false; }
+
+    const now = new Date();
+    const start = new Date(now);
+    const day = (now.getDay() + 6) % 7;
+    start.setDate(now.getDate() - day);
+    start.setHours(0,0,0,0);
+    const end = new Date(start);
+    end.setDate(start.getDate()+7);
+    return target >= start && target < end;
+}
+
+async function updateAllStudentAttendanceStatistics(){
+    const snapshot = await getDocs(collection(db,"Attendance"));
+    const all = [];
+    snapshot.forEach(function(item){ all.push(item.data()); });
+
+    await Promise.all(activeStudentsList().map(function(student){
+        const own = all.filter(function(record){ return record.studentId === student.id; });
+        const present = own.filter(function(record){ return normalize(record.status) === "present"; }).length;
+        const total = own.length;
+        const attendance = total > 0 ? Math.round((present / total) * 100) : 0;
+
+        const week = own.filter(function(record){ return isDateInCurrentWeek(record.sessionDate); });
+        const weeklyAttended = week.filter(function(record){ return normalize(record.status) === "present"; }).length;
+        const weeklyTotal = week.length;
+
+        return updateDoc(doc(db,"Students",student.id),{
+            attendance:attendance,
+            weeklyAttended:weeklyAttended,
+            weeklyTotal:weeklyTotal
+        });
+    }));
+}
+
+document.getElementById("loadAttendanceButton").addEventListener("click",loadAttendanceForSelectedSession);
+
+document.getElementById("attendanceRefresh").addEventListener("click",async function(){
+    await Promise.all([loadStudents(),loadSessions()]);
+    populateAttendanceSessions();
+    const selected = document.getElementById("attendanceSessionSelect").value;
+    if(selected){ await loadAttendanceForSelectedSession(); }
+    showToast("Attendance data refreshed.","success");
+});
 
 /* REFRESH */
 
