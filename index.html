@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DTE Learning Portal | Digital Tech Ecosystem</title>
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f7fb;
+    color:#172033;
+    line-height:1.6;
+}
+
+a{
+    text-decoration:none;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+header{
+    background:#06152e;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.navbar{
+    max-width:1250px;
+    margin:auto;
+    padding:17px 25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.logo{
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(135deg,#18baf5,#0756a5);
+
+    color:white;
+    font-weight:bold;
+    font-size:20px;
+
+    border:2px solid #ffc532;
+}
+
+.brand-text h2{
+    color:white;
+    font-size:20px;
+}
+
+.brand-text p{
+    color:#8fa7c7;
+    font-size:11px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:27px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:#e7eef9;
+    font-weight:600;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#ffc532;
+}
+
+.login-btn{
+    padding:10px 20px;
+    border:2px solid #ffc532;
+    border-radius:30px;
+}
+
+.login-btn:hover{
+    background:#ffc532;
+    color:#07152e !important;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:620px;
+
+    background:
+    radial-gradient(circle at 85% 30%,rgba(17,164,232,.22),transparent 30%),
+    linear-gradient(120deg,#06152e,#08264c,#0a4c75);
+
+    display:flex;
+    align-items:center;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border:1px solid rgba(255,197,50,.18);
+
+    border-radius:50%;
+
+    right:-130px;
+    top:80px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:70px;
+    align-items:center;
+}
+
+.tag{
+    display:inline-block;
+
+    padding:7px 14px;
+
+    background:rgba(56,189,248,.12);
+
+    border:1px solid rgba(56,189,248,.35);
+
+    border-radius:20px;
+
+    color:#4cc9ff;
+
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1.5px;
+
+    margin-bottom:20px;
+}
+
+.hero h1{
+    color:white;
+    font-size:57px;
+    line-height:1.08;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#ffc532;
+}
+
+.hero-description{
+    color:#c6d5e8;
+    font-size:18px;
+    max-width:680px;
+    margin-bottom:28px;
+}
+
+.learning-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:32px;
+}
+
+.learning-tags span{
+    color:#e7f3ff;
+
+    border:1px solid #35658f;
+
+    padding:8px 15px;
+
+    border-radius:25px;
+
+    font-size:13px;
+
+    background:rgba(255,255,255,.03);
+}
+
+.hero-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.btn-primary{
+    background:#ffc532;
+    color:#06152e;
+
+    padding:14px 27px;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    background:#ffd35c;
+}
+
+.btn-secondary{
+    color:white;
+
+    padding:13px 27px;
+
+    border:1px solid #45bff1;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.btn-secondary:hover{
+    background:#45bff1;
+    color:#06152e;
+}
+
+
+/* =========================
+   HERO SIDE CARD
+========================= */
+
+.portal-preview{
+    background:rgba(5,20,45,.70);
+
+    backdrop-filter:blur(8px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.30);
+
+    position:relative;
+    z-index:2;
+}
+
+.portal-preview h3{
+    color:white;
+    font-size:23px;
+    margin-bottom:6px;
+}
+
+.portal-preview > p{
+    color:#91a9c5;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.preview-item{
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:15px;
+
+    border-radius:10px;
+
+    margin-bottom:12px;
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.preview-icon{
+    width:42px;
+    height:42px;
+
+    background:#0b4c78;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    font-size:20px;
+}
+
+.preview-item h4{
+    color:white;
+    font-size:14px;
+}
+
+.preview-item p{
+    color:#8fa7c7;
+    font-size:12px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    background:white;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+}
+
+.stat{
+    padding:28px;
+    text-align:center;
+
+    border-right:1px solid #e6ebf2;
+}
+
+.stat:last-child{
+    border-right:none;
+}
+
+.stat h3{
+    color:#0879b9;
+    font-size:26px;
+}
+
+.stat p{
+    color:#66758b;
+    font-size:13px;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+section{
+    padding:85px 0;
+}
+
+.section-title{
+    text-align:center;
+    max-width:700px;
+    margin:0 auto 45px;
+}
+
+.section-label{
+    color:#0786c8;
+    font-weight:bold;
+    letter-spacing:2px;
+    font-size:12px;
+}
+
+.section-title h2{
+    color:#0b1930;
+    font-size:37px;
+    margin:8px 0;
+}
+
+.section-title p{
+    color:#69788d;
+}
+
+
+/* =========================
+   COURSES
+========================= */
+
+.courses{
+    background:#f5f8fc;
+}
+
+.course-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:23px;
+}
+
+.course-card{
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    border:1px solid #e5eaf1;
+
+    box-shadow:0 8px 25px rgba(8,35,70,.05);
+
+    transition:.3s;
+}
+
+.course-card:hover{
+    transform:translateY(-7px);
+
+    box-shadow:0 18px 40px rgba(8,35,70,.12);
+
+    border-color:#65c9f1;
+}
+
+.course-icon{
+    width:58px;
+    height:58px;
+
+    border-radius:12px;
+
+    background:#e9f7fd;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:27px;
+
+    margin-bottom:18px;
+}
+
+.course-card h3{
+    color:#10233f;
+    margin-bottom:8px;
+}
+
+.course-card p{
+    color:#708096;
+    font-size:14px;
+}
+
+
+/* =========================
+   LEARNING MODES
+========================= */
+
+.mode-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.mode{
+    padding:38px;
+
+    border-radius:17px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.offline{
+    background:#071b37;
+    color:white;
+}
+
+.online{
+    background:#0a4770;
+    color:white;
+}
+
+.mode-label{
+    font-size:12px;
+    color:#ffc532;
+    font-weight:bold;
+    letter-spacing:1.5px;
+}
+
+.mode h3{
+    font-size:28px;
+    margin:8px 0 10px;
+}
+
+.mode > p{
+    color:#c4d3e4;
+    margin-bottom:20px;
+}
+
+.mode ul{
+    list-style:none;
+}
+
+.mode li{
+    padding:8px 0;
+    color:#e6edf6;
+}
+
+.mode li::before{
+    content:"✓";
+    color:#ffc532;
+    font-weight:bold;
+    margin-right:10px;
+}
+
+
+/* =========================
+   STUDENT PORTAL
+========================= */
+
+.student-portal{
+    background:#07152e;
+}
+
+.student-portal .section-title h2{
+    color:white;
+}
+
+.student-portal .section-title p{
+    color:#9eb0c7;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature-card{
+    background:#0b2244;
+
+    border:1px solid #183a63;
+
+    padding:27px;
+
+    border-radius:13px;
+
+    transition:.3s;
+}
+
+.feature-card:hover{
+    background:#0e2b53;
+    transform:translateY(-4px);
+}
+
+.feature-card span{
+    font-size:25px;
+}
+
+.feature-card h3{
+    color:white;
+    margin:10px 0 6px;
+}
+
+.feature-card p{
+    color:#95abc5;
+    font-size:14px;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+    background:linear-gradient(110deg,#0879b9,#0a4a77);
+    color:white;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.cta p{
+    color:#d8ecf8;
+    margin-bottom:28px;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    background:#f5f8fc;
+}
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+.contact-info h2{
+    font-size:38px;
+    color:#0b1930;
+    margin-bottom:15px;
+}
+
+.contact-info > p{
+    color:#6c7c90;
+    margin-bottom:25px;
+}
+
+.contact-box{
+    background:white;
+
+    padding:18px;
+
+    margin-bottom:12px;
+
+    border-radius:10px;
+
+    border:1px solid #e0e7ef;
+}
+
+.contact-box strong{
+    color:#0b1930;
+}
+
+.contact-box p{
+    color:#65758a;
+    font-size:14px;
+}
+
+.founder-box{
+    background:#07152e;
+
+    padding:40px;
+
+    border-radius:18px;
+
+    color:white;
+
+    box-shadow:0 20px 50px rgba(5,25,55,.15);
+}
+
+.founder-box .small{
+    color:#ffc532;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.founder-box h2{
+    font-size:31px;
+    margin:8px 0 4px;
+}
+
+.founder-box h3{
+    color:#4cc9ff;
+    font-size:17px;
+    margin-bottom:17px;
+}
+
+.founder-box p{
+    color:#aebdd0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#030c1d;
+    color:#8ea1ba;
+    padding:50px 0 20px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:50px;
+}
+
+.footer-brand h2{
+    color:#ffc532;
+    font-size:28px;
+}
+
+.footer-brand h3{
+    color:white;
+    margin-bottom:8px;
+}
+
+.footer-brand p{
+    max-width:450px;
+    font-size:14px;
+}
+
+.footer-links h3{
+    color:white;
+    margin-bottom:13px;
+}
+
+.footer-links a{
+    color:#8ea1ba;
+    display:block;
+    margin:8px 0;
+    font-size:14px;
+}
+
+.footer-links a:hover{
+    color:#ffc532;
+}
+
+.copyright{
+    border-top:1px solid #16233a;
+
+    margin-top:35px;
+    padding-top:20px;
+
+    text-align:center;
+
+    font-size:12px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .portal-preview{
+        display:none;
+    }
+
+    .hero h1{
+        font-size:45px;
+    }
+
+    .course-grid,
+    .feature-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .contact-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .hero{
+        min-height:auto;
+        padding:80px 0;
+    }
+
+    .hero h1{
+        font-size:37px;
+    }
+
+    .hero-description{
+        font-size:16px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .hero-buttons a{
+        text-align:center;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat{
+        border-bottom:1px solid #e6ebf2;
+    }
+
+    .course-grid,
+    .feature-grid,
+    .mode-grid,
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .section-title h2{
+        font-size:30px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="logo">
+            DTE
+        </div>
+
+        <div class="brand-text">
+            <h2>Digital Tech Ecosystem</h2>
+            <p>LEARN • PRACTICE • BUILD</p>
+        </div>
+
+    </div>
+
+
+    <ul class="nav-links">
+
+        <li><a href="#home">Home</a></li>
+
+        <li><a href="#courses">Programs</a></li>
+
+        <li><a href="#learning">Learning</a></li>
+
+        <li><a href="#portal">Student Portal</a></li>
+
+        <li><a href="#contact">Contact</a></li>
+
+        <li>
+            <a class="login-btn" href="login.html">
+                Student Login
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+</header>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+<div class="container hero-grid">
+
+
+<div>
+
+    <div class="tag">
+        DTE PRACTICAL LEARNING PROGRAM
+    </div>
+
+    <h1>
+        Learn Skills.<br>
+        Practice Technology.<br>
+        <span>Build Your Future.</span>
+    </h1>
+
+    <p class="hero-description">
+
+        A practical learning platform for students who want to
+        understand technology by actually using it.
+        Learn Cyber Security, Digital Safety, Laptop & Mobile Security,
+        Website Development and practical digital skills.
+
+    </p>
+
+
+    <div class="learning-tags">
+
+        <span>🛡️ Cyber Security</span>
+
+        <span>💻 Laptop Security</span>
+
+        <span>📱 Mobile Security</span>
+
+        <span>🌐 Web Development</span>
+
+        <span>🚀 Projects</span>
+
+    </div>
+
+
+    <div class="hero-buttons">
+
+        <a href="login.html" class="btn-primary">
+            🎓 Student Login
+        </a>
+
+        <a href="#courses" class="btn-secondary">
+            Explore Programs →
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- PORTAL PREVIEW -->
+
+<div class="portal-preview">
+
+    <h3>Student Learning Portal</h3>
+
+    <p>
+        Everything about your learning in one place.
+    </p>
+
+
+    <div class="preview-item">
+
+        <div class="preview-icon">📊</div>
+
+        <div>
+            <h4>Learning Progress</h4>
+            <p>Track completed sessions</p>
+        </div>
+
+    </div>
+
+
+    <div class="preview-item">
+
+        <div class="preview-icon">📅</div>
+
+        <div>
+            <h4>Attendance</h4>
+            <p>Weekly & overall attendance</p>
+        </div>
+
+    </div>
+
+
+    <div class="preview-item">
+
+        <div class="preview-icon">🚀</div>
+
+        <div>
+            <h4>Projects</h4>
+            <p>Practical learning projects</p>
+        </div>
+
+    </div>
+
+
+    <div class="preview-item">
+
+        <div class="preview-icon">🏆</div>
+
+        <div>
+            <h4>Certificates</h4>
+            <p>Access earned certificates</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+<div class="container stats-grid">
+
+    <div class="stat">
+        <h3>Practical</h3>
+        <p>Skill Based Learning</p>
+    </div>
+
+    <div class="stat">
+        <h3>Online</h3>
+        <p>Learn From Anywhere</p>
+    </div>
+
+    <div class="stat">
+        <h3>Offline</h3>
+        <p>Guided Sessions</p>
+    </div>
+
+    <div class="stat">
+        <h3>Projects</h3>
+        <p>Learn By Building</p>
+    </div>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= COURSES ================= -->
+
+<section class="courses" id="courses">
+
+<div class="container">
+
+
+<div class="section-title">
+
+    <span class="section-label">
+        DTE LEARNING PROGRAMS
+    </span>
+
+    <h2>
+        Build Practical Digital Skills
+    </h2>
+
+    <p>
+        Start from the basics and learn through
+        guided sessions, practice and real projects.
+    </p>
+
+</div>
+
+
+
+<div class="course-grid">
+
+
+<div class="course-card">
+
+    <div class="course-icon">🛡️</div>
+
+    <h3>Cyber Security Basics</h3>
+
+    <p>
+        Understand cyber threats, phishing,
+        passwords, privacy, safe browsing and
+        fundamental security concepts.
+    </p>
+
+</div>
+
+
+
+<div class="course-card">
+
+    <div class="course-icon">💻</div>
+
+    <h3>Laptop Security</h3>
+
+    <p>
+        Learn Windows security, user accounts,
+        updates, file protection, backups and
+        basic device protection.
+    </p>
+
+</div>
+
+
+
+<div class="course-card">
+
+    <div class="course-icon">📱</div>
+
+    <h3>Mobile Security</h3>
+
+    <p>
+        Learn mobile privacy, permissions,
+        scam awareness, secure apps and
+        smartphone safety.
+    </p>
+
+</div>
+
+
+
+<div class="course-card">
+
+    <div class="course-icon">🌐</div>
+
+    <h3>Website Development</h3>
+
+    <p>
+        Build websites from the beginning using
+        HTML, CSS and JavaScript through
+        practical projects.
+    </p>
+
+</div>
+
+
+
+<div class="course-card">
+
+    <div class="course-icon">🔧</div>
+
+    <h3>Digital & IT Skills</h3>
+
+    <p>
+        Develop useful computer, internet,
+        troubleshooting and everyday
+        technology skills.
+    </p>
+
+</div>
+
+
+
+<div class="course-card">
+
+    <div class="course-icon">🚀</div>
+
+    <h3>Project Learning</h3>
+
+    <p>
+        Apply your knowledge by completing
+        practical assignments and building
+        technology projects.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= MODES ================= -->
+
+<section id="learning">
+
+<div class="container">
+
+
+<div class="section-title">
+
+    <span class="section-label">
+        FLEXIBLE LEARNING
+    </span>
+
+    <h2>Choose Your Learning Mode</h2>
+
+    <p>
+        DTE supports both guided offline learning
+        and structured online learning.
+    </p>
+
+</div>
+
+
+<div class="mode-grid">
+
+
+<div class="mode offline">
+
+    <span class="mode-label">
+        OFFLINE PROGRAM
+    </span>
+
+    <h3>🏠 Offline Learning</h3>
+
+    <p>
+        Guided practical sessions for registered
+        local learners.
+    </p>
+
+    <ul>
+
+        <li>Instructor Guided Sessions</li>
+
+        <li>Hands-on Practical Learning</li>
+
+        <li>Weekly Classes</li>
+
+        <li>Attendance Tracking</li>
+
+        <li>Assignments & Projects</li>
+
+        <li>Progress Tracking</li>
+
+        <li>Completion Certificate</li>
+
+    </ul>
+
+</div>
+
+
+
+<div class="mode online">
+
+    <span class="mode-label">
+        ONLINE PROGRAM
+    </span>
+
+    <h3>🌍 Online Learning</h3>
+
+    <p>
+        Structured learning designed for students
+        who want to learn remotely.
+    </p>
+
+    <ul>
+
+        <li>Online Learning Sessions</li>
+
+        <li>Personal Student Dashboard</li>
+
+        <li>Course Progress Tracking</li>
+
+        <li>Learning Resources</li>
+
+        <li>Assignments & Projects</li>
+
+        <li>Session Updates</li>
+
+        <li>Digital Certificates</li>
+
+    </ul>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= STUDENT PORTAL ================= -->
+
+<section class="student-portal" id="portal">
+
+<div class="container">
+
+
+<div class="section-title">
+
+    <span class="section-label">
+        DTE STUDENT PORTAL
+    </span>
+
+    <h2>Your Learning. Your Dashboard.</h2>
+
+    <p>
+        Every registered learner gets a personal
+        dashboard to track their complete learning journey.
+    </p>
+
+</div>
+
+
+
+<div class="feature-grid">
+
+
+<div class="feature-card">
+
+    <span>👤</span>
+
+    <h3>Personal Profile</h3>
+
+    <p>
+        View student information, learning mode,
+        joining date and course details.
+    </p>
+
+</div>
+
+
+<div class="feature-card">
+
+    <span>📊</span>
+
+    <h3>Course Progress</h3>
+
+    <p>
+        Check completed topics, current session
+        and remaining learning modules.
+    </p>
+
+</div>
+
+
+<div class="feature-card">
+
+    <span>📅</span>
+
+    <h3>Attendance</h3>
+
+    <p>
+        Track weekly classes, attended sessions
+        and overall attendance percentage.
+    </p>
+
+</div>
+
+
+<div class="feature-card">
+
+    <span>📝</span>
+
+    <h3>Assignments</h3>
+
+    <p>
+        Access learning tasks and practical
+        assignments from your dashboard.
+    </p>
+
+</div>
+
+
+<div class="feature-card">
+
+    <span>🚀</span>
+
+    <h3>Projects</h3>
+
+    <p>
+        Complete practical projects and track
+        your project completion status.
+    </p>
+
+</div>
+
+
+<div class="feature-card">
+
+    <span>🏆</span>
+
+    <h3>Certificates</h3>
+
+    <p>
+        Access certificates after successfully
+        completing eligible programs.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+<div class="container">
+
+    <h2>Start Your Learning Journey</h2>
+
+    <p>
+        Registered students can access their
+        personal learning dashboard.
+    </p>
+
+    <a href="login.html" class="btn-primary">
+        Login to Student Portal →
+    </a>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact" id="contact">
+
+<div class="container contact-grid">
+
+
+<div class="contact-info">
+
+    <span class="section-label">
+        CONTACT DTE
+    </span>
+
+    <h2>Have Questions?</h2>
+
+    <p>
+        Contact DTE for learning programs,
+        registration, online learning or
+        offline session information.
+    </p>
+
+
+    <div class="contact-box">
+
+        <strong>📱 Contact</strong>
+
+        <p>
+            +91 XXXXX XXXXX
+        </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+        <strong>📧 Email</strong>
+
+        <p>
+            your-email@example.com
+        </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+        <strong>📍 Learning Mode</strong>
+
+        <p>
+            Online & Offline Learning
+        </p>
+
+    </div>
+
+
+</div>
+
+
+
+<div class="founder-box">
+
+    <span class="small">
+        FOUNDER
+    </span>
+
+    <h2>Dipak Suryawanshi</h2>
+
+    <h3>
+        Founder — DTE Digital Tech Ecosystem
+    </h3>
+
+    <p>
+        DTE focuses on practical technology learning
+        and helping students develop useful digital
+        skills through guided learning, practice
+        and projects.
+    </p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div class="container">
+
+
+<div class="footer-grid">
+
+
+<div class="footer-brand">
+
+    <h2>DTE</h2>
+
+    <h3>Digital Tech Ecosystem</h3>
+
+    <p>
+        Practical learning in Cyber Security,
+        Digital Safety, IT Skills, Website Development
+        and technology projects.
+    </p>
+
+</div>
+
+
+<div class="footer-links">
+
+    <h3>Quick Links</h3>
+
+    <a href="#home">Home</a>
+
+    <a href="#courses">Programs</a>
+
+    <a href="#learning">Learning</a>
+
+    <a href="#portal">Student Portal</a>
+
+</div>
+
+
+<div class="footer-links">
+
+    <h3>Student</h3>
+
+    <a href="login.html">Student Login</a>
+
+    <a href="#contact">Contact</a>
+
+    <a href="#courses">Programs</a>
+
+</div>
+
+
+</div>
+
+
+<div class="copyright">
+
+    © 2026 DTE — Digital Tech Ecosystem |
+    Founded by Dipak Suryawanshi |
+    All Rights Reserved.
+
+</div>
+
+
+</div>
+
+</footer>
+
+
+</body>
+</html>

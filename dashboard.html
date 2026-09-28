@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Dashboard | DTE</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+}
+
+a{
+    text-decoration:none;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:255px;
+    height:100vh;
+    background:#06152e;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:25px 18px;
+    color:white;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:25px;
+    border-bottom:1px solid #18304e;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    background:linear-gradient(135deg,#19b9f2,#0756a5);
+    border:2px solid #ffc532;
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:bold;
+}
+
+.brand h2{
+    font-size:17px;
+}
+
+.brand p{
+    font-size:9px;
+    color:#8fa7c7;
+}
+
+.menu-title{
+    font-size:10px;
+    color:#627995;
+    letter-spacing:1.5px;
+    margin:25px 10px 10px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#aebed1;
+
+    padding:12px 13px;
+
+    margin:4px 0;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu .active{
+    background:#0b3158;
+    color:white;
+}
+
+.logout{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+}
+
+.logout a{
+    display:block;
+    padding:12px;
+    border:1px solid #344b67;
+    color:#aebed1;
+    border-radius:8px;
+    text-align:center;
+    font-size:13px;
+}
+
+.logout a:hover{
+    background:#c83b3b;
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    background:white;
+    height:75px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 35px;
+
+    border-bottom:1px solid #e1e7ef;
+}
+
+.topbar-left h2{
+    color:#10213b;
+    font-size:20px;
+}
+
+.topbar-left p{
+    color:#8492a6;
+    font-size:11px;
+    margin-top:2px;
+}
+
+.top-user{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.top-avatar{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#dff4fc;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:19px;
+}
+
+.top-user h4{
+    font-size:13px;
+}
+
+.top-user p{
+    color:#8290a3;
+    font-size:10px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:30px 35px 50px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.welcome{
+    background:
+    linear-gradient(110deg,#071a38,#0b4771);
+
+    border-radius:17px;
+
+    padding:32px;
+
+    color:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+
+    box-shadow:0 10px 30px rgba(7,35,70,.12);
+}
+
+.welcome-tag{
+    color:#54cfff;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1.5px;
+}
+
+.welcome h1{
+    margin:5px 0 6px;
+    font-size:29px;
+}
+
+.welcome h1 span{
+    color:#ffc532;
+}
+
+.welcome p{
+    color:#b7c8db;
+    font-size:13px;
+}
+
+.student-badge{
+    text-align:right;
+}
+
+.student-badge span{
+    display:inline-block;
+    background:#ffc532;
+    color:#07152e;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.student-badge p{
+    margin-top:8px;
+    font-size:11px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid #e1e7ef;
+    border-radius:12px;
+    padding:21px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+
+    border-radius:9px;
+
+    background:#eaf7fc;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:19px;
+}
+
+.stat-card h2{
+    font-size:26px;
+    margin-top:14px;
+    color:#0c2442;
+}
+
+.stat-card > p{
+    color:#8492a6;
+    font-size:11px;
+}
+
+.stat-small{
+    font-size:10px;
+    color:#1488b9;
+}
+
+/* ================= GRID ================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:22px;
+}
+
+.card{
+    background:white;
+    border:1px solid #e0e6ee;
+    border-radius:13px;
+    padding:24px;
+    margin-bottom:22px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    color:#12243e;
+    font-size:16px;
+}
+
+.card-header span{
+    color:#7b899c;
+    font-size:11px;
+}
+
+/* ================= PROGRESS ================= */
+
+.current-course{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.course-icon{
+    width:55px;
+    height:55px;
+
+    background:#e8f6fc;
+
+    border-radius:11px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:25px;
+}
+
+.current-course h4{
+    color:#10233f;
+    font-size:15px;
+}
+
+.current-course p{
+    color:#7b899d;
+    font-size:11px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+    font-size:11px;
+}
+
+.progress-bar{
+    width:100%;
+    height:10px;
+    background:#e8edf3;
+    border-radius:20px;
+    margin-top:7px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:35%;
+    background:linear-gradient(90deg,#0b8cc8,#29b8ed);
+    border-radius:20px;
+}
+
+/* ================= MODULES ================= */
+
+.module{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:13px 0;
+
+    border-bottom:1px solid #edf0f4;
+}
+
+.module:last-child{
+    border-bottom:none;
+}
+
+.module-left{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.module-status{
+    width:30px;
+    height:30px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+}
+
+.completed{
+    background:#e3f8ee;
+    color:#148b56;
+}
+
+.current{
+    background:#e1f4fc;
+    color:#0786c5;
+}
+
+.locked{
+    background:#f0f2f5;
+    color:#8995a5;
+}
+
+.module h4{
+    font-size:12px;
+    color:#273951;
+}
+
+.module p{
+    font-size:10px;
+    color:#8b97a8;
+}
+
+.status-text{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.green{
+    color:#15945b;
+}
+
+.blue{
+    color:#0b8cc8;
+}
+
+.grey{
+    color:#8b97a8;
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+    text-align:center;
+}
+
+.profile-photo{
+    width:85px;
+    height:85px;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    background:#e6f5fb;
+
+    border:3px solid #14a6df;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:36px;
+}
+
+.profile h3{
+    margin-top:12px;
+    color:#10233f;
+}
+
+.profile .id{
+    color:#0787c2;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.profile-details{
+    text-align:left;
+    margin-top:20px;
+}
+
+.detail{
+    padding:10px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.detail label{
+    color:#8996a7;
+    font-size:9px;
+    display:block;
+}
+
+.detail span{
+    color:#283950;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* ================= NEXT CLASS ================= */
+
+.next-class{
+    background:#071a38;
+    color:white;
+}
+
+.next-class .card-header h3{
+    color:white;
+}
+
+.class-tag{
+    color:#ffc532;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.next-class h2{
+    font-size:19px;
+    margin:8px 0;
+}
+
+.next-class p{
+    color:#9db1c9;
+    font-size:11px;
+    margin:5px 0;
+}
+
+/* ================= CERTIFICATE ================= */
+
+.certificate-box{
+    border:1px dashed #b9c5d3;
+    border-radius:10px;
+    padding:17px;
+    text-align:center;
+}
+
+.certificate-box span{
+    font-size:28px;
+}
+
+.certificate-box h4{
+    margin:6px 0;
+    font-size:13px;
+}
+
+.certificate-box p{
+    color:#8794a5;
+    font-size:10px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#8a97a7;
+    font-size:10px;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:1000px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .welcome{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .student-badge{
+        text-align:left;
+    }
+}
+
+@media(max-width:480px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .welcome h1{
+        font-size:24px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="logo">
+            DTE
+        </div>
+
+        <div>
+            <h2>Student Portal</h2>
+            <p>DIGITAL TECH ECOSYSTEM</p>
+        </div>
+
+    </div>
+
+
+    <p class="menu-title">MAIN MENU</p>
+
+    <ul class="menu">
+
+        <li>
+            <a href="dashboard.html" class="active">
+                🏠 Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                👤 My Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📚 My Learning
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📅 Attendance
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                📝 Assignments
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🚀 Projects
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                🏆 Certificates
+            </a>
+        </li>
+
+    </ul>
+
+
+    <p class="menu-title">SUPPORT</p>
+
+    <ul class="menu">
+
+        <li>
+            <a href="index.html#contact">
+                💬 Contact DTE
+            </a>
+        </li>
+
+    </ul>
+
+
+    <div class="logout">
+
+        <a href="login.html">
+            ↪ Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+    <div class="topbar-left">
+
+        <h2>Student Dashboard</h2>
+
+        <p>DTE Digital Tech Ecosystem</p>
+
+    </div>
+
+
+    <div class="top-user">
+
+        <div class="top-avatar">
+            👨‍🎓
+        </div>
+
+        <div>
+
+            <h4 id="topName">
+                Demo Student
+            </h4>
+
+            <p>
+                DTE Student
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+
+<!-- WELCOME -->
+
+<div class="welcome">
+
+    <div>
+
+        <span class="welcome-tag">
+            WELCOME BACK
+        </span>
+
+        <h1>
+            Hello,
+            <span id="studentName">
+                Demo Student
+            </span>
+            👋
+        </h1>
+
+        <p>
+            Continue learning and keep building
+            your practical digital skills.
+        </p>
+
+    </div>
+
+
+    <div class="student-badge">
+
+        <span>
+            OFFLINE STUDENT
+        </span>
+
+        <p>
+            Member since September 2026
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+
+<div class="stat-card">
+
+    <div class="stat-top">
+
+        <span class="stat-small">
+            COURSE
+        </span>
+
+        <div class="stat-icon">
+            📊
+        </div>
+
+    </div>
+
+    <h2>35%</h2>
+
+    <p>Course Completed</p>
+
+</div>
+
+
+
+<div class="stat-card">
+
+    <div class="stat-top">
+
+        <span class="stat-small">
+            ATTENDANCE
+        </span>
+
+        <div class="stat-icon">
+            📅
+        </div>
+
+    </div>
+
+    <h2>82%</h2>
+
+    <p>Overall Attendance</p>
+
+</div>
+
+
+
+<div class="stat-card">
+
+    <div class="stat-top">
+
+        <span class="stat-small">
+            THIS WEEK
+        </span>
+
+        <div class="stat-icon">
+            🎓
+        </div>
+
+    </div>
+
+    <h2>3 / 4</h2>
+
+    <p>Classes Attended</p>
+
+</div>
+
+
+
+<div class="stat-card">
+
+    <div class="stat-top">
+
+        <span class="stat-small">
+            PROJECTS
+        </span>
+
+        <div class="stat-icon">
+            🚀
+        </div>
+
+    </div>
+
+    <h2>2</h2>
+
+    <p>Projects Completed</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- MAIN GRID -->
+
+<div class="dashboard-grid">
+
+
+<!-- LEFT -->
+
+<div>
+
+
+<!-- COURSE PROGRESS -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>Learning Progress</h3>
+
+        <span>
+            DTE Learning Program
+        </span>
+
+    </div>
+
+
+    <div class="current-course">
+
+        <div class="course-icon">
+            🛡️
+        </div>
+
+        <div>
+
+            <h4>
+                Cyber Security & Digital Skills
+            </h4>
+
+            <p>
+                Practical Learning Program
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-info">
+
+        <span>
+            Overall Progress
+        </span>
+
+        <strong>
+            35%
+        </strong>
+
+    </div>
+
+
+    <div class="progress-bar">
+
+        <div class="progress-fill"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- CURRENT LEARNING -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>Learning Sessions</h3>
+
+        <span>
+            Current Track
+        </span>
+
+    </div>
+
+
+    <div class="module">
+
+        <div class="module-left">
+
+            <div class="module-status completed">
+                ✓
+            </div>
+
+            <div>
+
+                <h4>
+                    Introduction to Cyber Security
+                </h4>
+
+                <p>
+                    Session 01
+                </p>
+
+            </div>
+
+        </div>
+
+        <span class="status-text green">
+            COMPLETED
+        </span>
+
+    </div>
+
+
+    <div class="module">
+
+        <div class="module-left">
+
+            <div class="module-status completed">
+                ✓
+            </div>
+
+            <div>
+
+                <h4>
+                    Password & Account Security
+                </h4>
+
+                <p>
+                    Session 02
+                </p>
+
+            </div>
+
+        </div>
+
+        <span class="status-text green">
+            COMPLETED
+        </span>
+
+    </div>
+
+
+    <div class="module">
+
+        <div class="module-left">
+
+            <div class="module-status current">
+                ▶
+            </div>
+
+            <div>
+
+                <h4>
+                    Laptop Security Basics
+                </h4>
+
+                <p>
+                    Session 03
+                </p>
+
+            </div>
+
+        </div>
+
+        <span class="status-text blue">
+            CURRENT
+        </span>
+
+    </div>
+
+
+    <div class="module">
+
+        <div class="module-left">
+
+            <div class="module-status locked">
+                🔒
+            </div>
+
+            <div>
+
+                <h4>
+                    Mobile Security
+                </h4>
+
+                <p>
+                    Session 04
+                </p>
+
+            </div>
+
+        </div>
+
+        <span class="status-text grey">
+            UPCOMING
+        </span>
+
+    </div>
+
+
+    <div class="module">
+
+        <div class="module-left">
+
+            <div class="module-status locked">
+                🔒
+            </div>
+
+            <div>
+
+                <h4>
+                    Website Development
+                </h4>
+
+                <p>
+                    Upcoming Module
+                </p>
+
+            </div>
+
+        </div>
+
+        <span class="status-text grey">
+            UPCOMING
+        </span>
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- RIGHT -->
+
+<div>
+
+
+<!-- PROFILE -->
+
+<div class="card profile">
+
+    <div class="profile-photo">
+        👨‍🎓
+    </div>
+
+    <h3 id="profileName">
+        Demo Student
+    </h3>
+
+    <p class="id">
+        DTE-OFF-001
+    </p>
+
+
+    <div class="profile-details">
+
+
+        <div class="detail">
+
+            <label>
+                LEARNING MODE
+            </label>
+
+            <span>
+                Offline Learning
+            </span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <label>
+                PROGRAM
+            </label>
+
+            <span>
+                DTE Practical Learning
+            </span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <label>
+                JOINING DATE
+            </label>
+
+            <span>
+                September 2026
+            </span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <label>
+                STATUS
+            </label>
+
+            <span style="color:#168f59;">
+                ● Active Student
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- NEXT CLASS -->
+
+<div class="card next-class">
+
+    <span class="class-tag">
+        NEXT SESSION
+    </span>
+
+    <h2>
+        Laptop Security Basics
+    </h2>
+
+    <p>
+        📅 Date: To Be Announced
+    </p>
+
+    <p>
+        🕐 Time: To Be Announced
+    </p>
+
+    <p>
+        📍 Offline Session
+    </p>
+
+</div>
+
+
+
+<!-- CERTIFICATE -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>Certificates</h3>
+
+        <span>
+            Achievement
+        </span>
+
+    </div>
+
+
+    <div class="certificate-box">
+
+        <span>
+            🏆
+        </span>
+
+        <h4>
+            Complete Your Program
+        </h4>
+
+        <p>
+            Your certificate will become
+            available after successful
+            program completion.
+        </p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+    © 2026 DTE — Digital Tech Ecosystem |
+    Student Learning Portal
+
+</div>
+
+
+</div>
+
+
+</body>
+</html>

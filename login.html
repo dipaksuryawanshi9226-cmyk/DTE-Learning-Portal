@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Login | DTE Digital Tech Ecosystem</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    background:#06152e;
+}
+
+header{
+    background:#06152e;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.navbar{
+    max-width:1250px;
+    margin:auto;
+    padding:17px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(135deg,#18baf5,#0756a5);
+
+    color:white;
+    font-size:19px;
+    font-weight:bold;
+
+    border:2px solid #ffc532;
+}
+
+.brand h2{
+    color:white;
+    font-size:19px;
+}
+
+.brand p{
+    color:#8fa7c7;
+    font-size:10px;
+}
+
+.back-home{
+    color:white;
+    border:1px solid #ffc532;
+    padding:9px 18px;
+    border-radius:25px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.back-home:hover{
+    background:#ffc532;
+    color:#06152e;
+}
+
+
+/* MAIN */
+
+.login-section{
+    min-height:calc(100vh - 85px);
+
+    background:
+    radial-gradient(circle at 15% 40%,rgba(20,174,238,.18),transparent 30%),
+    radial-gradient(circle at 90% 70%,rgba(255,197,50,.08),transparent 25%),
+    linear-gradient(120deg,#06152e,#08264c,#07385b);
+
+    display:flex;
+    align-items:center;
+
+    padding:60px 20px;
+}
+
+.login-container{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:1fr 460px;
+
+    gap:80px;
+    align-items:center;
+}
+
+
+/* LEFT */
+
+.left-content{
+    color:white;
+}
+
+.portal-label{
+    display:inline-block;
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    border:1px solid rgba(56,189,248,.4);
+
+    background:rgba(56,189,248,.08);
+
+    color:#49c8ff;
+
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1.5px;
+
+    margin-bottom:22px;
+}
+
+.left-content h1{
+    font-size:52px;
+    line-height:1.1;
+    margin-bottom:20px;
+}
+
+.left-content h1 span{
+    color:#ffc532;
+}
+
+.left-content > p{
+    color:#b6c8dc;
+    font-size:17px;
+    max-width:600px;
+    margin-bottom:35px;
+}
+
+.portal-features{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.portal-feature{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:14px;
+
+    border-radius:10px;
+}
+
+.feature-icon{
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+
+    border-radius:8px;
+
+    background:#0b4c78;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.portal-feature h3{
+    font-size:13px;
+}
+
+.portal-feature p{
+    color:#8fa7c7;
+    font-size:11px;
+}
+
+
+/* LOGIN CARD */
+
+.login-card{
+    background:white;
+
+    border-radius:20px;
+
+    padding:38px;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.35);
+
+    position:relative;
+}
+
+.login-card::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:35px;
+    right:35px;
+
+    height:4px;
+
+    background:linear-gradient(90deg,#13b8f1,#ffc532);
+
+    border-radius:0 0 10px 10px;
+}
+
+.login-header{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.student-icon{
+    width:70px;
+    height:70px;
+
+    margin:0 auto 15px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    background:#e9f7fd;
+}
+
+.login-header h2{
+    color:#0b1930;
+    font-size:27px;
+}
+
+.login-header p{
+    color:#748399;
+    font-size:13px;
+    margin-top:5px;
+}
+
+
+/* FORM */
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+
+    color:#263850;
+
+    font-size:13px;
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+.input-box{
+    position:relative;
+}
+
+.input-box input{
+    width:100%;
+
+    padding:14px 45px 14px 15px;
+
+    border:1px solid #d5deea;
+
+    border-radius:9px;
+
+    outline:none;
+
+    font-size:14px;
+
+    background:#f9fbfd;
+}
+
+.input-box input:focus{
+    border-color:#149ed5;
+
+    background:white;
+
+    box-shadow:0 0 0 3px rgba(20,158,213,.10);
+}
+
+.input-icon{
+    position:absolute;
+
+    right:14px;
+    top:50%;
+
+    transform:translateY(-50%);
+}
+
+.password-toggle{
+    cursor:pointer;
+}
+
+
+/* OPTIONS */
+
+.form-options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    font-size:12px;
+
+    margin-bottom:22px;
+}
+
+.remember{
+    color:#637389;
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.forgot{
+    color:#087db7;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+
+/* MESSAGE */
+
+.message{
+    display:none;
+
+    padding:11px 13px;
+
+    border-radius:7px;
+
+    margin-bottom:15px;
+
+    font-size:12px;
+}
+
+.error{
+    display:block;
+
+    background:#fff0f0;
+
+    border:1px solid #f1bcbc;
+
+    color:#ba3434;
+}
+
+.success{
+    display:block;
+
+    background:#ebfaf2;
+
+    border:1px solid #aee0c5;
+
+    color:#137b49;
+}
+
+
+/* BUTTON */
+
+.login-button{
+    width:100%;
+
+    border:none;
+
+    background:#087fb9;
+
+    color:white;
+
+    padding:14px;
+
+    border-radius:9px;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.login-button:hover{
+    background:#066a9c;
+}
+
+.login-button:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+
+/* NOTE */
+
+.login-note{
+    margin-top:22px;
+
+    background:#f3f8fc;
+
+    border-left:3px solid #149ed5;
+
+    padding:12px;
+
+    border-radius:5px;
+
+    font-size:11px;
+
+    color:#68788d;
+
+    line-height:1.5;
+}
+
+.login-note strong{
+    color:#263850;
+}
+
+.support{
+    text-align:center;
+
+    margin-top:20px;
+
+    font-size:12px;
+
+    color:#748399;
+}
+
+.support a{
+    color:#087db7;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+
+/* FOOTER */
+
+.footer{
+    background:#030c1d;
+
+    color:#71849e;
+
+    text-align:center;
+
+    padding:20px;
+
+    font-size:11px;
+}
+
+.footer strong{
+    color:#ffc532;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .login-container{
+        grid-template-columns:1fr;
+        max-width:500px;
+    }
+
+    .left-content{
+        text-align:center;
+    }
+
+    .portal-features{
+        margin:auto;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .left-content h1{
+        font-size:35px;
+    }
+
+    .portal-features{
+        grid-template-columns:1fr;
+    }
+
+    .login-card{
+        padding:30px 22px;
+    }
+
+    .brand h2{
+        font-size:14px;
+    }
+
+    .brand p{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<nav class="navbar">
+
+<div class="brand">
+
+    <div class="logo">
+        DTE
+    </div>
+
+    <div>
+
+        <h2>Digital Tech Ecosystem</h2>
+
+        <p>LEARN • PRACTICE • BUILD</p>
+
+    </div>
+
+</div>
+
+
+<a href="index.html" class="back-home">
+    ← Home
+</a>
+
+</nav>
+
+</header>
+
+
+
+<main class="login-section">
+
+<div class="login-container">
+
+
+<!-- LEFT -->
+
+<div class="left-content">
+
+    <div class="portal-label">
+        DTE STUDENT PORTAL
+    </div>
+
+
+    <h1>
+
+        Continue Your<br>
+
+        <span>
+            Learning Journey.
+        </span>
+
+    </h1>
+
+
+    <p>
+
+        Login to your personal DTE student account
+        to access learning progress, attendance,
+        sessions, projects and certificates.
+
+    </p>
+
+
+
+    <div class="portal-features">
+
+
+        <div class="portal-feature">
+
+            <div class="feature-icon">
+                📊
+            </div>
+
+            <div>
+
+                <h3>Course Progress</h3>
+
+                <p>Track your learning</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="portal-feature">
+
+            <div class="feature-icon">
+                📅
+            </div>
+
+            <div>
+
+                <h3>Attendance</h3>
+
+                <p>Weekly records</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="portal-feature">
+
+            <div class="feature-icon">
+                🚀
+            </div>
+
+            <div>
+
+                <h3>Projects</h3>
+
+                <p>Practical assignments</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="portal-feature">
+
+            <div class="feature-icon">
+                🏆
+            </div>
+
+            <div>
+
+                <h3>Certificates</h3>
+
+                <p>Your achievements</p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- LOGIN -->
+
+<div class="login-card">
+
+
+<div class="login-header">
+
+    <div class="student-icon">
+        👨‍🎓
+    </div>
+
+    <h2>
+        Student Login
+    </h2>
+
+    <p>
+        Enter your registered DTE account
+    </p>
+
+</div>
+
+
+
+<div id="message" class="message"></div>
+
+
+
+<form id="loginForm">
+
+
+<div class="form-group">
+
+    <label>
+        Email Address
+    </label>
+
+    <div class="input-box">
+
+        <input
+        type="email"
+        id="email"
+        placeholder="Enter registered email"
+        autocomplete="email"
+        required>
+
+        <span class="input-icon">
+            ✉️
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<div class="form-group">
+
+    <label>
+        Password
+    </label>
+
+    <div class="input-box">
+
+        <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+        autocomplete="current-password"
+        required>
+
+        <span
+        class="input-icon password-toggle"
+        id="eyeIcon"
+        onclick="togglePassword()">
+
+            👁️
+
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<div class="form-options">
+
+    <label class="remember">
+
+        <input
+        type="checkbox"
+        id="remember">
+
+        Remember me
+
+    </label>
+
+
+    <a
+    href="#"
+    class="forgot"
+    id="forgotPassword">
+
+        Forgot Password?
+
+    </a>
+
+</div>
+
+
+
+<button
+type="submit"
+class="login-button"
+id="loginButton">
+
+    Login to Dashboard →
+
+</button>
+
+
+</form>
+
+
+
+<div class="login-note">
+
+    <strong>
+        Registered Students Only
+    </strong>
+
+    <br>
+
+    Use the email address and password
+    registered with DTE.
+
+</div>
+
+
+<div class="support">
+
+    Need help?
+
+    <br>
+
+    <a href="index.html#contact">
+        Contact DTE Support
+    </a>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</main>
+
+
+
+<div class="footer">
+
+© 2026
+
+<strong>
+DTE — Digital Tech Ecosystem
+</strong>
+
+| Student Learning Portal
+
+</div>
+
+
+
+<!-- =====================================
+     FIREBASE
+===================================== -->
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+
+
+/* ===============================
+   YOUR FIREBASE CONFIG
+================================ */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+
+    authDomain:
+    "dte-learning-portal.firebaseapp.com",
+
+    projectId:
+    "dte-learning-portal",
+
+    storageBucket:
+    "dte-learning-portal.firebasestorage.app",
+
+    messagingSenderId:
+    "229529830631",
+
+    appId:
+    "1:229529830631:web:970c1c827d05795bca4e42"
+
+};
+
+
+
+/* INITIALIZE */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+
+
+/* ELEMENTS */
+
+const loginForm =
+document.getElementById("loginForm");
+
+const emailInput =
+document.getElementById("email");
+
+const passwordInput =
+document.getElementById("password");
+
+const remember =
+document.getElementById("remember");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const message =
+document.getElementById("message");
+
+
+
+/* SHOW MESSAGE */
+
+function showMessage(text,type){
+
+    message.textContent = text;
+
+    message.className =
+    "message " + type;
+
+}
+
+
+
+/* LOGIN */
+
+loginForm.addEventListener(
+"submit",
+async function(event){
+
+    event.preventDefault();
+
+
+    const email =
+    emailInput.value.trim();
+
+    const password =
+    passwordInput.value;
+
+
+    if(!email || !password){
+
+        showMessage(
+            "Please enter your email and password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+    "Signing in...";
+
+
+    try{
+
+
+        /* REMEMBER LOGIN */
+
+        if(remember.checked){
+
+            await setPersistence(
+                auth,
+                browserLocalPersistence
+            );
+
+        }
+
+        else{
+
+            await setPersistence(
+                auth,
+                browserSessionPersistence
+            );
+
+        }
+
+
+
+        /* FIREBASE LOGIN */
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        showMessage(
+            "Login successful. Opening your dashboard...",
+            "success"
+        );
+
+
+        setTimeout(function(){
+
+            window.location.href =
+            "dashboard.html";
+
+        },800);
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        let errorMessage =
+        "Unable to login. Please check your email and password.";
+
+
+        if(
+            error.code === "auth/invalid-credential" ||
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found"
+        ){
+
+            errorMessage =
+            "Invalid email or password.";
+
+        }
+
+
+        else if(
+            error.code === "auth/invalid-email"
+        ){
+
+            errorMessage =
+            "Please enter a valid email address.";
+
+        }
+
+
+        else if(
+            error.code === "auth/too-many-requests"
+        ){
+
+            errorMessage =
+            "Too many login attempts. Please try again later.";
+
+        }
+
+
+        else if(
+            error.code === "auth/network-request-failed"
+        ){
+
+            errorMessage =
+            "Network error. Please check your internet connection.";
+
+        }
+
+
+        showMessage(
+            errorMessage,
+            "error"
+        );
+
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+        "Login to Dashboard →";
+
+    }
+
+});
+
+
+
+/* ===============================
+   FORGOT PASSWORD
+================================ */
+
+document
+.getElementById("forgotPassword")
+.addEventListener(
+"click",
+async function(event){
+
+    event.preventDefault();
+
+
+    const email =
+    emailInput.value.trim();
+
+
+    if(!email){
+
+        showMessage(
+            "Enter your registered email first, then click Forgot Password.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    try{
+
+        await sendPasswordResetEmail(
+            auth,
+            email
+        );
+
+
+        showMessage(
+            "Password reset email has been sent. Please check your inbox.",
+            "success"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "Unable to send password reset email. Check the email address.",
+            "error"
+        );
+
+    }
+
+});
+
+
+
+</script>
+
+
+
+<script>
+
+/* PASSWORD SHOW / HIDE */
+
+function togglePassword(){
+
+    const password =
+    document.getElementById("password");
+
+    const eye =
+    document.getElementById("eyeIcon");
+
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+        eye.textContent = "🙈";
+
+    }
+
+    else{
+
+        password.type = "password";
+
+        eye.textContent = "👁️";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+</html>
