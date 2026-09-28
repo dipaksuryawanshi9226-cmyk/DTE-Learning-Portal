@@ -47,13 +47,10 @@ header{
     display:flex;
     align-items:center;
     justify-content:center;
-
     background:linear-gradient(135deg,#18baf5,#0756a5);
-
     color:white;
     font-size:19px;
     font-weight:bold;
-
     border:2px solid #ffc532;
 }
 
@@ -95,7 +92,6 @@ header{
 
     display:flex;
     align-items:center;
-
     padding:60px 20px;
 }
 
@@ -120,21 +116,14 @@ header{
 
 .portal-label{
     display:inline-block;
-
     padding:7px 14px;
-
     border-radius:20px;
-
     border:1px solid rgba(56,189,248,.4);
-
     background:rgba(56,189,248,.08);
-
     color:#49c8ff;
-
     font-size:12px;
     font-weight:bold;
     letter-spacing:1.5px;
-
     margin-bottom:22px;
 }
 
@@ -165,26 +154,18 @@ header{
     display:flex;
     align-items:center;
     gap:12px;
-
     background:rgba(255,255,255,.05);
-
     border:1px solid rgba(255,255,255,.08);
-
     padding:14px;
-
     border-radius:10px;
 }
 
 .feature-icon{
     width:40px;
     height:40px;
-
     min-width:40px;
-
     border-radius:8px;
-
     background:#0b4c78;
-
     display:flex;
     align-items:center;
     justify-content:center;
@@ -200,33 +181,24 @@ header{
 }
 
 
-/* LOGIN CARD */
+/* CARD */
 
 .login-card{
     background:white;
-
     border-radius:20px;
-
     padding:38px;
-
     box-shadow:0 30px 80px rgba(0,0,0,.35);
-
     position:relative;
 }
 
 .login-card::before{
     content:"";
-
     position:absolute;
-
     top:0;
     left:35px;
     right:35px;
-
     height:4px;
-
     background:linear-gradient(90deg,#13b8f1,#ffc532);
-
     border-radius:0 0 10px 10px;
 }
 
@@ -238,17 +210,12 @@ header{
 .student-icon{
     width:70px;
     height:70px;
-
     margin:0 auto 15px;
-
     border-radius:50%;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:30px;
-
     background:#e9f7fd;
 }
 
@@ -272,12 +239,9 @@ header{
 
 .form-group label{
     display:block;
-
     color:#263850;
-
     font-size:13px;
     font-weight:bold;
-
     margin-bottom:7px;
 }
 
@@ -287,34 +251,24 @@ header{
 
 .input-box input{
     width:100%;
-
     padding:14px 45px 14px 15px;
-
     border:1px solid #d5deea;
-
     border-radius:9px;
-
     outline:none;
-
     font-size:14px;
-
     background:#f9fbfd;
 }
 
 .input-box input:focus{
     border-color:#149ed5;
-
     background:white;
-
     box-shadow:0 0 0 3px rgba(20,158,213,.10);
 }
 
 .input-icon{
     position:absolute;
-
     right:14px;
     top:50%;
-
     transform:translateY(-50%);
 }
 
@@ -329,15 +283,12 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     font-size:12px;
-
     margin-bottom:22px;
 }
 
 .remember{
     color:#637389;
-
     display:flex;
     align-items:center;
     gap:6px;
@@ -349,62 +300,48 @@ header{
     font-weight:bold;
 }
 
+.forgot:hover{
+    text-decoration:underline;
+}
+
 
 /* MESSAGE */
 
 .message{
     display:none;
-
     padding:11px 13px;
-
     border-radius:7px;
-
     margin-bottom:15px;
-
     font-size:12px;
 }
 
 .error{
     display:block;
-
     background:#fff0f0;
-
     border:1px solid #f1bcbc;
-
     color:#ba3434;
 }
 
 .success{
     display:block;
-
     background:#ebfaf2;
-
     border:1px solid #aee0c5;
-
     color:#137b49;
 }
 
 
-/* BUTTON */
+/* LOGIN BUTTON */
 
 .login-button{
     width:100%;
-
     border:none;
-
     background:#087fb9;
-
     color:white;
-
     padding:14px;
-
     border-radius:9px;
-
     font-size:15px;
     font-weight:bold;
-
     cursor:pointer;
-
     transition:.3s;
 }
 
@@ -418,23 +355,68 @@ header{
 }
 
 
+/* REGISTER AREA */
+
+.register-area{
+    margin-top:16px;
+    text-align:center;
+}
+
+.register-text{
+    color:#748399;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.register-button{
+    width:100%;
+    display:block;
+    padding:13px;
+    border:2px solid #087fb9;
+    border-radius:9px;
+    color:#087fb9;
+    background:white;
+    font-size:14px;
+    font-weight:bold;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.register-button:hover{
+    background:#eaf7fd;
+}
+
+
+/* DIVIDER */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:17px 0;
+    color:#a0acbb;
+    font-size:11px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:#e0e6ed;
+}
+
+
 /* NOTE */
 
 .login-note{
-    margin-top:22px;
-
+    margin-top:20px;
     background:#f3f8fc;
-
     border-left:3px solid #149ed5;
-
     padding:12px;
-
     border-radius:5px;
-
     font-size:11px;
-
     color:#68788d;
-
     line-height:1.5;
 }
 
@@ -444,11 +426,8 @@ header{
 
 .support{
     text-align:center;
-
     margin-top:20px;
-
     font-size:12px;
-
     color:#748399;
 }
 
@@ -459,17 +438,73 @@ header{
 }
 
 
+/* =========================
+   RESET PASSWORD SECTION
+========================= */
+
+.reset-section{
+    display:none;
+}
+
+.reset-info{
+    background:#f3f8fc;
+    border-left:3px solid #149ed5;
+    padding:12px;
+    border-radius:6px;
+    color:#64758a;
+    font-size:12px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.reset-button{
+    width:100%;
+    border:none;
+    background:#087fb9;
+    color:white;
+    padding:14px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.reset-button:hover{
+    background:#066a9c;
+}
+
+.reset-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.back-login{
+    display:block;
+    width:100%;
+    margin-top:12px;
+    padding:12px;
+    border:1px solid #d5deea;
+    background:white;
+    color:#087db7;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.back-login:hover{
+    background:#f5f9fc;
+}
+
+
 /* FOOTER */
 
 .footer{
     background:#030c1d;
-
     color:#71849e;
-
     text-align:center;
-
     padding:20px;
-
     font-size:11px;
 }
 
@@ -494,7 +529,6 @@ header{
     .portal-features{
         margin:auto;
     }
-
 }
 
 @media(max-width:550px){
@@ -518,7 +552,6 @@ header{
     .brand p{
         display:none;
     }
-
 }
 
 </style>
@@ -564,7 +597,7 @@ header{
 <div class="login-container">
 
 
-<!-- LEFT -->
+<!-- LEFT SIDE -->
 
 <div class="left-content">
 
@@ -674,9 +707,14 @@ header{
 
 
 
-<!-- LOGIN -->
+<!-- RIGHT CARD -->
 
 <div class="login-card">
+
+
+<!-- ================= LOGIN SECTION ================= -->
+
+<div id="loginSection">
 
 
 <div class="login-header">
@@ -799,16 +837,40 @@ id="loginButton">
 
 
 
+<div class="divider">
+    NEW TO DTE?
+</div>
+
+
+
+<div class="register-area">
+
+    <p class="register-text">
+        Don't have a student account?
+    </p>
+
+    <a
+    href="register.html"
+    class="register-button">
+
+        ✨ Create Student Account
+
+    </a>
+
+</div>
+
+
+
 <div class="login-note">
 
     <strong>
-        Registered Students Only
+        Registered Students
     </strong>
 
     <br>
 
-    Use the email address and password
-    registered with DTE.
+    Login using your registered DTE
+    email address and password.
 
 </div>
 
@@ -822,6 +884,104 @@ id="loginButton">
     <a href="index.html#contact">
         Contact DTE Support
     </a>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ================= RESET PASSWORD ================= -->
+
+<div
+id="resetSection"
+class="reset-section">
+
+
+<div class="login-header">
+
+    <div class="student-icon">
+        🔐
+    </div>
+
+    <h2>
+        Reset Password
+    </h2>
+
+    <p>
+        Recover your DTE student account
+    </p>
+
+</div>
+
+
+<div
+id="resetMessage"
+class="message">
+</div>
+
+
+<div class="reset-info">
+
+    Enter the email address registered with
+    your DTE account. We will send a secure
+    password reset link to your email.
+
+</div>
+
+
+
+<form id="resetForm">
+
+
+<div class="form-group">
+
+    <label>
+        Registered Email Address
+    </label>
+
+    <div class="input-box">
+
+        <input
+        type="email"
+        id="resetEmail"
+        placeholder="Enter your registered email"
+        autocomplete="email"
+        required>
+
+        <span class="input-icon">
+            ✉️
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<button
+type="submit"
+class="reset-button"
+id="resetButton">
+
+    Send Password Reset Link →
+
+</button>
+
+
+<button
+type="button"
+class="back-login"
+id="backToLogin">
+
+    ← Back to Student Login
+
+</button>
+
+
+</form>
+
 
 </div>
 
@@ -868,8 +1028,7 @@ import {
     sendPasswordResetEmail,
     setPersistence,
     browserLocalPersistence,
-    browserSessionPersistence,
-    onAuthStateChanged
+    browserSessionPersistence
 }
 from
 "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
@@ -877,7 +1036,7 @@ from
 
 
 /* ===============================
-   YOUR FIREBASE CONFIG
+   FIREBASE CONFIG
 ================================ */
 
 const firebaseConfig = {
@@ -904,8 +1063,6 @@ const firebaseConfig = {
 
 
 
-/* INITIALIZE */
-
 const app =
 initializeApp(firebaseConfig);
 
@@ -914,7 +1071,16 @@ getAuth(app);
 
 
 
-/* ELEMENTS */
+/* ===============================
+   ELEMENTS
+================================ */
+
+const loginSection =
+document.getElementById("loginSection");
+
+const resetSection =
+document.getElementById("resetSection");
+
 
 const loginForm =
 document.getElementById("loginForm");
@@ -935,8 +1101,29 @@ const message =
 document.getElementById("message");
 
 
+const forgotPassword =
+document.getElementById("forgotPassword");
 
-/* SHOW MESSAGE */
+const resetForm =
+document.getElementById("resetForm");
+
+const resetEmail =
+document.getElementById("resetEmail");
+
+const resetButton =
+document.getElementById("resetButton");
+
+const resetMessage =
+document.getElementById("resetMessage");
+
+const backToLogin =
+document.getElementById("backToLogin");
+
+
+
+/* ===============================
+   MESSAGE FUNCTIONS
+================================ */
 
 function showMessage(text,type){
 
@@ -948,8 +1135,20 @@ function showMessage(text,type){
 }
 
 
+function showResetMessage(text,type){
 
-/* LOGIN */
+    resetMessage.textContent = text;
+
+    resetMessage.className =
+    "message " + type;
+
+}
+
+
+
+/* ===============================
+   LOGIN
+================================ */
 
 loginForm.addEventListener(
 "submit",
@@ -985,8 +1184,6 @@ async function(event){
     try{
 
 
-        /* REMEMBER LOGIN */
-
         if(remember.checked){
 
             await setPersistence(
@@ -1006,8 +1203,6 @@ async function(event){
         }
 
 
-
-        /* FIREBASE LOGIN */
 
         await signInWithEmailAndPassword(
             auth,
@@ -1034,7 +1229,10 @@ async function(event){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "Login Error:",
+            error
+        );
 
 
         let errorMessage =
@@ -1052,7 +1250,6 @@ async function(event){
 
         }
 
-
         else if(
             error.code === "auth/invalid-email"
         ){
@@ -1062,7 +1259,6 @@ async function(event){
 
         }
 
-
         else if(
             error.code === "auth/too-many-requests"
         ){
@@ -1071,7 +1267,6 @@ async function(event){
             "Too many login attempts. Please try again later.";
 
         }
-
 
         else if(
             error.code === "auth/network-request-failed"
@@ -1101,26 +1296,75 @@ async function(event){
 
 
 /* ===============================
-   FORGOT PASSWORD
+   OPEN RESET PASSWORD
 ================================ */
 
-document
-.getElementById("forgotPassword")
-.addEventListener(
+forgotPassword.addEventListener(
 "click",
+function(event){
+
+    event.preventDefault();
+
+
+    /*
+    If student already entered email
+    on login page, automatically copy it.
+    */
+
+    const existingEmail =
+    emailInput.value.trim();
+
+    if(existingEmail){
+
+        resetEmail.value =
+        existingEmail;
+
+    }
+
+
+    message.className =
+    "message";
+
+    resetMessage.className =
+    "message";
+
+
+    loginSection.style.display =
+    "none";
+
+    resetSection.style.display =
+    "block";
+
+
+    setTimeout(function(){
+
+        resetEmail.focus();
+
+    },100);
+
+});
+
+
+
+/* ===============================
+   SEND RESET EMAIL
+================================ */
+
+resetForm.addEventListener(
+"submit",
 async function(event){
 
     event.preventDefault();
 
 
     const email =
-    emailInput.value.trim();
+    resetEmail.value.trim();
 
 
     if(!email){
 
-        showMessage(
-            "Enter your registered email first, then click Forgot Password.",
+        showResetMessage(
+            "Please enter your registered email address.",
             "error"
         );
 
@@ -1128,7 +1372,14 @@ async function(event){
     }
 
 
+    resetButton.disabled = true;
+
+    resetButton.textContent =
+    "Sending Reset Link...";
+
+
     try{
+
 
         await sendPasswordResetEmail(
             auth,
@@ -1136,21 +1387,71 @@ async function(event){
         );
 
 
-        showMessage(
-            "Password reset email has been sent. Please check your inbox.",
+        showResetMessage(
+            "Password reset link sent successfully. Please check your email inbox or spam folder.",
             "success"
         );
+
+
+        resetButton.textContent =
+        "Reset Link Sent ✓";
+
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "Password Reset Error:",
+            error
+        );
 
-        showMessage(
-            "Unable to send password reset email. Check the email address.",
+
+        let errorMessage =
+        "Unable to send password reset link. Please check your email address.";
+
+
+        if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            errorMessage =
+            "Please enter a valid email address.";
+
+        }
+
+        else if(
+            error.code ===
+            "auth/too-many-requests"
+        ){
+
+            errorMessage =
+            "Too many requests. Please try again later.";
+
+        }
+
+        else if(
+            error.code ===
+            "auth/network-request-failed"
+        ){
+
+            errorMessage =
+            "Network error. Please check your internet connection.";
+
+        }
+
+
+        showResetMessage(
+            errorMessage,
             "error"
         );
+
+
+        resetButton.disabled = false;
+
+        resetButton.textContent =
+        "Send Password Reset Link →";
 
     }
 
@@ -1158,13 +1459,48 @@ async function(event){
 
 
 
+/* ===============================
+   BACK TO LOGIN
+================================ */
+
+backToLogin.addEventListener(
+"click",
+function(){
+
+    resetSection.style.display =
+    "none";
+
+    loginSection.style.display =
+    "block";
+
+
+    resetMessage.className =
+    "message";
+
+
+    /*
+    Copy reset email back to login
+    email field for convenience.
+    */
+
+    if(resetEmail.value.trim()){
+
+        emailInput.value =
+        resetEmail.value.trim();
+
+    }
+
+});
+
 </script>
 
 
 
 <script>
 
-/* PASSWORD SHOW / HIDE */
+/* ===============================
+   PASSWORD SHOW / HIDE
+================================ */
 
 function togglePassword(){
 
@@ -1177,17 +1513,21 @@ function togglePassword(){
 
     if(password.type === "password"){
 
-        password.type = "text";
+        password.type =
+        "text";
 
-        eye.textContent = "🙈";
+        eye.textContent =
+        "🙈";
 
     }
 
     else{
 
-        password.type = "password";
+        password.type =
+        "password";
 
-        eye.textContent = "👁️";
+        eye.textContent =
+        "👁️";
 
     }
 
