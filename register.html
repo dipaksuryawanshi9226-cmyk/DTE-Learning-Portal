@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Registration | DTE</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#06152e,#0b4771);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px 15px;
+}
+
+.register-container{
+    width:100%;
+    max-width:500px;
+}
+
+.brand{
+    text-align:center;
+    color:white;
+    margin-bottom:20px;
+}
+
+.logo{
+    width:65px;
+    height:65px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#19b9f2,#0756a5);
+    border:2px solid #ffc532;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.brand h2{
+    margin-top:10px;
+    font-size:22px;
+}
+
+.brand p{
+    color:#a9bed5;
+    font-size:11px;
+    margin-top:3px;
+    letter-spacing:1px;
+}
+
+.register-card{
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 15px 45px rgba(0,0,0,.25);
+}
+
+.register-card h1{
+    color:#10233f;
+    font-size:23px;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#7b899d;
+    font-size:12px;
+    margin-bottom:24px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    color:#45566d;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #d7dfe8;
+    border-radius:8px;
+    outline:none;
+    font-size:13px;
+    background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#159fd5;
+    box-shadow:0 0 0 3px rgba(21,159,213,.08);
+}
+
+.password-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.terms{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    margin:17px 0;
+}
+
+.terms input{
+    margin-top:2px;
+}
+
+.terms label{
+    color:#69788b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.register-btn{
+    width:100%;
+    border:none;
+    background:linear-gradient(90deg,#087db8,#19b9f2);
+    color:white;
+    padding:13px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.register-btn:hover{
+    opacity:.92;
+}
+
+.register-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.message{
+    display:none;
+    padding:11px;
+    border-radius:7px;
+    font-size:11px;
+    margin-bottom:16px;
+}
+
+.error{
+    display:block;
+    background:#ffe9e9;
+    color:#b22e2e;
+    border:1px solid #ffcaca;
+}
+
+.success{
+    display:block;
+    background:#e4f8ed;
+    color:#168451;
+    border:1px solid #c3ecd5;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:20px;
+    color:#7d8a9c;
+    font-size:12px;
+}
+
+.login-link a{
+    color:#0787c2;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.back-home{
+    text-align:center;
+    margin-top:17px;
+}
+
+.back-home a{
+    color:#b9cce0;
+    font-size:11px;
+    text-decoration:none;
+}
+
+@media(max-width:500px){
+
+    .register-card{
+        padding:23px 18px;
+    }
+
+    .password-row{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="brand">
+
+        <div class="logo">
+            DTE
+        </div>
+
+        <h2>DTE Student Portal</h2>
+
+        <p>DIGITAL TECH ECOSYSTEM</p>
+
+    </div>
+
+
+    <div class="register-card">
+
+        <h1>Create Student Account</h1>
+
+        <p class="subtitle">
+            Register to start your learning journey with DTE.
+        </p>
+
+
+        <div id="message" class="message"></div>
+
+
+        <form id="registerForm">
+
+
+            <div class="form-group">
+
+                <label>FULL NAME</label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>EMAIL ADDRESS</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>MOBILE NUMBER</label>
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    placeholder="Enter mobile number"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>LEARNING MODE</label>
+
+                <select id="learningMode" required>
+
+                    <option value="">
+                        Select learning mode
+                    </option>
+
+                    <option value="Offline">
+                        Offline Learning
+                    </option>
+
+                    <option value="Online">
+                        Online Learning
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="password-row">
+
+
+                <div class="form-group">
+
+                    <label>PASSWORD</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>CONFIRM PASSWORD</label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="terms">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    required
+                >
+
+                <label for="terms">
+                    I confirm that the information provided
+                    is correct and I agree to follow the
+                    DTE learning program guidelines.
+                </label>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-btn"
+                id="registerButton"
+            >
+                Create Student Account
+            </button>
+
+
+        </form>
+
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login Here
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="back-home">
+
+        <a href="index.html">
+            ← Back to DTE Home
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+
+    authDomain: "dte-learning-portal.firebaseapp.com",
+
+    projectId: "dte-learning-portal",
+
+    storageBucket: "dte-learning-portal.firebasestorage.app",
+
+    messagingSenderId: "229529830631",
+
+    appId: "1:229529830631:web:970c1c827d05795bca4e42"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+const form =
+document.getElementById("registerForm");
+
+const message =
+document.getElementById("message");
+
+const registerButton =
+document.getElementById("registerButton");
+
+
+form.addEventListener(
+"submit",
+async function(event){
+
+    event.preventDefault();
+
+
+    const fullName =
+    document.getElementById("fullName").value.trim();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const mobile =
+    document.getElementById("mobile").value.trim();
+
+    const learningMode =
+    document.getElementById("learningMode").value;
+
+    const password =
+    document.getElementById("password").value;
+
+    const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+
+    message.className = "message";
+    message.textContent = "";
+
+
+    if(password !== confirmPassword){
+
+        showError(
+            "Password and Confirm Password do not match."
+        );
+
+        return;
+    }
+
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        showError(
+            "Please enter a valid 10-digit mobile number."
+        );
+
+        return;
+    }
+
+
+    registerButton.disabled = true;
+
+    registerButton.textContent =
+    "Creating Account...";
+
+
+    try{
+
+
+        /*
+        CREATE FIREBASE AUTH ACCOUNT
+        */
+
+        const userCredential =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        const user =
+        userCredential.user;
+
+
+        /*
+        STORE NAME IN FIREBASE AUTH PROFILE
+        */
+
+        await updateProfile(
+            user,
+            {
+                displayName: fullName
+            }
+        );
+
+
+        /*
+        IMPORTANT
+
+        Mobile Number and Learning Mode
+        are NOT being stored yet.
+
+        We will save them in Firestore
+        in the next stage.
+
+        Password is NEVER stored in Firestore.
+        */
+
+
+        /*
+        Logout after registration.
+
+        Student will login normally
+        from login.html.
+        */
+
+        await signOut(auth);
+
+
+        message.className =
+        "message success";
+
+        message.textContent =
+        "Account created successfully! Redirecting to login...";
+
+
+        setTimeout(
+            function(){
+
+                window.location.replace(
+                    "login.html"
+                );
+
+            },
+            1800
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Registration Error:",
+            error
+        );
+
+
+        if(
+            error.code ===
+            "auth/email-already-in-use"
+        ){
+
+            showError(
+                "This email is already registered."
+            );
+
+        }
+
+        else if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            showError(
+                "Please enter a valid email address."
+            );
+
+        }
+
+        else if(
+            error.code ===
+            "auth/weak-password"
+        ){
+
+            showError(
+                "Password is too weak. Use at least 6 characters."
+            );
+
+        }
+
+        else{
+
+            showError(
+                "Unable to create account. Please try again."
+            );
+
+        }
+
+
+        registerButton.disabled = false;
+
+        registerButton.textContent =
+        "Create Student Account";
+
+    }
+
+});
+
+
+function showError(text){
+
+    message.className =
+    "message error";
+
+    message.textContent =
+    text;
+
+}
+
+</script>
+
+</body>
+</html>
