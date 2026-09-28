@@ -309,10 +309,11 @@ header{
 
 .message{
     display:none;
-    padding:11px 13px;
+    padding:12px 13px;
     border-radius:7px;
     margin-bottom:15px;
     font-size:12px;
+    line-height:1.5;
 }
 
 .error{
@@ -327,6 +328,13 @@ header{
     background:#ebfaf2;
     border:1px solid #aee0c5;
     color:#137b49;
+}
+
+.pending{
+    display:block;
+    background:#fff8e3;
+    border:1px solid #f0d57a;
+    color:#846400;
 }
 
 
@@ -438,9 +446,7 @@ header{
 }
 
 
-/* =========================
-   RESET PASSWORD SECTION
-========================= */
+/* RESET PASSWORD */
 
 .reset-section{
     display:none;
@@ -712,7 +718,7 @@ header{
 <div class="login-card">
 
 
-<!-- ================= LOGIN SECTION ================= -->
+<!-- LOGIN SECTION -->
 
 <div id="loginSection">
 
@@ -864,13 +870,13 @@ id="loginButton">
 <div class="login-note">
 
     <strong>
-        Registered Students
+        DTE Account Approval
     </strong>
 
     <br>
 
-    Login using your registered DTE
-    email address and password.
+    New student accounts require approval from
+    DTE before dashboard access is activated.
 
 </div>
 
@@ -892,7 +898,7 @@ id="loginButton">
 
 
 
-<!-- ================= RESET PASSWORD ================= -->
+<!-- RESET PASSWORD -->
 
 <div
 id="resetSection"
@@ -1009,9 +1015,7 @@ DTE — Digital Tech Ecosystem
 
 
 
-<!-- =====================================
-     FIREBASE
-===================================== -->
+<!-- FIREBASE -->
 
 <script type="module">
 
@@ -1028,16 +1032,24 @@ import {
     sendPasswordResetEmail,
     setPersistence,
     browserLocalPersistence,
-    browserSessionPersistence
+    browserSessionPersistence,
+    signOut
 }
 from
 "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
 
+import {
+    getFirestore,
+    doc,
+    getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-/* ===============================
-   FIREBASE CONFIG
-================================ */
+
+
+/* FIREBASE CONFIG */
 
 const firebaseConfig = {
 
@@ -1069,11 +1081,12 @@ initializeApp(firebaseConfig);
 const auth =
 getAuth(app);
 
+const db =
+getFirestore(app);
 
 
-/* ===============================
-   ELEMENTS
-================================ */
+
+/* ELEMENTS */
 
 const loginSection =
 document.getElementById("loginSection");
@@ -1121,9 +1134,7 @@ document.getElementById("backToLogin");
 
 
 
-/* ===============================
-   MESSAGE FUNCTIONS
-================================ */
+/* MESSAGE FUNCTIONS */
 
 function showMessage(text,type){
 
@@ -1146,9 +1157,7 @@ function showResetMessage(text,type){
 
 
 
-/* ===============================
-   LOGIN
-================================ */
+/* LOGIN */
 
 loginForm.addEventListener(
 "submit",
@@ -1158,10 +1167,17 @@ async function(event){
 
 
     const email =
-    emailInput.value.trim();
+    emailInput.value.trim().toLowerCase();
 
     const password =
     passwordInput.value;
+
+
+    message.className =
+    "message";
+
+    message.textContent =
+    "";
 
 
     if(!email || !password){
@@ -1178,11 +1194,16 @@ async function(event){
     loginButton.disabled = true;
 
     loginButton.textContent =
-    "Signing in...";
+    "Checking Account...";
 
 
     try{
 
+
+        /*
+        STEP 1:
+        SET LOGIN PERSISTENCE
+        */
 
         if(remember.checked){
 
@@ -1204,6 +1225,12 @@ async function(event){
 
 
 
+        /*
+        STEP 2:
+        FIREBASE AUTHENTICATION
+        */
+
+        const userCredential =
         await signInWithEmailAndPassword(
             auth,
             email,
@@ -1211,10 +1238,171 @@ async function(event){
         );
 
 
+        const user =
+        userCredential.user;
+
+
+
+        /*
+        STEP 3:
+        FIND STUDENT PROFILE IN FIRESTORE
+
+        Document path:
+        Students / Firebase UID
+        */
+
+        const studentReference =
+        doc(
+            db,
+            "Students",
+            user.uid
+        );
+
+
+        const studentSnapshot =
+        await getDoc(
+            studentReference
+        );
+
+
+
+        /*
+        STEP 4:
+        BLOCK ACCOUNT IF NO STUDENT PROFILE EXISTS
+        */
+
+        if(!studentSnapshot.exists()){
+
+            await signOut(auth);
+
+            showMessage(
+                "Your DTE student profile was not found. Please contact DTE Admin.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+            "Login to Dashboard →";
+
+            return;
+        }
+
+
+
+        /*
+        STEP 5:
+        READ STUDENT STATUS
+        */
+
+        const studentData =
+        studentSnapshot.data();
+
+        const accountStatus =
+        String(
+            studentData.status || ""
+        ).trim();
+
+
+
+        /*
+        PENDING ACCOUNT
+
+        Authentication may be correct,
+        but dashboard access is denied.
+        */
+
+        if(
+            accountStatus.toLowerCase() ===
+            "pending"
+        ){
+
+            await signOut(auth);
+
+            showMessage(
+                "⏳ Your registration has been received. Your account is currently Pending and waiting for DTE approval. You can login after your account is approved.",
+                "pending"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+            "Login to Dashboard →";
+
+            return;
+        }
+
+
+
+        /*
+        REJECTED ACCOUNT
+        */
+
+        if(
+            accountStatus.toLowerCase() ===
+            "rejected"
+        ){
+
+            await signOut(auth);
+
+            showMessage(
+                "Your DTE account has not been approved. Please contact DTE Admin for more information.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+            "Login to Dashboard →";
+
+            return;
+        }
+
+
+
+        /*
+        ONLY ACTIVE ACCOUNT IS ALLOWED.
+
+        Any unknown status is blocked.
+        */
+
+        if(
+            accountStatus.toLowerCase() !==
+            "active"
+        ){
+
+            await signOut(auth);
+
+            showMessage(
+                "Your DTE account is not active. Please contact DTE Admin.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+            "Login to Dashboard →";
+
+            return;
+        }
+
+
+
+        /*
+        STEP 6:
+        ACTIVE STUDENT
+
+        Dashboard access allowed.
+        */
+
         showMessage(
-            "Login successful. Opening your dashboard...",
+            "Account approved ✓ Login successful. Opening your dashboard...",
             "success"
         );
+
+
+        loginButton.textContent =
+        "Opening Dashboard...";
 
 
         setTimeout(function(){
@@ -1235,8 +1423,32 @@ async function(event){
         );
 
 
+        /*
+        Sign out if Firebase Auth succeeded
+        but another login verification failed.
+        */
+
+        try{
+
+            if(auth.currentUser){
+
+                await signOut(auth);
+
+            }
+
+        }
+        catch(signOutError){
+
+            console.error(
+                "Sign Out Error:",
+                signOutError
+            );
+
+        }
+
+
         let errorMessage =
-        "Unable to login. Please check your email and password.";
+        "Unable to login. Please try again.";
 
 
         if(
@@ -1251,7 +1463,8 @@ async function(event){
         }
 
         else if(
-            error.code === "auth/invalid-email"
+            error.code ===
+            "auth/invalid-email"
         ){
 
             errorMessage =
@@ -1260,7 +1473,8 @@ async function(event){
         }
 
         else if(
-            error.code === "auth/too-many-requests"
+            error.code ===
+            "auth/too-many-requests"
         ){
 
             errorMessage =
@@ -1269,11 +1483,24 @@ async function(event){
         }
 
         else if(
-            error.code === "auth/network-request-failed"
+            error.code ===
+            "auth/network-request-failed"
         ){
 
             errorMessage =
             "Network error. Please check your internet connection.";
+
+        }
+
+        else if(
+            error.code ===
+            "permission-denied" ||
+            error.code ===
+            "firestore/permission-denied"
+        ){
+
+            errorMessage =
+            "Unable to verify your DTE account approval status. Please contact DTE Admin.";
 
         }
 
@@ -1295,9 +1522,7 @@ async function(event){
 
 
 
-/* ===============================
-   OPEN RESET PASSWORD
-================================ */
+/* OPEN RESET PASSWORD */
 
 forgotPassword.addEventListener(
 "click",
@@ -1305,11 +1530,6 @@ function(event){
 
     event.preventDefault();
 
-
-    /*
-    If student already entered email
-    on login page, automatically copy it.
-    */
 
     const existingEmail =
     emailInput.value.trim();
@@ -1346,9 +1566,7 @@ function(event){
 
 
 
-/* ===============================
-   SEND RESET EMAIL
-================================ */
+/* SEND RESET EMAIL */
 
 resetForm.addEventListener(
 "submit",
@@ -1459,9 +1677,7 @@ async function(event){
 
 
 
-/* ===============================
-   BACK TO LOGIN
-================================ */
+/* BACK TO LOGIN */
 
 backToLogin.addEventListener(
 "click",
@@ -1478,11 +1694,6 @@ function(){
     "message";
 
 
-    /*
-    Copy reset email back to login
-    email field for convenience.
-    */
-
     if(resetEmail.value.trim()){
 
         emailInput.value =
@@ -1498,9 +1709,7 @@ function(){
 
 <script>
 
-/* ===============================
-   PASSWORD SHOW / HIDE
-================================ */
+/* PASSWORD SHOW / HIDE */
 
 function togglePassword(){
 
