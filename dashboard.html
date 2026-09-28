@@ -6,6 +6,11 @@
 
 <title>Student Dashboard | DTE</title>
 
+<!--
+    IMPORTANT:
+    Dashboard is hidden by default.
+    Firebase will show it only after login verification.
+-->
 <style>
 
 *{
@@ -14,15 +19,24 @@
     box-sizing:border-box;
 }
 
+html{
+    background:#f3f6fa;
+}
+
+/* SECURITY:
+   Page stays hidden until Firebase confirms login.
+*/
 body{
     font-family:Arial, Helvetica, sans-serif;
     background:#f3f6fa;
     color:#172033;
+    visibility:hidden;
 }
 
 a{
     text-decoration:none;
 }
+
 
 /* ================= SIDEBAR ================= */
 
@@ -87,7 +101,6 @@ a{
     color:#aebed1;
 
     padding:12px 13px;
-
     margin:4px 0;
 
     border-radius:8px;
@@ -125,12 +138,14 @@ a{
     color:white;
 }
 
+
 /* ================= MAIN ================= */
 
 .main{
     margin-left:255px;
     min-height:100vh;
 }
+
 
 /* ================= TOPBAR ================= */
 
@@ -187,6 +202,7 @@ a{
     color:#8290a3;
     font-size:10px;
 }
+
 
 /* ================= CONTENT ================= */
 
@@ -255,6 +271,7 @@ a{
     font-size:11px;
 }
 
+
 /* ================= STATS ================= */
 
 .stats{
@@ -308,6 +325,7 @@ a{
     color:#1488b9;
 }
 
+
 /* ================= GRID ================= */
 
 .dashboard-grid{
@@ -340,6 +358,7 @@ a{
     color:#7b899c;
     font-size:11px;
 }
+
 
 /* ================= PROGRESS ================= */
 
@@ -396,6 +415,7 @@ a{
     background:linear-gradient(90deg,#0b8cc8,#29b8ed);
     border-radius:20px;
 }
+
 
 /* ================= MODULES ================= */
 
@@ -474,6 +494,7 @@ a{
     color:#8b97a8;
 }
 
+
 /* ================= PROFILE ================= */
 
 .profile{
@@ -532,6 +553,7 @@ a{
     font-weight:600;
 }
 
+
 /* ================= NEXT CLASS ================= */
 
 .next-class{
@@ -560,6 +582,7 @@ a{
     margin:5px 0;
 }
 
+
 /* ================= CERTIFICATE ================= */
 
 .certificate-box{
@@ -583,6 +606,7 @@ a{
     font-size:10px;
 }
 
+
 /* ================= FOOTER ================= */
 
 .footer{
@@ -591,6 +615,7 @@ a{
     color:#8a97a7;
     font-size:10px;
 }
+
 
 /* ================= MOBILE ================= */
 
@@ -647,15 +672,16 @@ a{
     .welcome h1{
         font-size:24px;
     }
-
 }
 
 </style>
 </head>
 
+
 <body>
 
-<!-- SIDEBAR -->
+
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
 
@@ -675,6 +701,7 @@ a{
 
     <p class="menu-title">MAIN MENU</p>
 
+
     <ul class="menu">
 
         <li>
@@ -684,19 +711,19 @@ a{
         </li>
 
         <li>
-            <a href="#">
+            <a href="profile.html">
                 👤 My Profile
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="courses.html">
                 📚 My Learning
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="attendance.html">
                 📅 Attendance
             </a>
         </li>
@@ -708,13 +735,13 @@ a{
         </li>
 
         <li>
-            <a href="#">
+            <a href="projects.html">
                 🚀 Projects
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="certificates.html">
                 🏆 Certificates
             </a>
         </li>
@@ -723,6 +750,7 @@ a{
 
 
     <p class="menu-title">SUPPORT</p>
+
 
     <ul class="menu">
 
@@ -735,9 +763,11 @@ a{
     </ul>
 
 
+    <!-- REAL FIREBASE LOGOUT -->
+
     <div class="logout">
 
-        <a href="login.html">
+        <a href="#" id="logoutButton">
             ↪ Logout
         </a>
 
@@ -746,12 +776,13 @@ a{
 </aside>
 
 
-<!-- MAIN -->
+
+<!-- ================= MAIN ================= -->
 
 <div class="main">
 
 
-<!-- TOPBAR -->
+<!-- ================= TOPBAR ================= -->
 
 <div class="topbar">
 
@@ -788,12 +819,12 @@ a{
 
 
 
-<!-- CONTENT -->
+<!-- ================= CONTENT ================= -->
 
 <div class="content">
 
 
-<!-- WELCOME -->
+<!-- ================= WELCOME ================= -->
 
 <div class="welcome">
 
@@ -835,7 +866,7 @@ a{
 
 
 
-<!-- STATS -->
+<!-- ================= STATS ================= -->
 
 <div class="stats">
 
@@ -931,12 +962,12 @@ a{
 
 
 
-<!-- MAIN GRID -->
+<!-- ================= MAIN GRID ================= -->
 
 <div class="dashboard-grid">
 
 
-<!-- LEFT -->
+<!-- ================= LEFT ================= -->
 
 <div>
 
@@ -1000,7 +1031,7 @@ a{
 
 
 
-<!-- CURRENT LEARNING -->
+<!-- ================= LEARNING SESSIONS ================= -->
 
 <div class="card">
 
@@ -1014,6 +1045,8 @@ a{
 
     </div>
 
+
+    <!-- SESSION 1 -->
 
     <div class="module">
 
@@ -1044,6 +1077,8 @@ a{
     </div>
 
 
+    <!-- SESSION 2 -->
+
     <div class="module">
 
         <div class="module-left">
@@ -1072,6 +1107,8 @@ a{
 
     </div>
 
+
+    <!-- SESSION 3 -->
 
     <div class="module">
 
@@ -1102,6 +1139,8 @@ a{
     </div>
 
 
+    <!-- SESSION 4 -->
+
     <div class="module">
 
         <div class="module-left">
@@ -1130,6 +1169,8 @@ a{
 
     </div>
 
+
+    <!-- SESSION 5 -->
 
     <div class="module">
 
@@ -1167,12 +1208,12 @@ a{
 
 
 
-<!-- RIGHT -->
+<!-- ================= RIGHT ================= -->
 
 <div>
 
 
-<!-- PROFILE -->
+<!-- ================= PROFILE ================= -->
 
 <div class="card profile">
 
@@ -1250,7 +1291,7 @@ a{
 
 
 
-<!-- NEXT CLASS -->
+<!-- ================= NEXT CLASS ================= -->
 
 <div class="card next-class">
 
@@ -1278,7 +1319,7 @@ a{
 
 
 
-<!-- CERTIFICATE -->
+<!-- ================= CERTIFICATE ================= -->
 
 <div class="card">
 
@@ -1322,7 +1363,8 @@ a{
 </div>
 
 
-<!-- FOOTER -->
+
+<!-- ================= FOOTER ================= -->
 
 <div class="footer">
 
@@ -1333,6 +1375,227 @@ a{
 
 
 </div>
+
+
+
+<!-- =====================================================
+     FIREBASE AUTHENTICATION SECURITY
+====================================================== -->
+
+<script type="module">
+
+/*
+=====================================================
+IMPORT FIREBASE
+=====================================================
+*/
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+
+/*
+=====================================================
+FIREBASE CONFIGURATION
+=====================================================
+*/
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+
+    authDomain: "dte-learning-portal.firebaseapp.com",
+
+    projectId: "dte-learning-portal",
+
+    storageBucket: "dte-learning-portal.firebasestorage.app",
+
+    messagingSenderId: "229529830631",
+
+    appId: "1:229529830631:web:970c1c827d05795bca4e42"
+
+};
+
+
+/*
+=====================================================
+INITIALIZE FIREBASE
+=====================================================
+*/
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+/*
+=====================================================
+DASHBOARD AUTHENTICATION GUARD
+=====================================================
+
+Firebase checks whether the visitor has
+a valid authenticated session.
+
+Logged in:
+    Dashboard becomes visible.
+
+Not logged in:
+    Redirect to login.html.
+
+=====================================================
+*/
+
+onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        /*
+        ---------------------------------------------
+        AUTHENTICATED STUDENT
+        ---------------------------------------------
+        */
+
+        console.log(
+            "DTE authenticated student:",
+            user.email
+        );
+
+
+        /*
+        Authentication successful.
+        Now display dashboard.
+        */
+
+        document.body.style.visibility = "visible";
+
+
+        /*
+        Firestore will be connected later.
+
+        Then these demo values will automatically
+        change according to each student's account:
+
+        Name
+        Student ID
+        Profile
+        Attendance
+        Progress
+        Projects
+        Sessions
+        Certificate
+        etc.
+        */
+
+    }
+
+    else {
+
+        /*
+        ---------------------------------------------
+        NOT AUTHENTICATED
+        ---------------------------------------------
+        */
+
+        console.log(
+            "Dashboard access denied."
+        );
+
+
+        /*
+        Direct dashboard URL access is blocked.
+        */
+
+        window.location.replace(
+            "login.html"
+        );
+
+    }
+
+});
+
+
+/*
+=====================================================
+REAL FIREBASE LOGOUT
+=====================================================
+*/
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+
+logoutButton.addEventListener(
+    "click",
+    async function(event){
+
+        event.preventDefault();
+
+
+        /*
+        Prevent repeated logout clicks
+        while Firebase is processing.
+        */
+
+        logoutButton.style.pointerEvents = "none";
+
+        logoutButton.textContent =
+        "Logging out...";
+
+
+        try {
+
+            /*
+            Remove Firebase authentication session.
+            */
+
+            await signOut(auth);
+
+
+            /*
+            Return student to login page.
+            */
+
+            window.location.replace(
+                "login.html"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(
+                "DTE Logout Error:",
+                error
+            );
+
+
+            /*
+            Restore logout button if an error occurs.
+            */
+
+            logoutButton.style.pointerEvents = "auto";
+
+            logoutButton.textContent =
+            "↪ Logout";
+
+
+            alert(
+                "Unable to logout. Please try again."
+            );
+
+        }
+
+    }
+);
+
+</script>
 
 
 </body>
