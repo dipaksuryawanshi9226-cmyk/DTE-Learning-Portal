@@ -100,7 +100,7 @@ header{
 .nav-links{
     display:flex;
     align-items:center;
-    gap:27px;
+    gap:22px;
     list-style:none;
 }
 
@@ -116,7 +116,7 @@ header{
 }
 
 .login-btn{
-    padding:10px 20px;
+    padding:10px 18px;
     border:2px solid #ffc532;
     border-radius:30px;
 }
@@ -124,6 +124,21 @@ header{
 .login-btn:hover{
     background:#ffc532;
     color:#07152e !important;
+}
+
+.register-btn{
+    padding:11px 20px;
+    border-radius:30px;
+    background:#ffc532;
+    color:#06152e !important;
+    font-weight:bold !important;
+    border:2px solid #ffc532;
+}
+
+.register-btn:hover{
+    background:#ffd65e;
+    border-color:#ffd65e;
+    color:#06152e !important;
 }
 
 
@@ -228,6 +243,7 @@ header{
 
 .hero-buttons{
     display:flex;
+    flex-wrap:wrap;
     gap:15px;
 }
 
@@ -266,6 +282,27 @@ header{
 .btn-secondary:hover{
     background:#45bff1;
     color:#06152e;
+}
+
+.btn-register{
+    color:#06152e;
+
+    padding:14px 27px;
+
+    background:#4cc9ff;
+
+    border:1px solid #4cc9ff;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.btn-register:hover{
+    transform:translateY(-3px);
+    background:#7ad8ff;
 }
 
 
@@ -350,7 +387,6 @@ header{
 
 .stats{
     background:white;
-
     box-shadow:0 10px 30px rgba(0,0,0,.06);
 }
 
@@ -362,7 +398,6 @@ header{
 .stat{
     padding:28px;
     text-align:center;
-
     border-right:1px solid #e6ebf2;
 }
 
@@ -429,40 +464,28 @@ section{
 
 .course-card{
     background:white;
-
     padding:30px;
-
     border-radius:15px;
-
     border:1px solid #e5eaf1;
-
     box-shadow:0 8px 25px rgba(8,35,70,.05);
-
     transition:.3s;
 }
 
 .course-card:hover{
     transform:translateY(-7px);
-
     box-shadow:0 18px 40px rgba(8,35,70,.12);
-
     border-color:#65c9f1;
 }
 
 .course-icon{
     width:58px;
     height:58px;
-
     border-radius:12px;
-
     background:#e9f7fd;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:27px;
-
     margin-bottom:18px;
 }
 
@@ -489,11 +512,8 @@ section{
 
 .mode{
     padding:38px;
-
     border-radius:17px;
-
     position:relative;
-
     overflow:hidden;
 }
 
@@ -565,13 +585,9 @@ section{
 
 .feature-card{
     background:#0b2244;
-
     border:1px solid #183a63;
-
     padding:27px;
-
     border-radius:13px;
-
     transition:.3s;
 }
 
@@ -615,6 +631,13 @@ section{
     margin-bottom:28px;
 }
 
+.cta-buttons{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
 
 /* =========================
    CONTACT
@@ -644,13 +667,9 @@ section{
 
 .contact-box{
     background:white;
-
     padding:18px;
-
     margin-bottom:12px;
-
     border-radius:10px;
-
     border:1px solid #e0e7ef;
 }
 
@@ -663,15 +682,15 @@ section{
     font-size:14px;
 }
 
+.contact-box a{
+    color:#0879b9;
+}
+
 .founder-box{
     background:#07152e;
-
     padding:40px;
-
     border-radius:18px;
-
     color:white;
-
     box-shadow:0 20px 50px rgba(5,25,55,.15);
 }
 
@@ -747,12 +766,9 @@ footer{
 
 .copyright{
     border-top:1px solid #16233a;
-
     margin-top:35px;
     padding-top:20px;
-
     text-align:center;
-
     font-size:12px;
 }
 
@@ -760,6 +776,22 @@ footer{
 /* =========================
    RESPONSIVE
 ========================= */
+
+@media(max-width:1000px){
+
+    .nav-links{
+        gap:13px;
+    }
+
+    .nav-links a{
+        font-size:12px;
+    }
+
+    .login-btn,
+    .register-btn{
+        padding:8px 12px;
+    }
+}
 
 @media(max-width:900px){
 
@@ -787,9 +819,7 @@ footer{
     .nav-links{
         display:none;
     }
-
 }
-
 
 @media(max-width:600px){
 
@@ -833,11 +863,13 @@ footer{
         font-size:30px;
     }
 
+    .cta-buttons{
+        flex-direction:column;
+    }
 }
 
 </style>
 </head>
-
 
 <body>
 
@@ -877,6 +909,12 @@ footer{
         <li>
             <a class="login-btn" href="login.html">
                 Student Login
+            </a>
+        </li>
+
+        <li>
+            <a class="register-btn" href="register.html">
+                Register
             </a>
         </li>
 
@@ -936,6 +974,10 @@ footer{
 
         <a href="login.html" class="btn-primary">
             🎓 Student Login
+        </a>
+
+        <a href="register.html" class="btn-register">
+            ✨ Register Now
         </a>
 
         <a href="#courses" class="btn-secondary">
@@ -1221,17 +1263,11 @@ footer{
     <ul>
 
         <li>Instructor Guided Sessions</li>
-
         <li>Hands-on Practical Learning</li>
-
         <li>Weekly Classes</li>
-
         <li>Attendance Tracking</li>
-
         <li>Assignments & Projects</li>
-
         <li>Progress Tracking</li>
-
         <li>Completion Certificate</li>
 
     </ul>
@@ -1256,17 +1292,11 @@ footer{
     <ul>
 
         <li>Online Learning Sessions</li>
-
         <li>Personal Student Dashboard</li>
-
         <li>Course Progress Tracking</li>
-
         <li>Learning Resources</li>
-
         <li>Assignments & Projects</li>
-
         <li>Session Updates</li>
-
         <li>Digital Certificates</li>
 
     </ul>
@@ -1410,13 +1440,21 @@ footer{
     <h2>Start Your Learning Journey</h2>
 
     <p>
-        Registered students can access their
-        personal learning dashboard.
+        Create your DTE student account or login
+        to access your personal learning dashboard.
     </p>
 
-    <a href="login.html" class="btn-primary">
-        Login to Student Portal →
-    </a>
+    <div class="cta-buttons">
+
+        <a href="register.html" class="btn-primary">
+            Create Student Account →
+        </a>
+
+        <a href="login.html" class="btn-secondary">
+            Student Login
+        </a>
+
+    </div>
 
 </div>
 
@@ -1451,7 +1489,9 @@ footer{
         <strong>📱 Contact</strong>
 
         <p>
-            +91 XXXXX XXXXX
+            <a href="tel:+919226747818">
+                +91 9226747818
+            </a>
         </p>
 
     </div>
@@ -1462,7 +1502,9 @@ footer{
         <strong>📧 Email</strong>
 
         <p>
-            your-email@example.com
+            <a href="mailto:dipaksuryawanshi205@gmail.com">
+                dipaksuryawanshi205@gmail.com
+            </a>
         </p>
 
     </div>
@@ -1548,12 +1590,16 @@ footer{
 
     <a href="#portal">Student Portal</a>
 
+    <a href="#contact">Contact</a>
+
 </div>
 
 
 <div class="footer-links">
 
     <h3>Student</h3>
+
+    <a href="register.html">Student Registration</a>
 
     <a href="login.html">Student Login</a>
 
