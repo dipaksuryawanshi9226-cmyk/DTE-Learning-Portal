@@ -6,13 +6,7 @@
 
 <title>Student Dashboard | DTE</title>
 
-<!--
-    IMPORTANT:
-    Dashboard is hidden by default.
-    Firebase will show it only after login verification.
--->
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -23,9 +17,6 @@ html{
     background:#f3f6fa;
 }
 
-/* SECURITY:
-   Page stays hidden until Firebase confirms login.
-*/
 body{
     font-family:Arial, Helvetica, sans-serif;
     background:#f3f6fa;
@@ -36,7 +27,6 @@ body{
 a{
     text-decoration:none;
 }
-
 
 /* ================= SIDEBAR ================= */
 
@@ -49,6 +39,7 @@ a{
     top:0;
     padding:25px 18px;
     color:white;
+    overflow-y:auto;
 }
 
 .brand{
@@ -65,11 +56,9 @@ a{
     background:linear-gradient(135deg,#19b9f2,#0756a5);
     border:2px solid #ffc532;
     border-radius:50%;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-weight:bold;
 }
 
@@ -97,16 +86,11 @@ a{
     display:flex;
     align-items:center;
     gap:12px;
-
     color:#aebed1;
-
     padding:12px 13px;
     margin:4px 0;
-
     border-radius:8px;
-
     font-size:13px;
-
     transition:.3s;
 }
 
@@ -117,10 +101,7 @@ a{
 }
 
 .logout{
-    position:absolute;
-    bottom:25px;
-    left:18px;
-    right:18px;
+    margin-top:30px;
 }
 
 .logout a{
@@ -138,7 +119,6 @@ a{
     color:white;
 }
 
-
 /* ================= MAIN ================= */
 
 .main{
@@ -146,19 +126,15 @@ a{
     min-height:100vh;
 }
 
-
 /* ================= TOPBAR ================= */
 
 .topbar{
     background:white;
     height:75px;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:0 35px;
-
     border-bottom:1px solid #e1e7ef;
 }
 
@@ -182,15 +158,11 @@ a{
 .top-avatar{
     width:42px;
     height:42px;
-
     border-radius:50%;
-
     background:#dff4fc;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:19px;
 }
 
@@ -203,7 +175,6 @@ a{
     font-size:10px;
 }
 
-
 /* ================= CONTENT ================= */
 
 .content{
@@ -212,22 +183,17 @@ a{
     margin:auto;
 }
 
+/* ================= WELCOME ================= */
+
 .welcome{
-    background:
-    linear-gradient(110deg,#071a38,#0b4771);
-
+    background:linear-gradient(110deg,#071a38,#0b4771);
     border-radius:17px;
-
     padding:32px;
-
     color:white;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     margin-bottom:25px;
-
     box-shadow:0 10px 30px rgba(7,35,70,.12);
 }
 
@@ -271,7 +237,6 @@ a{
     font-size:11px;
 }
 
-
 /* ================= STATS ================= */
 
 .stats{
@@ -297,15 +262,11 @@ a{
 .stat-icon{
     width:42px;
     height:42px;
-
     border-radius:9px;
-
     background:#eaf7fc;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:19px;
 }
 
@@ -324,7 +285,6 @@ a{
     font-size:10px;
     color:#1488b9;
 }
-
 
 /* ================= GRID ================= */
 
@@ -359,7 +319,6 @@ a{
     font-size:11px;
 }
 
-
 /* ================= PROGRESS ================= */
 
 .current-course{
@@ -371,15 +330,11 @@ a{
 .course-icon{
     width:55px;
     height:55px;
-
     background:#e8f6fc;
-
     border-radius:11px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:25px;
 }
 
@@ -411,11 +366,11 @@ a{
 
 .progress-fill{
     height:100%;
-    width:35%;
+    width:0%;
     background:linear-gradient(90deg,#0b8cc8,#29b8ed);
     border-radius:20px;
+    transition:width .5s ease;
 }
-
 
 /* ================= MODULES ================= */
 
@@ -423,9 +378,7 @@ a{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     padding:13px 0;
-
     border-bottom:1px solid #edf0f4;
 }
 
@@ -442,13 +395,10 @@ a{
 .module-status{
     width:30px;
     height:30px;
-
     border-radius:50%;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:12px;
 }
 
@@ -494,7 +444,6 @@ a{
     color:#8b97a8;
 }
 
-
 /* ================= PROFILE ================= */
 
 .profile{
@@ -504,19 +453,13 @@ a{
 .profile-photo{
     width:85px;
     height:85px;
-
     border-radius:50%;
-
     margin:auto;
-
     background:#e6f5fb;
-
     border:3px solid #14a6df;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     font-size:36px;
 }
 
@@ -553,7 +496,6 @@ a{
     font-weight:600;
 }
 
-
 /* ================= NEXT CLASS ================= */
 
 .next-class{
@@ -582,7 +524,6 @@ a{
     margin:5px 0;
 }
 
-
 /* ================= CERTIFICATE ================= */
 
 .certificate-box{
@@ -606,6 +547,18 @@ a{
     font-size:10px;
 }
 
+/* ================= ERROR ================= */
+
+.database-error{
+    display:none;
+    background:#fff3f3;
+    border:1px solid #f1b8b8;
+    color:#a82d2d;
+    padding:15px 18px;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-size:12px;
+}
 
 /* ================= FOOTER ================= */
 
@@ -616,12 +569,7 @@ a{
     font-size:10px;
 }
 
-
 /* ================= MOBILE ================= */
-
-.mobile-menu{
-    display:none;
-}
 
 @media(max-width:1000px){
 
@@ -673,13 +621,10 @@ a{
         font-size:24px;
     }
 }
-
 </style>
 </head>
 
-
 <body>
-
 
 <!-- ================= SIDEBAR ================= -->
 
@@ -698,9 +643,7 @@ a{
 
     </div>
 
-
     <p class="menu-title">MAIN MENU</p>
-
 
     <ul class="menu">
 
@@ -748,9 +691,7 @@ a{
 
     </ul>
 
-
     <p class="menu-title">SUPPORT</p>
-
 
     <ul class="menu">
 
@@ -762,38 +703,27 @@ a{
 
     </ul>
 
-
-    <!-- REAL FIREBASE LOGOUT -->
-
     <div class="logout">
-
         <a href="#" id="logoutButton">
             ↪ Logout
         </a>
-
     </div>
 
 </aside>
-
 
 
 <!-- ================= MAIN ================= -->
 
 <div class="main">
 
-
 <!-- ================= TOPBAR ================= -->
 
 <div class="topbar">
 
     <div class="topbar-left">
-
         <h2>Student Dashboard</h2>
-
         <p>DTE Digital Tech Ecosystem</p>
-
     </div>
-
 
     <div class="top-user">
 
@@ -804,7 +734,7 @@ a{
         <div>
 
             <h4 id="topName">
-                Demo Student
+                Loading...
             </h4>
 
             <p>
@@ -818,11 +748,13 @@ a{
 </div>
 
 
-
 <!-- ================= CONTENT ================= -->
 
 <div class="content">
 
+<div class="database-error" id="databaseError">
+    Unable to load your student profile. Please contact DTE Support.
+</div>
 
 <!-- ================= WELCOME ================= -->
 
@@ -837,7 +769,7 @@ a{
         <h1>
             Hello,
             <span id="studentName">
-                Demo Student
+                Student
             </span>
             👋
         </h1>
@@ -849,15 +781,14 @@ a{
 
     </div>
 
-
     <div class="student-badge">
 
-        <span>
-            OFFLINE STUDENT
+        <span id="studentModeBadge">
+            STUDENT
         </span>
 
-        <p>
-            Member since September 2026
+        <p id="memberSince">
+            DTE Learning Portal
         </p>
 
     </div>
@@ -865,11 +796,9 @@ a{
 </div>
 
 
-
 <!-- ================= STATS ================= -->
 
 <div class="stats">
-
 
 <div class="stat-card">
 
@@ -885,12 +814,13 @@ a{
 
     </div>
 
-    <h2>35%</h2>
+    <h2 id="courseProgress">
+        0%
+    </h2>
 
     <p>Course Completed</p>
 
 </div>
-
 
 
 <div class="stat-card">
@@ -907,12 +837,13 @@ a{
 
     </div>
 
-    <h2>82%</h2>
+    <h2 id="attendanceValue">
+        0%
+    </h2>
 
     <p>Overall Attendance</p>
 
 </div>
-
 
 
 <div class="stat-card">
@@ -929,12 +860,13 @@ a{
 
     </div>
 
-    <h2>3 / 4</h2>
+    <h2 id="weeklyClasses">
+        0 / 0
+    </h2>
 
     <p>Classes Attended</p>
 
 </div>
-
 
 
 <div class="stat-card">
@@ -951,26 +883,24 @@ a{
 
     </div>
 
-    <h2>2</h2>
+    <h2 id="projectsCompleted">
+        0
+    </h2>
 
     <p>Projects Completed</p>
 
 </div>
 
-
 </div>
-
 
 
 <!-- ================= MAIN GRID ================= -->
 
 <div class="dashboard-grid">
 
-
 <!-- ================= LEFT ================= -->
 
 <div>
-
 
 <!-- COURSE PROGRESS -->
 
@@ -995,8 +925,8 @@ a{
 
         <div>
 
-            <h4>
-                Cyber Security & Digital Skills
+            <h4 id="programName">
+                Loading Program...
             </h4>
 
             <p>
@@ -1014,8 +944,8 @@ a{
             Overall Progress
         </span>
 
-        <strong>
-            35%
+        <strong id="progressText">
+            0%
         </strong>
 
     </div>
@@ -1023,12 +953,14 @@ a{
 
     <div class="progress-bar">
 
-        <div class="progress-fill"></div>
+        <div
+            class="progress-fill"
+            id="progressFill">
+        </div>
 
     </div>
 
 </div>
-
 
 
 <!-- ================= LEARNING SESSIONS ================= -->
@@ -1120,12 +1052,12 @@ a{
 
             <div>
 
-                <h4>
-                    Laptop Security Basics
+                <h4 id="currentSessionModule">
+                    Not Started
                 </h4>
 
                 <p>
-                    Session 03
+                    Current Session
                 </p>
 
             </div>
@@ -1156,7 +1088,7 @@ a{
                 </h4>
 
                 <p>
-                    Session 04
+                    Upcoming Session
                 </p>
 
             </div>
@@ -1200,18 +1132,14 @@ a{
 
     </div>
 
-
 </div>
 
-
 </div>
-
 
 
 <!-- ================= RIGHT ================= -->
 
 <div>
-
 
 <!-- ================= PROFILE ================= -->
 
@@ -1222,11 +1150,11 @@ a{
     </div>
 
     <h3 id="profileName">
-        Demo Student
+        Loading...
     </h3>
 
-    <p class="id">
-        DTE-OFF-001
+    <p class="id" id="studentId">
+        DTE STUDENT
     </p>
 
 
@@ -1236,11 +1164,37 @@ a{
         <div class="detail">
 
             <label>
+                EMAIL
+            </label>
+
+            <span id="studentEmail">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <label>
+                MOBILE
+            </label>
+
+            <span id="studentMobile">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <label>
                 LEARNING MODE
             </label>
 
-            <span>
-                Offline Learning
+            <span id="learningMode">
+                Loading...
             </span>
 
         </div>
@@ -1252,21 +1206,8 @@ a{
                 PROGRAM
             </label>
 
-            <span>
-                DTE Practical Learning
-            </span>
-
-        </div>
-
-
-        <div class="detail">
-
-            <label>
-                JOINING DATE
-            </label>
-
-            <span>
-                September 2026
+            <span id="profileProgram">
+                Loading...
             </span>
 
         </div>
@@ -1278,17 +1219,17 @@ a{
                 STATUS
             </label>
 
-            <span style="color:#168f59;">
-                ● Active Student
+            <span
+                id="studentStatus"
+                style="color:#168f59;">
+                ● Loading...
             </span>
 
         </div>
 
-
     </div>
 
 </div>
-
 
 
 <!-- ================= NEXT CLASS ================= -->
@@ -1296,11 +1237,11 @@ a{
 <div class="card next-class">
 
     <span class="class-tag">
-        NEXT SESSION
+        CURRENT / NEXT SESSION
     </span>
 
-    <h2>
-        Laptop Security Basics
+    <h2 id="nextSessionName">
+        Not Started
     </h2>
 
     <p>
@@ -1311,12 +1252,11 @@ a{
         🕐 Time: To Be Announced
     </p>
 
-    <p>
-        📍 Offline Session
+    <p id="sessionMode">
+        📍 DTE Learning Session
     </p>
 
 </div>
-
 
 
 <!-- ================= CERTIFICATE ================= -->
@@ -1354,14 +1294,11 @@ a{
 
 </div>
 
-
-</div>
-
-
 </div>
 
 </div>
 
+</div>
 
 
 <!-- ================= FOOTER ================= -->
@@ -1373,25 +1310,24 @@ a{
 
 </div>
 
-
 </div>
 
 
-
 <!-- =====================================================
-     FIREBASE AUTHENTICATION SECURITY
+     FIREBASE AUTHENTICATION + FIRESTORE
 ====================================================== -->
 
 <script type="module">
 
-/*
-=====================================================
-IMPORT FIREBASE
-=====================================================
-*/
+/* ================= FIREBASE APP ================= */
 
-import { initializeApp }
+import {
+    initializeApp
+}
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+
+/* ================= AUTHENTICATION ================= */
 
 import {
     getAuth,
@@ -1401,11 +1337,17 @@ import {
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
 
-/*
-=====================================================
-FIREBASE CONFIGURATION
-=====================================================
-*/
+/* ================= FIRESTORE ================= */
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
@@ -1424,111 +1366,516 @@ const firebaseConfig = {
 };
 
 
-/*
-=====================================================
-INITIALIZE FIREBASE
-=====================================================
-*/
+/* ================= INITIALIZE ================= */
 
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
+const db = getFirestore(app);
 
-/*
-=====================================================
-DASHBOARD AUTHENTICATION GUARD
-=====================================================
 
-Firebase checks whether the visitor has
-a valid authenticated session.
+/* =====================================================
+   HELPER FUNCTION
+===================================================== */
 
-Logged in:
-    Dashboard becomes visible.
+function safeNumber(value){
 
-Not logged in:
-    Redirect to login.html.
+    const number = Number(value);
 
-=====================================================
-*/
+    if(Number.isFinite(number)){
+        return number;
+    }
 
-onAuthStateChanged(auth, (user) => {
+    return 0;
+}
 
-    if (user) {
+
+/* =====================================================
+   LOAD STUDENT DATA
+===================================================== */
+
+async function loadStudentData(user){
+
+    try{
 
         /*
-        ---------------------------------------------
-        AUTHENTICATED STUDENT
-        ---------------------------------------------
+        IMPORTANT:
+
+        Firestore collection is named exactly:
+
+        Students
+
+        Capital S is intentional because
+        Firestore collection names are case-sensitive.
         */
 
+        const studentReference =
+        doc(
+            db,
+            "Students",
+            user.uid
+        );
+
+
+        const studentSnapshot =
+        await getDoc(studentReference);
+
+
+        /*
+        -----------------------------------------
+        PROFILE DOCUMENT NOT FOUND
+        -----------------------------------------
+        */
+
+        if(!studentSnapshot.exists()){
+
+            console.error(
+                "No Firestore student profile found for UID:",
+                user.uid
+            );
+
+            document.getElementById(
+                "databaseError"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "databaseError"
+            ).textContent =
+            "Your login account is valid, but your DTE student profile was not found. Please contact DTE Support.";
+
+
+            /*
+            We can still show authenticated email.
+            */
+
+            document.getElementById(
+                "topName"
+            ).textContent =
+            user.displayName || "DTE Student";
+
+
+            document.getElementById(
+                "studentName"
+            ).textContent =
+            user.displayName || "Student";
+
+
+            document.getElementById(
+                "profileName"
+            ).textContent =
+            user.displayName || "DTE Student";
+
+
+            document.getElementById(
+                "studentEmail"
+            ).textContent =
+            user.email || "Not Available";
+
+
+            return;
+        }
+
+
+        /*
+        -----------------------------------------
+        FIRESTORE DATA
+        -----------------------------------------
+        */
+
+        const data =
+        studentSnapshot.data();
+
+
         console.log(
-            "DTE authenticated student:",
-            user.email
+            "DTE Firestore Student Data:",
+            data
         );
 
 
         /*
-        Authentication successful.
-        Now display dashboard.
+        -----------------------------------------
+        BASIC PROFILE
+        -----------------------------------------
         */
 
-        document.body.style.visibility = "visible";
+        const name =
+        data.name ||
+        user.displayName ||
+        "DTE Student";
+
+
+        const email =
+        data.email ||
+        user.email ||
+        "Not Available";
+
+
+        const mobile =
+        data.mobile ||
+        "Not Added";
+
+
+        const mode =
+        data.mode ||
+        "Not Assigned";
+
+
+        const program =
+        data.program ||
+        "DTE Learning Program";
+
+
+        const status =
+        data.status ||
+        "Active";
 
 
         /*
-        Firestore will be connected later.
-
-        Then these demo values will automatically
-        change according to each student's account:
-
-        Name
-        Student ID
-        Profile
-        Attendance
-        Progress
-        Projects
-        Sessions
-        Certificate
-        etc.
+        -----------------------------------------
+        NUMERIC DATA
+        -----------------------------------------
         */
+
+        let progress =
+        safeNumber(data.progress);
+
+
+        let attendance =
+        safeNumber(data.attendance);
+
+
+        const weeklyAttended =
+        safeNumber(data.weeklyAttended);
+
+
+        const weeklyTotal =
+        safeNumber(data.weeklyTotal);
+
+
+        const projectsCompleted =
+        safeNumber(data.projectsCompleted);
+
+
+        /*
+        Keep percentage values in valid range.
+        */
+
+        progress =
+        Math.min(
+            100,
+            Math.max(0, progress)
+        );
+
+
+        attendance =
+        Math.min(
+            100,
+            Math.max(0, attendance)
+        );
+
+
+        const currentSession =
+        data.currentSession ||
+        "Not Started";
+
+
+        /*
+        -----------------------------------------
+        TOP BAR
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "topName"
+        ).textContent = name;
+
+
+        /*
+        -----------------------------------------
+        WELCOME SECTION
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "studentName"
+        ).textContent = name;
+
+
+        document.getElementById(
+            "studentModeBadge"
+        ).textContent =
+        mode.toUpperCase() + " STUDENT";
+
+
+        /*
+        -----------------------------------------
+        STAT CARDS
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "courseProgress"
+        ).textContent =
+        progress + "%";
+
+
+        document.getElementById(
+            "attendanceValue"
+        ).textContent =
+        attendance + "%";
+
+
+        document.getElementById(
+            "weeklyClasses"
+        ).textContent =
+        weeklyAttended +
+        " / " +
+        weeklyTotal;
+
+
+        document.getElementById(
+            "projectsCompleted"
+        ).textContent =
+        projectsCompleted;
+
+
+        /*
+        -----------------------------------------
+        COURSE PROGRESS
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "programName"
+        ).textContent =
+        program;
+
+
+        document.getElementById(
+            "progressText"
+        ).textContent =
+        progress + "%";
+
+
+        document.getElementById(
+            "progressFill"
+        ).style.width =
+        progress + "%";
+
+
+        /*
+        -----------------------------------------
+        CURRENT SESSION
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "currentSessionModule"
+        ).textContent =
+        currentSession;
+
+
+        document.getElementById(
+            "nextSessionName"
+        ).textContent =
+        currentSession;
+
+
+        /*
+        -----------------------------------------
+        PROFILE CARD
+        -----------------------------------------
+        */
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+        name;
+
+
+        /*
+        If studentId does not exist yet,
+        show DTE STUDENT.
+
+        Later we can add studentId field
+        in Firestore.
+        */
+
+        document.getElementById(
+            "studentId"
+        ).textContent =
+        data.studentId ||
+        "DTE STUDENT";
+
+
+        document.getElementById(
+            "studentEmail"
+        ).textContent =
+        email;
+
+
+        document.getElementById(
+            "studentMobile"
+        ).textContent =
+        mobile;
+
+
+        document.getElementById(
+            "learningMode"
+        ).textContent =
+        mode + " Learning";
+
+
+        document.getElementById(
+            "profileProgram"
+        ).textContent =
+        program;
+
+
+        document.getElementById(
+            "studentStatus"
+        ).textContent =
+        "● " + status + " Student";
+
+
+        /*
+        -----------------------------------------
+        SESSION MODE
+        -----------------------------------------
+        */
+
+        if(
+            mode.toLowerCase() ===
+            "offline"
+        ){
+
+            document.getElementById(
+                "sessionMode"
+            ).textContent =
+            "📍 Offline Session";
+
+        }
+
+        else if(
+            mode.toLowerCase() ===
+            "online"
+        ){
+
+            document.getElementById(
+                "sessionMode"
+            ).textContent =
+            "🌐 Online Session";
+
+        }
+
+        else{
+
+            document.getElementById(
+                "sessionMode"
+            ).textContent =
+            "📍 DTE Learning Session";
+
+        }
 
     }
 
-    else {
+    catch(error){
 
-        /*
-        ---------------------------------------------
-        NOT AUTHENTICATED
-        ---------------------------------------------
-        */
-
-        console.log(
-            "Dashboard access denied."
+        console.error(
+            "DTE Firestore Error:",
+            error
         );
 
 
-        /*
-        Direct dashboard URL access is blocked.
-        */
+        document.getElementById(
+            "databaseError"
+        ).style.display =
+        "block";
 
-        window.location.replace(
-            "login.html"
-        );
+
+        document.getElementById(
+            "databaseError"
+        ).textContent =
+        "Unable to load student data from DTE database. Please try again later.";
 
     }
 
-});
+}
 
 
-/*
-=====================================================
-REAL FIREBASE LOGOUT
-=====================================================
-*/
+/* =====================================================
+   AUTHENTICATION GUARD
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        /*
+        -----------------------------------------
+        USER LOGGED IN
+        -----------------------------------------
+        */
+
+        if(user){
+
+            console.log(
+                "DTE authenticated student:",
+                user.email
+            );
+
+
+            /*
+            First load the Firestore profile.
+            */
+
+            await loadStudentData(user);
+
+
+            /*
+            Only after authentication check
+            show the dashboard.
+            */
+
+            document.body.style.visibility =
+            "visible";
+
+        }
+
+
+        /*
+        -----------------------------------------
+        USER NOT LOGGED IN
+        -----------------------------------------
+        */
+
+        else{
+
+            console.log(
+                "Dashboard access denied."
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 const logoutButton =
-document.getElementById("logoutButton");
+document.getElementById(
+    "logoutButton"
+);
 
 
 logoutButton.addEventListener(
@@ -1538,29 +1885,18 @@ logoutButton.addEventListener(
         event.preventDefault();
 
 
-        /*
-        Prevent repeated logout clicks
-        while Firebase is processing.
-        */
+        logoutButton.style.pointerEvents =
+        "none";
 
-        logoutButton.style.pointerEvents = "none";
 
         logoutButton.textContent =
         "Logging out...";
 
 
-        try {
-
-            /*
-            Remove Firebase authentication session.
-            */
+        try{
 
             await signOut(auth);
 
-
-            /*
-            Return student to login page.
-            */
 
             window.location.replace(
                 "login.html"
@@ -1576,11 +1912,9 @@ logoutButton.addEventListener(
             );
 
 
-            /*
-            Restore logout button if an error occurs.
-            */
+            logoutButton.style.pointerEvents =
+            "auto";
 
-            logoutButton.style.pointerEvents = "auto";
 
             logoutButton.textContent =
             "↪ Logout";
@@ -1596,7 +1930,6 @@ logoutButton.addEventListener(
 );
 
 </script>
-
 
 </body>
 </html>
