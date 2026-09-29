@@ -1619,6 +1619,11 @@ td{
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init({ publicKey: "ufE6MMaBrbZlqaRvo" });
+</script>
+
 <script type="module">
 
 import {
@@ -2301,6 +2306,30 @@ async function(event){
 });
 
 
+async function sendApprovalEmail(student){
+
+    if(!window.emailjs){
+        throw new Error("EmailJS SDK not loaded.");
+    }
+
+    const studentEmail = String(student.email || "").trim();
+
+    if(!studentEmail){
+        throw new Error("Student email is missing.");
+    }
+
+    return window.emailjs.send(
+        "service_1hev019",
+        "template_miwvvwl",
+        {
+            student_name: student.name || "Student",
+            student_email: studentEmail,
+            program: student.program || "Cyber Security & Digital Skills"
+        }
+    );
+}
+
+
 async function changeStudentStatus(
 studentId,
 newStatus
@@ -2322,17 +2351,39 @@ newStatus
             serverTimestamp();
         }
 
+        const studentRef = doc(db,"Students",studentId);
+        const studentSnap = await getDoc(studentRef);
+        const student = studentSnap.exists() ? studentSnap.data() : null;
+
         await updateDoc(
-            doc(db,"Students",studentId),
+            studentRef,
             data
         );
 
-        showToast(
-            newStatus === "Active"
-            ? "Student approved successfully ✓"
-            : "Student registration rejected.",
-            "success"
-        );
+        if(newStatus === "Active" && student){
+            try{
+                await sendApprovalEmail(student);
+                showToast(
+                    "Student approved and approval email sent ✓",
+                    "success"
+                );
+            }
+            catch(emailError){
+                console.error("Approval email error:", emailError);
+                showToast(
+                    "Student approved, but approval email could not be sent.",
+                    "error"
+                );
+            }
+        }
+        else{
+            showToast(
+                newStatus === "Active"
+                ? "Student approved successfully ✓"
+                : "Student registration rejected.",
+                "success"
+            );
+        }
 
         await loadStudents();
 
