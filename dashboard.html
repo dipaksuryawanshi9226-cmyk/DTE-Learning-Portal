@@ -404,87 +404,6 @@ a{
     line-height:1.6;
 }
 
-/* ================= LIVE ATTENDANCE ================= */
-
-let attendanceBySession = new Map();
-
-function startOfWeek(date){
-    const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const day = copy.getDay();
-    copy.setDate(copy.getDate() + (day === 0 ? -6 : 1 - day));
-    copy.setHours(0,0,0,0);
-    return copy;
-}
-
-function endOfWeek(date){
-    const end = startOfWeek(date);
-    end.setDate(end.getDate() + 6);
-    end.setHours(23,59,59,999);
-    return end;
-}
-
-function attendanceDateValue(value){
-    if(!value) return null;
-    const parts = String(value).split("-");
-    if(parts.length !== 3) return null;
-    const date = new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
-    return Number.isNaN(date.getTime()) ? null : date;
-}
-
-async function loadStudentAttendance(userId){
-    attendanceBySession = new Map();
-
-    try{
-        const attendanceQuery = query(
-            collection(db,"Attendance"),
-            where("studentId","==",userId)
-        );
-
-        const snapshot = await getDocs(attendanceQuery);
-        const records = [];
-
-        snapshot.forEach(item => {
-            const data = {id:item.id, ...item.data()};
-            records.push(data);
-            if(data.sessionId){
-                attendanceBySession.set(String(data.sessionId), String(data.status || "").trim());
-            }
-        });
-
-        const total = records.length;
-        const present = records.filter(item =>
-            String(item.status || "").trim().toLowerCase() === "present"
-        ).length;
-
-        const overall = total ? Math.round((present / total) * 100) : 0;
-
-        const now = new Date();
-        const weekStart = startOfWeek(now);
-        const weekEnd = endOfWeek(now);
-
-        const weeklyRecords = records.filter(item => {
-            const date = attendanceDateValue(item.sessionDate);
-            return date && date >= weekStart && date <= weekEnd;
-        });
-
-        const weeklyPresent = weeklyRecords.filter(item =>
-            String(item.status || "").trim().toLowerCase() === "present"
-        ).length;
-
-        document.getElementById("attendanceValue").textContent = overall + "%";
-        document.getElementById("weeklyClasses").textContent =
-            weeklyPresent + " / " + weeklyRecords.length;
-
-        return records;
-    }
-    catch(error){
-        console.error("DTE Attendance Load Error:", error);
-        document.getElementById("attendanceValue").textContent = "0%";
-        document.getElementById("weeklyClasses").textContent = "0 / 0";
-        return [];
-    }
-}
-
 /* ================= LIVE SESSIONS ================= */
 
 .session-list{
@@ -1440,6 +1359,87 @@ function showNoSession(){
 
 }
 
+
+/* ================= LIVE ATTENDANCE ================= */
+
+let attendanceBySession = new Map();
+
+function startOfWeek(date){
+    const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const day = copy.getDay();
+    copy.setDate(copy.getDate() + (day === 0 ? -6 : 1 - day));
+    copy.setHours(0,0,0,0);
+    return copy;
+}
+
+function endOfWeek(date){
+    const end = startOfWeek(date);
+    end.setDate(end.getDate() + 6);
+    end.setHours(23,59,59,999);
+    return end;
+}
+
+function attendanceDateValue(value){
+    if(!value) return null;
+    const parts = String(value).split("-");
+    if(parts.length !== 3) return null;
+    const date = new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+async function loadStudentAttendance(userId){
+    attendanceBySession = new Map();
+
+    try{
+        const attendanceQuery = query(
+            collection(db,"Attendance"),
+            where("studentId","==",userId)
+        );
+
+        const snapshot = await getDocs(attendanceQuery);
+        const records = [];
+
+        snapshot.forEach(item => {
+            const data = {id:item.id, ...item.data()};
+            records.push(data);
+            if(data.sessionId){
+                attendanceBySession.set(String(data.sessionId), String(data.status || "").trim());
+            }
+        });
+
+        const total = records.length;
+        const present = records.filter(item =>
+            String(item.status || "").trim().toLowerCase() === "present"
+        ).length;
+
+        const overall = total ? Math.round((present / total) * 100) : 0;
+
+        const now = new Date();
+        const weekStart = startOfWeek(now);
+        const weekEnd = endOfWeek(now);
+
+        const weeklyRecords = records.filter(item => {
+            const date = attendanceDateValue(item.sessionDate);
+            return date && date >= weekStart && date <= weekEnd;
+        });
+
+        const weeklyPresent = weeklyRecords.filter(item =>
+            String(item.status || "").trim().toLowerCase() === "present"
+        ).length;
+
+        document.getElementById("attendanceValue").textContent = overall + "%";
+        document.getElementById("weeklyClasses").textContent =
+            weeklyPresent + " / " + weeklyRecords.length;
+
+        return records;
+    }
+    catch(error){
+        console.error("DTE Attendance Load Error:", error);
+        document.getElementById("attendanceValue").textContent = "0%";
+        document.getElementById("weeklyClasses").textContent = "0 / 0";
+        return [];
+    }
+}
 
 /* ================= LIVE SESSIONS ================= */
 
