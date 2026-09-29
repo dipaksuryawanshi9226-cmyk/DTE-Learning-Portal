@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Learning | DTE Student Portal</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+    visibility:hidden;
+}
+
+a{
+    text-decoration:none;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:255px;
+    height:100vh;
+    background:#06152e;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:25px 18px;
+    color:white;
+    overflow-y:auto;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:25px;
+    border-bottom:1px solid #18304e;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    background:linear-gradient(135deg,#19b9f2,#0756a5);
+    border:2px solid #ffc532;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.brand h2{
+    font-size:17px;
+}
+
+.brand p{
+    font-size:9px;
+    color:#8fa7c7;
+}
+
+.menu-title{
+    font-size:10px;
+    color:#627995;
+    letter-spacing:1.5px;
+    margin:25px 10px 10px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#aebed1;
+    padding:12px 13px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:13px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu .active{
+    background:#0b3158;
+    color:white;
+}
+
+.logout{
+    margin-top:30px;
+}
+
+.logout a{
+    display:block;
+    padding:12px;
+    border:1px solid #344b67;
+    color:#aebed1;
+    border-radius:8px;
+    text-align:center;
+    font-size:13px;
+}
+
+.logout a:hover{
+    background:#c83b3b;
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    background:white;
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+    border-bottom:1px solid #e1e7ef;
+}
+
+.topbar h2{
+    color:#10213b;
+    font-size:20px;
+}
+
+.topbar p{
+    color:#8492a6;
+    font-size:11px;
+    margin-top:2px;
+}
+
+.top-user{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.top-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#dff4fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-size:19px;
+}
+
+.top-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.top-user h4{
+    font-size:13px;
+}
+
+.top-user p{
+    font-size:10px;
+    color:#8290a3;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:30px 35px 50px;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    background:linear-gradient(110deg,#071a38,#0b4771);
+    border-radius:17px;
+    padding:28px 30px;
+    color:white;
+    margin-bottom:25px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::after{
+    content:"DTE";
+    position:absolute;
+    right:30px;
+    top:-5px;
+    font-size:110px;
+    font-weight:bold;
+    color:rgba(255,255,255,.04);
+}
+
+.hero small{
+    color:#54cfff;
+    font-weight:bold;
+    letter-spacing:1.4px;
+}
+
+.hero h1{
+    font-size:25px;
+    margin:7px 0;
+}
+
+.hero p{
+    font-size:12px;
+    color:#b7c8db;
+    line-height:1.6;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e0e6ee;
+    border-radius:12px;
+    padding:19px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat label{
+    color:#0787c2;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#eaf7fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.stat h2{
+    margin-top:10px;
+    color:#10213b;
+    font-size:24px;
+}
+
+.stat p{
+    color:#8492a6;
+    font-size:10px;
+    margin-top:3px;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-section{
+    background:white;
+    border:1px solid #e0e6ee;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:25px;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.progress-header h3{
+    color:#10213b;
+    font-size:15px;
+}
+
+.progress-header span{
+    color:#0787c2;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.progress-track{
+    width:100%;
+    height:12px;
+    background:#edf1f5;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#0797cf,#14b8e7);
+    border-radius:20px;
+    transition:width .5s ease;
+}
+
+.progress-note{
+    color:#8391a3;
+    font-size:10px;
+    margin-top:10px;
+}
+
+/* ================= SECTION ================= */
+
+.section{
+    background:white;
+    border:1px solid #e0e6ee;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.section-header{
+    padding:20px 23px;
+    border-bottom:1px solid #e8edf2;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.section-header h3{
+    color:#12243e;
+    font-size:16px;
+}
+
+.section-header p{
+    color:#8492a6;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.refresh-btn{
+    border:1px solid #d8e1ea;
+    background:white;
+    color:#41566e;
+    padding:9px 13px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.refresh-btn:hover{
+    background:#f3f7fa;
+}
+
+/* ================= MODULES ================= */
+
+.modules{
+    padding:22px;
+    display:grid;
+    gap:15px;
+}
+
+.module-card{
+    border:1px solid #e1e7ee;
+    border-radius:12px;
+    padding:19px;
+    display:grid;
+    grid-template-columns:55px 1fr auto;
+    gap:16px;
+    align-items:center;
+    transition:.2s;
+    background:white;
+}
+
+.module-card:hover{
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+    transform:translateY(-1px);
+}
+
+.module-number{
+    width:50px;
+    height:50px;
+    border-radius:11px;
+    background:#eaf7fc;
+    color:#087fb9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.module-content h3{
+    color:#152a44;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.module-content p{
+    color:#8290a3;
+    font-size:10px;
+    line-height:1.6;
+}
+
+.module-meta{
+    margin-top:8px;
+    font-size:9px;
+    color:#6d8096;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.status-upcoming{
+    background:#fff5d9;
+    color:#9a6c00;
+}
+
+.status-progress{
+    background:#e6f2ff;
+    color:#086db4;
+}
+
+.status-completed{
+    background:#e7f8ee;
+    color:#16814b;
+}
+
+/* ================= EMPTY / ERROR ================= */
+
+.empty{
+    padding:55px 20px;
+    text-align:center;
+    color:#8290a3;
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.empty h3{
+    color:#344b65;
+    font-size:15px;
+}
+
+.empty p{
+    font-size:10px;
+    margin-top:6px;
+    line-height:1.6;
+}
+
+/* ================= INFO ================= */
+
+.info{
+    margin-top:22px;
+    background:#eef8fd;
+    border:1px solid #cdeaf6;
+    border-radius:11px;
+    padding:15px;
+    color:#426278;
+    font-size:10px;
+    line-height:1.6;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    padding:22px;
+    color:#8a97a7;
+    font-size:10px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .module-card{
+        grid-template-columns:50px 1fr;
+    }
+
+    .module-status{
+        grid-column:1 / -1;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .top-user p{
+        display:none;
+    }
+
+    .section-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="logo">
+            DTE
+        </div>
+
+        <div>
+            <h2>Student Portal</h2>
+            <p>DIGITAL TECH ECOSYSTEM</p>
+        </div>
+
+    </div>
+
+
+    <p class="menu-title">
+        MAIN MENU
+    </p>
+
+
+    <ul class="menu">
+
+        <li>
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="profile.html">
+                👤 My Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="courses.html" class="active">
+                📚 My Learning
+            </a>
+        </li>
+
+        <li>
+            <a href="attendance.html">
+                📅 Attendance
+            </a>
+        </li>
+
+        <li>
+            <a href="assignments.html">
+                📝 Assignments
+            </a>
+        </li>
+
+        <li>
+            <a href="projects.html">
+                🚀 Projects
+            </a>
+        </li>
+
+        <li>
+            <a href="certificates.html">
+                🏆 Certificates
+            </a>
+        </li>
+
+    </ul>
+
+
+    <p class="menu-title">
+        SUPPORT
+    </p>
+
+
+    <ul class="menu">
+
+        <li>
+            <a href="index.html#contact">
+                💬 Contact DTE
+            </a>
+        </li>
+
+    </ul>
+
+
+    <div class="logout">
+
+        <a href="#" id="logoutButton">
+            ↪ Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <h2>
+                My Learning
+            </h2>
+
+            <p>
+                DTE Digital Tech Ecosystem
+            </p>
+
+        </div>
+
+
+        <div class="top-user">
+
+            <div
+                class="top-avatar"
+                id="topAvatar"
+            >
+                🎓
+            </div>
+
+            <div>
+
+                <h4 id="topName">
+                    Loading...
+                </h4>
+
+                <p id="topProgram">
+                    DTE Student
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <small>
+                MY LEARNING
+            </small>
+
+            <h1>
+                Your Learning Journey
+            </h1>
+
+            <p>
+                Track your DTE learning modules,
+                course progress and completed topics.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <label>
+                        COURSE PROGRESS
+                    </label>
+
+                    <div class="stat-icon">
+                        📊
+                    </div>
+
+                </div>
+
+                <h2 id="courseProgress">
+                    0%
+                </h2>
+
+                <p>
+                    Overall completion
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <label>
+                        TOTAL MODULES
+                    </label>
+
+                    <div class="stat-icon">
+                        📚
+                    </div>
+
+                </div>
+
+                <h2 id="totalModules">
+                    0
+                </h2>
+
+                <p>
+                    Learning modules
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <label>
+                        IN PROGRESS
+                    </label>
+
+                    <div class="stat-icon">
+                        🔄
+                    </div>
+
+                </div>
+
+                <h2 id="inProgressModules">
+                    0
+                </h2>
+
+                <p>
+                    Currently learning
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-top">
+
+                    <label>
+                        COMPLETED
+                    </label>
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                </div>
+
+                <h2 id="completedModules">
+                    0
+                </h2>
+
+                <p>
+                    Modules completed
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-section">
+
+            <div class="progress-header">
+
+                <h3>
+                    Course Completion
+                </h3>
+
+                <span id="progressPercentage">
+                    0%
+                </span>
+
+            </div>
+
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                ></div>
+
+            </div>
+
+
+            <div
+                class="progress-note"
+                id="progressNote"
+            >
+                Loading your learning progress...
+            </div>
+
+        </div>
+
+
+        <!-- MODULE SECTION -->
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>
+                        Learning Modules
+                    </h3>
+
+                    <p id="programText">
+                        Loading your learning program...
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="refresh-btn"
+                    id="refreshButton"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div
+                class="modules"
+                id="modulesContainer"
+            >
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ⏳
+                    </div>
+
+                    <h3>
+                        Loading Modules
+                    </h3>
+
+                    <p>
+                        Please wait while your learning
+                        modules are loaded.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info">
+
+            📘 Learning modules are managed by
+            DTE Administration.
+
+            Your learning page automatically updates when
+            new modules are added or module status is changed.
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        © 2026 DTE — Digital Tech Ecosystem |
+        Student Learning Portal
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+                     FIREBASE JAVASCRIPT
+========================================================= -->
+
+<script type="module">
+
+
+/* ================= FIREBASE IMPORTS ================= */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+
+    authDomain:
+    "dte-learning-portal.firebaseapp.com",
+
+    projectId:
+    "dte-learning-portal",
+
+    storageBucket:
+    "dte-learning-portal.firebasestorage.app",
+
+    messagingSenderId:
+    "229529830631",
+
+    appId:
+    "1:229529830631:web:970c1c827d05795bca4e42"
+
+};
+
+
+
+const app =
+initializeApp(firebaseConfig);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+
+/* ================= DATA ================= */
+
+let currentStudent = null;
+
+let learningModules = [];
+
+
+
+/* ================= HELPERS ================= */
+
+function normalize(value){
+
+    return String(
+        value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+
+function showProfilePhoto(url){
+
+    if(!url){
+        return;
+    }
+
+
+    const safeURL =
+    String(url).trim();
+
+
+    if(!safeURL){
+        return;
+    }
+
+
+    const avatar =
+    document.getElementById(
+        "topAvatar"
+    );
+
+
+    avatar.innerHTML = "";
+
+
+    const image =
+    document.createElement("img");
+
+
+    image.src =
+    safeURL;
+
+
+    image.alt =
+    "Student";
+
+
+    image.onerror =
+    function(){
+
+        avatar.innerHTML =
+        "🎓";
+
+    };
+
+
+    avatar.appendChild(
+        image
+    );
+
+}
+
+
+
+/* ================= DENY ACCESS ================= */
+
+async function denyAccess(){
+
+    try{
+
+        if(auth.currentUser){
+
+            await signOut(
+                auth
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    window.location.replace(
+        "login.html"
+    );
+
+}
+
+
+
+/* ================= LOAD STUDENT ================= */
+
+async function loadStudent(user){
+
+    try{
+
+        const studentReference =
+        doc(
+            db,
+            "Students",
+            user.uid
+        );
+
+
+        const studentSnapshot =
+        await getDoc(
+            studentReference
+        );
+
+
+        if(
+            !studentSnapshot.exists()
+        ){
+
+            await denyAccess();
+
+            return;
+
+        }
+
+
+        const student =
+        studentSnapshot.data();
+
+
+        const status =
+        normalize(
+            student.status
+        );
+
+
+        const role =
+        normalize(
+            student.role
+        );
+
+
+        /*
+            Only Active Student
+            accounts can access
+            My Learning.
+        */
+
+        if(
+            status !== "active"
+            ||
+            role !== "student"
+        ){
+
+            await denyAccess();
+
+            return;
+
+        }
+
+
+        currentStudent = {
+            id:user.uid,
+            ...student
+        };
+
+
+        const name =
+        student.name
+        ||
+        user.displayName
+        ||
+        "DTE Student";
+
+
+        const program =
+        student.program
+        ||
+        "Cyber Security & Digital Skills";
+
+
+        document.getElementById(
+            "topName"
+        ).textContent =
+        name;
+
+
+        document.getElementById(
+            "topProgram"
+        ).textContent =
+        program;
+
+
+        document.getElementById(
+            "programText"
+        ).textContent =
+        "Program: " + program;
+
+
+        if(
+            student.profilePhotoURL
+        ){
+
+            showProfilePhoto(
+                student.profilePhotoURL
+            );
+
+        }
+
+
+        /*
+            Student is verified first.
+            Only after that do we load
+            LearningModules.
+        */
+
+        await loadLearningModules();
+
+
+        document.body.style.visibility =
+        "visible";
+
+    }
+    catch(error){
+
+        console.error(
+            "DTE My Learning Error:",
+            error
+        );
+
+
+        /*
+            IMPORTANT:
+            Do not sign out the student
+            because of an unrelated
+            module/runtime error.
+        */
+
+        document.body.style.visibility =
+        "visible";
+
+    }
+
+}
+
+
+
+/* ================= LOAD MODULES ================= */
+
+async function loadLearningModules(){
+
+    const container =
+    document.getElementById(
+        "modulesContainer"
+    );
+
+
+    container.innerHTML =
+    `
+    <div class="empty">
+
+        <div class="empty-icon">
+            ⏳
+        </div>
+
+        <h3>
+            Loading Modules
+        </h3>
+
+        <p>
+            Fetching your DTE learning modules...
+        </p>
+
+    </div>
+    `;
+
+
+    try{
+
+        const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "LearningModules"
+            )
+        );
+
+
+        learningModules = [];
+
+
+        snapshot.forEach(
+            function(moduleDocument){
+
+                const data =
+                moduleDocument.data();
+
+
+                /*
+                    Show only modules belonging
+                    to student's program.
+
+                    If old module has no program,
+                    it is also allowed.
+                */
+
+                const studentProgram =
+                normalize(
+                    currentStudent.program
+                    ||
+                    "Cyber Security & Digital Skills"
+                );
+
+
+                const moduleProgram =
+                normalize(
+                    data.program
+                );
+
+
+                if(
+                    !moduleProgram
+                    ||
+                    moduleProgram === studentProgram
+                ){
+
+                    learningModules.push({
+
+                        id:
+                        moduleDocument.id,
+
+                        ...data
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        /*
+            Sort modules in JavaScript.
+
+            This avoids requiring a
+            Firestore composite index.
+        */
+
+        learningModules.sort(
+            function(a,b){
+
+                const orderA =
+                Number(
+                    a.order
+                    ??
+                    a.moduleNumber
+                    ??
+                    0
+                );
+
+
+                const orderB =
+                Number(
+                    b.order
+                    ??
+                    b.moduleNumber
+                    ??
+                    0
+                );
+
+
+                return orderA - orderB;
+
+            }
+        );
+
+
+        renderModules();
+
+        updateStatistics();
+
+    }
+    catch(error){
+
+        console.error(
+            "Learning Modules Error:",
+            error
+        );
+
+
+        container.innerHTML =
+        `
+        <div class="empty">
+
+            <div class="empty-icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Unable to Load Modules
+            </h3>
+
+            <p>
+                Learning modules could not be loaded.
+                Please refresh the page or contact
+                DTE Administration.
+            </p>
+
+        </div>
+        `;
+
+
+        updateStatistics();
+
+    }
+
+}
+
+
+
+/* ================= RENDER MODULES ================= */
+
+function renderModules(){
+
+    const container =
+    document.getElementById(
+        "modulesContainer"
+    );
+
+
+    if(
+        learningModules.length === 0
+    ){
+
+        container.innerHTML =
+        `
+        <div class="empty">
+
+            <div class="empty-icon">
+                📚
+            </div>
+
+            <h3>
+                No Learning Modules Yet
+            </h3>
+
+            <p>
+                DTE Administration has not added
+                learning modules for your program yet.
+            </p>
+
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    learningModules.forEach(
+        function(module,index){
+
+
+            const moduleNumber =
+            Number(
+                module.moduleNumber
+                ??
+                module.order
+                ??
+                index + 1
+            );
+
+
+            const title =
+            module.title
+            ||
+            "Learning Module";
+
+
+            const description =
+            module.description
+            ||
+            "Learning details will be updated by DTE Administration.";
+
+
+            const program =
+            module.program
+            ||
+            currentStudent.program
+            ||
+            "DTE Learning Program";
+
+
+            const status =
+            String(
+                module.status
+                ||
+                "Upcoming"
+            ).trim();
+
+
+            const normalizedStatus =
+            normalize(
+                status
+            );
+
+
+            let statusClass =
+            "status-upcoming";
+
+
+            let statusIcon =
+            "⏳";
+
+
+            if(
+                normalizedStatus ===
+                "in progress"
+                ||
+                normalizedStatus ===
+                "inprogress"
+                ||
+                normalizedStatus ===
+                "current"
+            ){
+
+                statusClass =
+                "status-progress";
+
+                statusIcon =
+                "🔄";
+
+            }
+
+
+            else if(
+                normalizedStatus ===
+                "completed"
+            ){
+
+                statusClass =
+                "status-completed";
+
+                statusIcon =
+                "✓";
+
+            }
+
+
+            html +=
+            `
+            <div class="module-card">
+
+                <div class="module-number">
+                    ${escapeHTML(moduleNumber)}
+                </div>
+
+
+                <div class="module-content">
+
+                    <h3>
+                        ${escapeHTML(title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(description)}
+                    </p>
+
+                    <div class="module-meta">
+
+                        Module ${escapeHTML(moduleNumber)}
+                        &nbsp; • &nbsp;
+                        ${escapeHTML(program)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="module-status">
+
+                    <span
+                        class="status ${statusClass}"
+                    >
+                        ${statusIcon}
+                        ${escapeHTML(status)}
+                    </span>
+
+                </div>
+
+            </div>
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+    html;
+
+}
+
+
+
+/* ================= STATISTICS ================= */
+
+function updateStatistics(){
+
+    const total =
+    learningModules.length;
+
+
+    const completed =
+    learningModules.filter(
+        function(module){
+
+            return normalize(
+                module.status
+            )
+            ===
+            "completed";
+
+        }
+    ).length;
+
+
+    const inProgress =
+    learningModules.filter(
+        function(module){
+
+            const status =
+            normalize(
+                module.status
+            );
+
+
+            return(
+                status === "in progress"
+                ||
+                status === "inprogress"
+                ||
+                status === "current"
+            );
+
+        }
+    ).length;
+
+
+    /*
+        Course progress:
+
+        Only modules marked Completed
+        count toward completion.
+    */
+
+    const percentage =
+    total > 0
+    ?
+    Math.round(
+        (completed / total) * 100
+    )
+    :
+    0;
+
+
+    document.getElementById(
+        "totalModules"
+    ).textContent =
+    total;
+
+
+    document.getElementById(
+        "completedModules"
+    ).textContent =
+    completed;
+
+
+    document.getElementById(
+        "inProgressModules"
+    ).textContent =
+    inProgress;
+
+
+    document.getElementById(
+        "courseProgress"
+    ).textContent =
+    percentage + "%";
+
+
+    document.getElementById(
+        "progressPercentage"
+    ).textContent =
+    percentage + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+    percentage + "%";
+
+
+    const progressNote =
+    document.getElementById(
+        "progressNote"
+    );
+
+
+    if(total === 0){
+
+        progressNote.textContent =
+        "No learning modules are currently available.";
+
+    }
+
+    else if(completed === total){
+
+        progressNote.textContent =
+        `Excellent! All ${total} learning modules are completed.`;
+
+    }
+
+    else{
+
+        progressNote.textContent =
+        `${completed} of ${total} modules completed. ${inProgress} module(s) currently in progress.`;
+
+    }
+
+}
+
+
+
+/* ================= REFRESH ================= */
+
+document.getElementById(
+    "refreshButton"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        if(
+            !currentStudent
+        ){
+
+            return;
+
+        }
+
+
+        const button =
+        this;
+
+
+        button.disabled =
+        true;
+
+
+        button.textContent =
+        "Refreshing...";
+
+
+        await loadLearningModules();
+
+
+        button.disabled =
+        false;
+
+
+        button.textContent =
+        "↻ Refresh";
+
+    }
+);
+
+
+
+/* ================= AUTH CHECK ================= */
+
+onAuthStateChanged(
+    auth,
+
+    async user => {
+
+        if(!user){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        await loadStudent(
+            user
+        );
+
+    }
+);
+
+
+
+/* ================= LOGOUT ================= */
+
+document.getElementById(
+    "logoutButton"
+)
+.addEventListener(
+    "click",
+
+    async event => {
+
+        event.preventDefault();
+
+
+        try{
+
+            await signOut(
+                auth
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Logout Error:",
+                error
+            );
+
+
+            alert(
+                "Unable to logout. Please try again."
+            );
+
+        }
+
+    }
+);
+
+
+</script>
+
+</body>
+</html>
