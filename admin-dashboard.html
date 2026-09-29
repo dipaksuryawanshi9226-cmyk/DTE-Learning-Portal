@@ -705,6 +705,62 @@ td{
     background:#b73b3b;
 }
 
+
+/* FINAL MANAGEMENT PAGES */
+.management-controls{
+    display:grid;
+    grid-template-columns:minmax(220px,1fr) minmax(220px,1fr) auto;
+    gap:12px;
+    align-items:end;
+    padding:20px 21px;
+    border-bottom:1px solid #e8edf2;
+    background:#fbfcfe;
+}
+.management-controls label{
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    color:#52647a;
+    margin-bottom:6px;
+}
+.management-controls select,
+.management-controls input{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #d7e0e9;
+    border-radius:8px;
+    background:white;
+    font-size:12px;
+}
+.progress-bar{
+    width:150px;
+    height:8px;
+    background:#e8edf3;
+    border-radius:20px;
+    overflow:hidden;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:7px;
+}
+.progress-fill{
+    height:100%;
+    background:#168ac0;
+    border-radius:20px;
+}
+.info-box{
+    padding:14px 16px;
+    background:#eef8fd;
+    border:1px solid #cceaf7;
+    color:#356079;
+    font-size:10px;
+    line-height:1.6;
+    border-radius:8px;
+    margin:18px 21px;
+}
+@media(max-width:700px){
+    .management-controls{grid-template-columns:1fr;}
+}
+
 /* RESPONSIVE */
 
 @media(max-width:1100px){
@@ -840,30 +896,26 @@ td{
             Assignments
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-page="progressPage">
             <span>📈</span>
             Progress
-            <span class="coming">NEXT</span>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-page="projectsPage">
             <span>💻</span>
             Projects
-            <span class="coming">SOON</span>
         </div>
 
         <div class="menu-title">STUDENT SERVICES</div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-page="certificatesPage">
             <span>🏆</span>
             Certificates
-            <span class="coming">SOON</span>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-page="announcementsPage">
             <span>📢</span>
             Announcements
-            <span class="coming">SOON</span>
         </div>
 
     </div>
@@ -1167,6 +1219,97 @@ td{
     </div>
 </section>
 
+
+<!-- PROGRESS PAGE -->
+<section class="page" id="progressPage">
+    <div class="session-summary">
+        <div class="session-box"><span>Active Students</span><h3 id="progressStudentCount">0</h3></div>
+        <div class="session-box"><span>Learning Modules</span><h3 id="progressModuleCount">0</h3></div>
+        <div class="session-box"><span>Progress Records</span><h3 id="progressRecordCount">0</h3></div>
+    </div>
+    <div class="section">
+        <div class="section-header">
+            <div>
+                <h2>Student Progress Management</h2>
+                <p>Manage individual module progress for each Active student.</p>
+            </div>
+            <button class="refresh" id="progressRefresh">↻ Refresh</button>
+        </div>
+        <div class="management-controls">
+            <div>
+                <label>SELECT ACTIVE STUDENT</label>
+                <select id="progressStudentSelect"><option value="">Choose a student...</option></select>
+            </div>
+            <div>
+                <label>PROGRAM</label>
+                <input id="progressProgram" type="text" value="-" readonly>
+            </div>
+            <button class="primary-btn" id="loadProgressButton">Load Progress</button>
+        </div>
+        <div id="progressContainer">
+            <div class="empty"><div class="empty-icon">📈</div><h3>Select a Student</h3><p>Choose an Active student to manage module progress.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS PAGE -->
+<section class="page" id="projectsPage">
+    <div class="session-summary">
+        <div class="session-box"><span>Total Projects</span><h3 id="projectTotalCount">0</h3></div>
+        <div class="session-box"><span>Active / In Progress</span><h3 id="projectActiveCount">0</h3></div>
+        <div class="session-box"><span>Completed</span><h3 id="projectCompletedCount">0</h3></div>
+    </div>
+    <div class="section">
+        <div class="section-header">
+            <div><h2>Projects</h2><p>Create and manage projects shown on the student Projects page.</p></div>
+            <div class="header-actions">
+                <button class="refresh" id="projectRefresh">↻ Refresh</button>
+                <button class="primary-btn" id="addProjectButton">+ Add Project</button>
+            </div>
+        </div>
+        <div id="projectsContainer"><div class="empty">Loading projects...</div></div>
+    </div>
+</section>
+
+<!-- CERTIFICATES PAGE -->
+<section class="page" id="certificatesPage">
+    <div class="session-summary">
+        <div class="session-box"><span>Total Certificates</span><h3 id="certificateTotalCount">0</h3></div>
+        <div class="session-box"><span>Students With Certificates</span><h3 id="certificateStudentCount">0</h3></div>
+        <div class="session-box"><span>Active Students</span><h3 id="certificateActiveStudentCount">0</h3></div>
+    </div>
+    <div class="section">
+        <div class="section-header">
+            <div><h2>Certificates</h2><p>Issue and manage certificates for verified Active students.</p></div>
+            <div class="header-actions">
+                <button class="refresh" id="certificateRefresh">↻ Refresh</button>
+                <button class="primary-btn" id="issueCertificateButton">+ Issue Certificate</button>
+            </div>
+        </div>
+        <div id="certificatesAdminContainer"><div class="empty">Loading certificates...</div></div>
+    </div>
+</section>
+
+<!-- ANNOUNCEMENTS PAGE -->
+<section class="page" id="announcementsPage">
+    <div class="session-summary">
+        <div class="session-box"><span>Total Announcements</span><h3 id="announcementTotalCount">0</h3></div>
+        <div class="session-box"><span>Active</span><h3 id="announcementActiveCount">0</h3></div>
+        <div class="session-box"><span>Inactive</span><h3 id="announcementInactiveCount">0</h3></div>
+    </div>
+    <div class="section">
+        <div class="section-header">
+            <div><h2>Announcements</h2><p>Create and manage DTE portal announcements.</p></div>
+            <div class="header-actions">
+                <button class="refresh" id="announcementRefresh">↻ Refresh</button>
+                <button class="primary-btn" id="addAnnouncementButton">+ Add Announcement</button>
+            </div>
+        </div>
+        <div class="info-box">Announcements are stored in the <b>Announcements</b> Firestore collection. Add the Announcements rule supplied with this file before using this section.</div>
+        <div id="announcementsContainer"><div class="empty">Loading announcements...</div></div>
+    </div>
+</section>
+
 </main>
 </div>
 
@@ -1406,6 +1549,74 @@ td{
 
 </div>
 
+
+<!-- PROJECT MODAL -->
+<div class="modal" id="projectModal">
+ <div class="modal-card">
+  <div class="modal-header"><h2 id="projectModalTitle">Add Project</h2><button class="close-modal" id="closeProjectModal">×</button></div>
+  <div class="modal-body">
+   <form id="projectForm">
+    <input type="hidden" id="projectId">
+    <div class="form-group"><label>Project Title *</label><input type="text" id="projectTitle" required placeholder="Example: Digital Safety Project"></div>
+    <div class="form-group"><label>Program *</label><input type="text" id="projectProgram" value="Cyber Security & Digital Skills" required></div>
+    <div class="form-group"><label>Learning Module</label><select id="projectModule"><option value="">Select module...</option></select></div>
+    <div class="form-row">
+     <div class="form-group"><label>Due Date</label><input type="date" id="projectDueDate"></div>
+     <div class="form-group"><label>Status *</label><select id="projectStatus" required><option value="Active">Active</option><option value="In Progress">In Progress</option><option value="Upcoming">Upcoming</option><option value="Completed">Completed</option><option value="Closed">Closed</option></select></div>
+    </div>
+    <div class="form-row">
+     <div class="form-group"><label>Project Number</label><input type="number" min="1" id="projectNumber" placeholder="1"></div>
+     <div class="form-group"><label>Display Order</label><input type="number" min="1" id="projectOrder" placeholder="1"></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="projectDescription" placeholder="Enter project instructions..."></textarea></div>
+    <div class="modal-actions"><button type="button" class="cancel-btn" id="cancelProject">Cancel</button><button type="submit" class="save-btn" id="saveProjectButton">Save Project</button></div>
+   </form>
+  </div>
+ </div>
+</div>
+
+<!-- CERTIFICATE MODAL -->
+<div class="modal" id="certificateModal">
+ <div class="modal-card">
+  <div class="modal-header"><h2 id="certificateModalTitle">Issue Certificate</h2><button class="close-modal" id="closeCertificateModal">×</button></div>
+  <div class="modal-body">
+   <form id="certificateForm">
+    <input type="hidden" id="certificateDocId">
+    <div class="form-group"><label>Student *</label><select id="certificateStudent" required><option value="">Select Active student...</option></select></div>
+    <div class="form-group"><label>Certificate Title *</label><input type="text" id="certificateTitle" required placeholder="Example: Cyber Security Basics Completion"></div>
+    <div class="form-group"><label>Program *</label><input type="text" id="certificateProgram" value="Cyber Security & Digital Skills" required></div>
+    <div class="form-row">
+     <div class="form-group"><label>Type *</label><select id="certificateType" required><option value="Completion">Completion</option><option value="Program">Program</option><option value="Achievement">Achievement</option><option value="Participation">Participation</option><option value="Project">Project</option></select></div>
+     <div class="form-group"><label>Issue Date *</label><input type="date" id="certificateIssueDate" required></div>
+    </div>
+    <div class="form-group"><label>Certificate ID *</label><input type="text" id="certificateNumber" required placeholder="Example: DTE-2026-001"></div>
+    <div class="form-group"><label>Certificate URL</label><input type="url" id="certificateURL" placeholder="https://..."></div>
+    <div class="modal-actions"><button type="button" class="cancel-btn" id="cancelCertificate">Cancel</button><button type="submit" class="save-btn" id="saveCertificateButton">Save Certificate</button></div>
+   </form>
+  </div>
+ </div>
+</div>
+
+<!-- ANNOUNCEMENT MODAL -->
+<div class="modal" id="announcementModal">
+ <div class="modal-card">
+  <div class="modal-header"><h2 id="announcementModalTitle">Add Announcement</h2><button class="close-modal" id="closeAnnouncementModal">×</button></div>
+  <div class="modal-body">
+   <form id="announcementForm">
+    <input type="hidden" id="announcementId">
+    <div class="form-group"><label>Title *</label><input type="text" id="announcementTitle" required placeholder="Example: Sunday Cyber Security Session"></div>
+    <div class="form-group"><label>Message *</label><textarea id="announcementMessage" required placeholder="Write announcement..."></textarea></div>
+    <div class="form-row">
+     <div class="form-group"><label>Audience *</label><select id="announcementAudience" required><option value="All Students">All Students</option><option value="Offline">Offline Students</option><option value="Online">Online Students</option></select></div>
+     <div class="form-group"><label>Status *</label><select id="announcementStatus" required><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+    </div>
+    <div class="form-group"><label>Publish Date</label><input type="date" id="announcementDate"></div>
+    <div class="modal-actions"><button type="button" class="cancel-btn" id="cancelAnnouncement">Cancel</button><button type="submit" class="save-btn" id="saveAnnouncementButton">Save Announcement</button></div>
+   </form>
+  </div>
+ </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -1490,6 +1701,10 @@ let sessionsData = [];
 let attendanceData = [];
 let modulesData = [];
 let assignmentsData = [];
+let progressData = [];
+let projectsData = [];
+let certificatesData = [];
+let announcementsData = [];
 
 
 /* ADMIN SECURITY */
@@ -1551,7 +1766,10 @@ onAuthStateChanged(auth, async function(user){
             loadStudents(),
             loadSessions(),
             loadModules(),
-            loadAssignments()
+            loadAssignments(),
+            loadProgressRecords(),
+            loadProjects(),
+            loadCertificatesAdmin()
         ]);
 
     }
@@ -1671,6 +1889,30 @@ menuItems.forEach(function(item){
                 populateAttendanceSessions();
             }
 
+            else if(target === "progressPage"){
+                pageTitle.textContent = "Progress Management";
+                pageSubtitle.textContent = "Manage individual student learning progress";
+                loadProgressRecords();
+            }
+
+            else if(target === "projectsPage"){
+                pageTitle.textContent = "Project Management";
+                pageSubtitle.textContent = "Create and manage DTE student projects";
+                loadProjects();
+            }
+
+            else if(target === "certificatesPage"){
+                pageTitle.textContent = "Certificate Management";
+                pageSubtitle.textContent = "Issue and manage student certificates";
+                loadCertificatesAdmin();
+            }
+
+            else if(target === "announcementsPage"){
+                pageTitle.textContent = "Announcement Management";
+                pageSubtitle.textContent = "Create and manage DTE portal announcements";
+                loadAnnouncements();
+            }
+
             sidebar.classList.remove("open");
 
         }
@@ -1704,6 +1946,8 @@ async function loadStudents(){
         renderStudentStatistics();
         renderPendingStudents();
         renderAllStudents();
+        populateProgressStudents();
+        populateCertificateStudents();
 
     }
     catch(error){
@@ -2757,6 +3001,8 @@ async function loadModules(){
         });
         renderModuleStatistics();
         renderModules();
+        populateProgressStudents();
+        populateProjectModules();
     }catch(error){
         console.error("Module load error:",error);
         if(container){
@@ -3323,6 +3569,401 @@ document.getElementById("attendanceRefresh").addEventListener("click",async func
     if(selected){ await loadAttendanceForSelectedSession(); }
     showToast("Attendance data refreshed.","success");
 });
+
+
+/* =========================================================
+   FINAL ADMIN FEATURES
+   PROGRESS / PROJECTS / CERTIFICATES / ANNOUNCEMENTS
+========================================================= */
+
+function activeStudentsForManagement(){
+    return studentsData.filter(function(student){
+        return normalize(student.status) === "active";
+    });
+}
+
+function populateProgressStudents(){
+    const select = document.getElementById("progressStudentSelect");
+    if(!select){ return; }
+    const selected = select.value;
+    const list = activeStudentsForManagement();
+    select.innerHTML = `<option value="">Choose a student...</option>` +
+        list.map(function(student){
+            return `<option value="${escapeHTML(student.id)}">${escapeHTML(student.name || student.email || "Student")}</option>`;
+        }).join("");
+    if(list.some(function(student){ return student.id === selected; })){ select.value = selected; }
+    document.getElementById("progressStudentCount").textContent = list.length;
+    document.getElementById("progressModuleCount").textContent = modulesData.length;
+}
+
+async function loadProgressRecords(){
+    try{
+        const snapshot = await getDocs(collection(db,"StudentModuleProgress"));
+        progressData = [];
+        snapshot.forEach(function(item){ progressData.push({id:item.id,...item.data()}); });
+        document.getElementById("progressRecordCount").textContent = progressData.length;
+        populateProgressStudents();
+        const selected = document.getElementById("progressStudentSelect").value;
+        if(selected){ renderStudentProgress(selected); }
+    }catch(error){
+        console.error("Progress load error:",error);
+        showToast("Unable to load student progress.","error");
+    }
+}
+
+function renderStudentProgress(studentId){
+    const container = document.getElementById("progressContainer");
+    const student = studentsData.find(function(item){ return item.id === studentId; });
+    if(!student){
+        container.innerHTML = `<div class="empty"><h3>Student not found</h3></div>`;
+        return;
+    }
+    document.getElementById("progressProgram").value = student.program || "-";
+    const program = normalize(student.program);
+    const modules = modulesData
+        .filter(function(module){ return !module.program || normalize(module.program) === program; })
+        .slice()
+        .sort(function(a,b){ return Number(a.order || a.moduleNumber || 0)-Number(b.order || b.moduleNumber || 0); });
+
+    if(!modules.length){
+        container.innerHTML = `<div class="empty"><div class="empty-icon">🧩</div><h3>No Modules Found</h3><p>Create Learning Modules for this student's program first.</p></div>`;
+        return;
+    }
+
+    const own = progressData.filter(function(record){ return record.studentId === studentId; });
+    const completed = modules.filter(function(module){
+        const record = own.find(function(item){ return item.moduleId === module.id; });
+        return normalize(record ? record.status : "Upcoming") === "completed";
+    }).length;
+    const percent = Math.round((completed/modules.length)*100);
+
+    let rows = "";
+    modules.forEach(function(module){
+        const record = own.find(function(item){ return item.moduleId === module.id; });
+        const status = record ? (record.status || "Upcoming") : "Upcoming";
+        rows += `<tr>
+            <td><div class="student-name">${escapeHTML(module.title || "Learning Module")}</div><div class="small-text">Module ${escapeHTML(module.moduleNumber || module.order || "-")}</div></td>
+            <td>${escapeHTML(module.program || student.program || "-")}</td>
+            <td>
+                <select data-progress-status="${escapeHTML(module.id)}" style="padding:8px;border:1px solid #d7e0e9;border-radius:7px;">
+                    <option value="Upcoming" ${normalize(status)==="upcoming"?"selected":""}>Upcoming</option>
+                    <option value="In Progress" ${normalize(status)==="in progress"?"selected":""}>In Progress</option>
+                    <option value="Completed" ${normalize(status)==="completed"?"selected":""}>Completed</option>
+                </select>
+            </td>
+        </tr>`;
+    });
+
+    container.innerHTML = `
+        <div style="padding:18px 21px;border-bottom:1px solid #edf0f4;">
+            <strong>${escapeHTML(student.name || "Student")}</strong>
+            <div class="small-text" style="margin:7px 0 10px;">Overall Progress</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div><strong>${percent}%</strong>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Module</th><th>Program</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div style="padding:18px 21px;text-align:right;border-top:1px solid #edf0f4;"><button class="primary-btn" id="saveProgressButton">Save Progress</button></div>`;
+
+    document.getElementById("saveProgressButton").addEventListener("click",function(){ saveStudentProgress(student,modules); });
+}
+
+async function saveStudentProgress(student,modules){
+    const button = document.getElementById("saveProgressButton");
+    button.disabled = true; button.textContent = "Saving...";
+    try{
+        let completed = 0;
+        await Promise.all(modules.map(function(module){
+            const select = document.querySelector(`[data-progress-status="${CSS.escape(module.id)}"]`);
+            const status = select ? select.value : "Upcoming";
+            if(normalize(status)==="completed"){ completed++; }
+            const progressId = `${student.id}_${module.id}`;
+            return setDoc(doc(db,"StudentModuleProgress",progressId),{
+                studentId:student.id,
+                studentName:student.name || "Student",
+                moduleId:module.id,
+                moduleTitle:module.title || "Learning Module",
+                program:student.program || module.program || "",
+                status:status,
+                updatedAt:serverTimestamp()
+            },{merge:true});
+        }));
+        const percent = modules.length ? Math.round((completed/modules.length)*100) : 0;
+        await updateDoc(doc(db,"Students",student.id),{progress:percent});
+        await Promise.all([loadProgressRecords(),loadStudents()]);
+        renderStudentProgress(student.id);
+        showToast("Student progress saved successfully ✓","success");
+    }catch(error){
+        console.error("Progress save error:",error);
+        showToast("Unable to save student progress.","error");
+    }finally{
+        if(button && document.body.contains(button)){ button.disabled=false; button.textContent="Save Progress"; }
+    }
+}
+
+document.getElementById("progressStudentSelect").addEventListener("change",function(){
+    const student = studentsData.find(function(item){ return item.id === this.value; }.bind(this));
+    document.getElementById("progressProgram").value = student ? (student.program || "-") : "-";
+});
+document.getElementById("loadProgressButton").addEventListener("click",function(){
+    const id = document.getElementById("progressStudentSelect").value;
+    if(!id){ showToast("Please select a student.","error"); return; }
+    renderStudentProgress(id);
+});
+document.getElementById("progressRefresh").addEventListener("click",async function(){
+    await Promise.all([loadStudents(),loadModules(),loadProgressRecords()]);
+    showToast("Progress data refreshed.","success");
+});
+
+/* PROJECTS */
+function populateProjectModules(){
+    const select = document.getElementById("projectModule");
+    if(!select){ return; }
+    select.innerHTML = `<option value="">Select module...</option>` + modulesData.map(function(module){
+        return `<option value="${escapeHTML(module.title || "")}">${escapeHTML(module.title || "Learning Module")}</option>`;
+    }).join("");
+}
+
+async function loadProjects(){
+    const container = document.getElementById("projectsContainer");
+    if(container){ container.innerHTML = `<div class="empty">Loading projects...</div>`; }
+    try{
+        const snapshot = await getDocs(collection(db,"Projects"));
+        projectsData = [];
+        snapshot.forEach(function(item){ projectsData.push({id:item.id,...item.data()}); });
+        projectsData.sort(function(a,b){ return Number(a.order || a.projectNumber || 0)-Number(b.order || b.projectNumber || 0); });
+        renderProjectsAdmin();
+    }catch(error){
+        console.error("Project load error:",error);
+        if(container){ container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Unable to Load Projects</h3><p>Check Firestore permissions.</p></div>`; }
+    }
+}
+
+function renderProjectsAdmin(){
+    document.getElementById("projectTotalCount").textContent = projectsData.length;
+    document.getElementById("projectActiveCount").textContent = projectsData.filter(function(p){ return ["active","in progress"].includes(normalize(p.status)); }).length;
+    document.getElementById("projectCompletedCount").textContent = projectsData.filter(function(p){ return normalize(p.status)==="completed"; }).length;
+    const container = document.getElementById("projectsContainer");
+    if(!projectsData.length){
+        container.innerHTML = `<div class="empty"><div class="empty-icon">💻</div><h3>No Projects Yet</h3><p>Click "+ Add Project" to create the first project.</p></div>`;
+        return;
+    }
+    let rows="";
+    projectsData.forEach(function(p){
+        rows += `<tr>
+          <td><div class="student-name">${escapeHTML(p.title || "Project")}</div><div class="small-text">${escapeHTML(p.description || "No description")}</div></td>
+          <td>${escapeHTML(p.moduleTitle || p.module || p.learningModule || "-")}</td>
+          <td>${escapeHTML(p.program || "-")}</td>
+          <td>${formatDate(p.dueDate || "")}</td>
+          <td><span class="status ${normalize(p.status)==="completed"?"completed":normalize(p.status)==="active"?"active":"upcoming"}">${escapeHTML(p.status || "Active")}</span></td>
+          <td><button class="btn edit" data-project-action="edit" data-id="${p.id}">✎ Edit</button><button class="btn delete" data-project-action="delete" data-id="${p.id}">🗑 Delete</button></td>
+        </tr>`;
+    });
+    container.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Project</th><th>Module</th><th>Program</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function openProjectModal(project){
+    populateProjectModules();
+    document.getElementById("projectForm").reset();
+    document.getElementById("projectId").value = project ? project.id : "";
+    document.getElementById("projectModalTitle").textContent = project ? "Edit Project" : "Add Project";
+    document.getElementById("projectProgram").value = project ? (project.program || "Cyber Security & Digital Skills") : "Cyber Security & Digital Skills";
+    if(project){
+        document.getElementById("projectTitle").value=project.title||"";
+        document.getElementById("projectModule").value=project.moduleTitle||project.module||project.learningModule||"";
+        document.getElementById("projectDueDate").value=project.dueDate||"";
+        document.getElementById("projectStatus").value=project.status||"Active";
+        document.getElementById("projectNumber").value=project.projectNumber||"";
+        document.getElementById("projectOrder").value=project.order||"";
+        document.getElementById("projectDescription").value=project.description||"";
+    }
+    document.getElementById("projectModal").classList.add("open");
+}
+function closeProjectModal(){ document.getElementById("projectModal").classList.remove("open"); }
+document.getElementById("addProjectButton").addEventListener("click",function(){ openProjectModal(null); });
+document.getElementById("closeProjectModal").addEventListener("click",closeProjectModal);
+document.getElementById("cancelProject").addEventListener("click",closeProjectModal);
+document.getElementById("projectRefresh").addEventListener("click",loadProjects);
+document.getElementById("projectForm").addEventListener("submit",async function(event){
+    event.preventDefault();
+    const id=document.getElementById("projectId").value;
+    const data={
+        title:document.getElementById("projectTitle").value.trim(),
+        program:document.getElementById("projectProgram").value.trim(),
+        module:document.getElementById("projectModule").value,
+        moduleTitle:document.getElementById("projectModule").value,
+        dueDate:document.getElementById("projectDueDate").value,
+        status:document.getElementById("projectStatus").value,
+        projectNumber:Number(document.getElementById("projectNumber").value||0),
+        order:Number(document.getElementById("projectOrder").value||0),
+        description:document.getElementById("projectDescription").value.trim(),
+        updatedAt:serverTimestamp()
+    };
+    const button=document.getElementById("saveProjectButton"); button.disabled=true;
+    try{
+        if(id){ await updateDoc(doc(db,"Projects",id),data); }
+        else{ data.createdAt=serverTimestamp(); await addDoc(collection(db,"Projects"),data); }
+        closeProjectModal(); await loadProjects(); showToast(id?"Project updated ✓":"Project created ✓","success");
+    }catch(error){ console.error(error); showToast("Unable to save project.","error"); }
+    finally{ button.disabled=false; }
+});
+document.addEventListener("click",async function(event){
+    const button=event.target.closest("[data-project-action]"); if(!button){return;}
+    const project=projectsData.find(function(p){return p.id===button.dataset.id;}); if(!project){return;}
+    if(button.dataset.projectAction==="edit"){ openProjectModal(project); }
+    if(button.dataset.projectAction==="delete"){
+        if(!confirm("Delete this project?")){return;}
+        try{ await deleteDoc(doc(db,"Projects",project.id)); await loadProjects(); showToast("Project deleted.","success"); }
+        catch(error){ console.error(error); showToast("Unable to delete project.","error"); }
+    }
+});
+
+/* CERTIFICATES */
+function populateCertificateStudents(){
+    const select=document.getElementById("certificateStudent"); if(!select){return;}
+    select.innerHTML=`<option value="">Select Active student...</option>`+activeStudentsForManagement().map(function(s){
+        return `<option value="${escapeHTML(s.id)}">${escapeHTML(s.name||s.email||"Student")}</option>`;
+    }).join("");
+}
+async function loadCertificatesAdmin(){
+    const container=document.getElementById("certificatesAdminContainer");
+    if(container){container.innerHTML=`<div class="empty">Loading certificates...</div>`;}
+    try{
+        const snapshot=await getDocs(collection(db,"Certificates"));
+        certificatesData=[]; snapshot.forEach(function(item){certificatesData.push({id:item.id,...item.data()});});
+        renderCertificatesAdmin();
+    }catch(error){
+        console.error("Certificate load error:",error);
+        if(container){container.innerHTML=`<div class="empty"><div class="empty-icon">⚠️</div><h3>Unable to Load Certificates</h3><p>Check Firestore permissions.</p></div>`;}
+    }
+}
+function renderCertificatesAdmin(){
+    document.getElementById("certificateTotalCount").textContent=certificatesData.length;
+    document.getElementById("certificateStudentCount").textContent=new Set(certificatesData.map(function(c){return c.studentId;}).filter(Boolean)).size;
+    document.getElementById("certificateActiveStudentCount").textContent=activeStudentsForManagement().length;
+    const container=document.getElementById("certificatesAdminContainer");
+    if(!certificatesData.length){container.innerHTML=`<div class="empty"><div class="empty-icon">🏆</div><h3>No Certificates Issued</h3><p>Click "+ Issue Certificate" to issue the first certificate.</p></div>`;return;}
+    let rows="";
+    certificatesData.forEach(function(c){
+        rows+=`<tr>
+          <td><div class="student-name">${escapeHTML(c.studentName||"Student")}</div><div class="student-email">${escapeHTML(c.studentEmail||"")}</div></td>
+          <td><div class="student-name">${escapeHTML(c.certificateTitle||c.title||"DTE Certificate")}</div><div class="small-text">${escapeHTML(c.certificateId||c.certificateNumber||c.id)}</div></td>
+          <td>${escapeHTML(c.type||c.certificateType||"-")}</td><td>${formatDate(c.issueDate||"")}</td>
+          <td><button class="btn edit" data-certificate-action="edit" data-id="${c.id}">✎ Edit</button><button class="btn delete" data-certificate-action="delete" data-id="${c.id}">🗑 Delete</button></td>
+        </tr>`;
+    });
+    container.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Student</th><th>Certificate</th><th>Type</th><th>Issue Date</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function openCertificateModal(c){
+    populateCertificateStudents(); document.getElementById("certificateForm").reset();
+    document.getElementById("certificateDocId").value=c?c.id:"";
+    document.getElementById("certificateModalTitle").textContent=c?"Edit Certificate":"Issue Certificate";
+    if(c){
+        document.getElementById("certificateStudent").value=c.studentId||"";
+        document.getElementById("certificateTitle").value=c.certificateTitle||c.title||"";
+        document.getElementById("certificateProgram").value=c.program||"Cyber Security & Digital Skills";
+        document.getElementById("certificateType").value=c.type||c.certificateType||"Completion";
+        document.getElementById("certificateIssueDate").value=c.issueDate||"";
+        document.getElementById("certificateNumber").value=c.certificateId||c.certificateNumber||"";
+        document.getElementById("certificateURL").value=c.certificateURL||c.url||c.downloadURL||"";
+    }else{
+        document.getElementById("certificateProgram").value="Cyber Security & Digital Skills";
+    }
+    document.getElementById("certificateModal").classList.add("open");
+}
+function closeCertificateModal(){document.getElementById("certificateModal").classList.remove("open");}
+document.getElementById("issueCertificateButton").addEventListener("click",function(){openCertificateModal(null);});
+document.getElementById("closeCertificateModal").addEventListener("click",closeCertificateModal);
+document.getElementById("cancelCertificate").addEventListener("click",closeCertificateModal);
+document.getElementById("certificateRefresh").addEventListener("click",loadCertificatesAdmin);
+document.getElementById("certificateStudent").addEventListener("change",function(){
+    const student=studentsData.find(function(s){return s.id===this.value;}.bind(this));
+    if(student && student.program){document.getElementById("certificateProgram").value=student.program;}
+});
+document.getElementById("certificateForm").addEventListener("submit",async function(event){
+    event.preventDefault();
+    const id=document.getElementById("certificateDocId").value;
+    const studentId=document.getElementById("certificateStudent").value;
+    const student=studentsData.find(function(s){return s.id===studentId;});
+    if(!student){showToast("Please select an Active student.","error");return;}
+    const data={
+        studentId:student.id, studentName:student.name||"Student", studentEmail:student.email||"",
+        certificateTitle:document.getElementById("certificateTitle").value.trim(),
+        program:document.getElementById("certificateProgram").value.trim(),
+        type:document.getElementById("certificateType").value,
+        issueDate:document.getElementById("certificateIssueDate").value,
+        certificateId:document.getElementById("certificateNumber").value.trim(),
+        certificateURL:document.getElementById("certificateURL").value.trim(),
+        updatedAt:serverTimestamp()
+    };
+    const button=document.getElementById("saveCertificateButton");button.disabled=true;
+    try{
+        if(id){await updateDoc(doc(db,"Certificates",id),data);}
+        else{data.createdAt=serverTimestamp();await addDoc(collection(db,"Certificates"),data);}
+        closeCertificateModal();await loadCertificatesAdmin();showToast(id?"Certificate updated ✓":"Certificate issued successfully ✓","success");
+    }catch(error){console.error(error);showToast("Unable to save certificate.","error");}
+    finally{button.disabled=false;}
+});
+document.addEventListener("click",async function(event){
+    const button=event.target.closest("[data-certificate-action]");if(!button){return;}
+    const c=certificatesData.find(function(item){return item.id===button.dataset.id;});if(!c){return;}
+    if(button.dataset.certificateAction==="edit"){openCertificateModal(c);}
+    if(button.dataset.certificateAction==="delete"){
+        if(!confirm("Delete this certificate record?")){return;}
+        try{await deleteDoc(doc(db,"Certificates",c.id));await loadCertificatesAdmin();showToast("Certificate deleted.","success");}
+        catch(error){console.error(error);showToast("Unable to delete certificate.","error");}
+    }
+});
+
+/* ANNOUNCEMENTS */
+async function loadAnnouncements(){
+    const container=document.getElementById("announcementsContainer");
+    container.innerHTML=`<div class="empty">Loading announcements...</div>`;
+    try{
+        const snapshot=await getDocs(collection(db,"Announcements"));
+        announcementsData=[];snapshot.forEach(function(item){announcementsData.push({id:item.id,...item.data()});});
+        renderAnnouncements();
+    }catch(error){
+        console.error("Announcement load error:",error);
+        container.innerHTML=`<div class="empty"><div class="empty-icon">⚠️</div><h3>Announcements Rule Required</h3><p>Add the Announcements Firestore rule, Publish, then Refresh.</p></div>`;
+    }
+}
+function renderAnnouncements(){
+    document.getElementById("announcementTotalCount").textContent=announcementsData.length;
+    document.getElementById("announcementActiveCount").textContent=announcementsData.filter(function(a){return normalize(a.status)==="active";}).length;
+    document.getElementById("announcementInactiveCount").textContent=announcementsData.filter(function(a){return normalize(a.status)==="inactive";}).length;
+    const container=document.getElementById("announcementsContainer");
+    if(!announcementsData.length){container.innerHTML=`<div class="empty"><div class="empty-icon">📢</div><h3>No Announcements Yet</h3><p>Click "+ Add Announcement" to create one.</p></div>`;return;}
+    let rows="";
+    announcementsData.forEach(function(a){
+        rows+=`<tr><td><div class="student-name">${escapeHTML(a.title||"Announcement")}</div><div class="small-text">${escapeHTML(a.message||"")}</div></td><td>${escapeHTML(a.audience||"All Students")}</td><td>${formatDate(a.publishDate||"")}</td><td><span class="status ${normalize(a.status)==="active"?"active":"rejected"}">${escapeHTML(a.status||"Active")}</span></td><td><button class="btn edit" data-announcement-action="edit" data-id="${a.id}">✎ Edit</button><button class="btn delete" data-announcement-action="delete" data-id="${a.id}">🗑 Delete</button></td></tr>`;
+    });
+    container.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Announcement</th><th>Audience</th><th>Publish Date</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function openAnnouncementModal(a){
+    document.getElementById("announcementForm").reset();document.getElementById("announcementId").value=a?a.id:"";
+    document.getElementById("announcementModalTitle").textContent=a?"Edit Announcement":"Add Announcement";
+    if(a){document.getElementById("announcementTitle").value=a.title||"";document.getElementById("announcementMessage").value=a.message||"";document.getElementById("announcementAudience").value=a.audience||"All Students";document.getElementById("announcementStatus").value=a.status||"Active";document.getElementById("announcementDate").value=a.publishDate||"";}
+    document.getElementById("announcementModal").classList.add("open");
+}
+function closeAnnouncementModal(){document.getElementById("announcementModal").classList.remove("open");}
+document.getElementById("addAnnouncementButton").addEventListener("click",function(){openAnnouncementModal(null);});
+document.getElementById("closeAnnouncementModal").addEventListener("click",closeAnnouncementModal);
+document.getElementById("cancelAnnouncement").addEventListener("click",closeAnnouncementModal);
+document.getElementById("announcementRefresh").addEventListener("click",loadAnnouncements);
+document.getElementById("announcementForm").addEventListener("submit",async function(event){
+    event.preventDefault();const id=document.getElementById("announcementId").value;
+    const data={title:document.getElementById("announcementTitle").value.trim(),message:document.getElementById("announcementMessage").value.trim(),audience:document.getElementById("announcementAudience").value,status:document.getElementById("announcementStatus").value,publishDate:document.getElementById("announcementDate").value,updatedAt:serverTimestamp()};
+    const button=document.getElementById("saveAnnouncementButton");button.disabled=true;
+    try{if(id){await updateDoc(doc(db,"Announcements",id),data);}else{data.createdAt=serverTimestamp();await addDoc(collection(db,"Announcements"),data);}closeAnnouncementModal();await loadAnnouncements();showToast(id?"Announcement updated ✓":"Announcement created ✓","success");}
+    catch(error){console.error(error);showToast("Unable to save announcement. Check Firestore rules.","error");}
+    finally{button.disabled=false;}
+});
+document.addEventListener("click",async function(event){
+    const button=event.target.closest("[data-announcement-action]");if(!button){return;}
+    const a=announcementsData.find(function(item){return item.id===button.dataset.id;});if(!a){return;}
+    if(button.dataset.announcementAction==="edit"){openAnnouncementModal(a);}
+    if(button.dataset.announcementAction==="delete"){if(!confirm("Delete this announcement?")){return;}try{await deleteDoc(doc(db,"Announcements",a.id));await loadAnnouncements();showToast("Announcement deleted.","success");}catch(error){console.error(error);showToast("Unable to delete announcement.","error");}}
+});
+
 
 /* REFRESH */
 
