@@ -507,181 +507,6 @@ td{
 }
 
 
-/* LEARNING MODULES */
-
-async function loadModules(){
-    const container = document.getElementById("modulesContainer");
-    if(container){ container.innerHTML = `<div class="empty">Loading learning modules...</div>`; }
-
-    try{
-        const snapshot = await getDocs(collection(db,"LearningModules"));
-        modulesData = [];
-        snapshot.forEach(function(item){ modulesData.push({id:item.id,...item.data()}); });
-        modulesData.sort(function(a,b){
-            const ao = Number(a.order ?? a.moduleNumber ?? 9999);
-            const bo = Number(b.order ?? b.moduleNumber ?? 9999);
-            return ao - bo;
-        });
-        renderModuleStatistics();
-        renderModules();
-    }catch(error){
-        console.error("Module load error:",error);
-        if(container){
-            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Unable to Load Modules</h3><p>Please check Firestore permissions.</p></div>`;
-        }
-        showToast("Unable to load learning modules.","error");
-    }
-}
-
-function renderModuleStatistics(){
-    const inProgress = modulesData.filter(m => normalize(m.status) === "in progress").length;
-    const completed = modulesData.filter(m => normalize(m.status) === "completed").length;
-    document.getElementById("moduleTotalCount").textContent = modulesData.length;
-    document.getElementById("moduleProgressCount").textContent = inProgress;
-    document.getElementById("moduleCompletedCount").textContent = completed;
-}
-
-function renderModules(){
-    const container = document.getElementById("modulesContainer");
-    if(modulesData.length === 0){
-        container.innerHTML = `<div class="empty"><div class="empty-icon">🧩</div><h3>No Learning Modules Yet</h3><p>Click "+ Add Module" to create your first module.</p></div>`;
-        return;
-    }
-
-    let rows = "";
-    modulesData.forEach(function(module){
-        const status = String(module.status || "Upcoming").trim();
-        const n = normalize(status);
-        let statusClass = "upcoming";
-        if(n === "in progress") statusClass = "current";
-        else if(n === "completed") statusClass = "completed";
-
-        rows += `<tr>
-            <td><div class="session-title">Module ${Number(module.moduleNumber || 0)} — ${escapeHTML(module.title || "Learning Module")}</div><div class="small-text">${escapeHTML(module.description || "No description")}</div></td>
-            <td>${escapeHTML(module.program || "-")}</td>
-            <td>${Number(module.order || module.moduleNumber || 0)}</td>
-            <td><span class="status ${statusClass}">${escapeHTML(status)}</span></td>
-            <td>
-                <button class="btn edit" data-module-action="edit" data-id="${module.id}">✎ Edit</button>
-                <button class="btn delete" data-module-action="delete" data-id="${module.id}">🗑 Delete</button>
-            </td>
-        </tr>`;
-    });
-
-    container.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Module</th><th>Program</th><th>Order</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-}
-
-const moduleModal = document.getElementById("moduleModal");
-const moduleForm = document.getElementById("moduleForm");
-const moduleId = document.getElementById("moduleId");
-const moduleNumber = document.getElementById("moduleNumber");
-const moduleOrder = document.getElementById("moduleOrder");
-const moduleTitle = document.getElementById("moduleTitle");
-const moduleProgram = document.getElementById("moduleProgram");
-const moduleStatus = document.getElementById("moduleStatus");
-const moduleDescription = document.getElementById("moduleDescription");
-const moduleModalTitle = document.getElementById("moduleModalTitle");
-const saveModuleButton = document.getElementById("saveModuleButton");
-
-function closeModuleModal(){ moduleModal.classList.remove("open"); }
-
-document.getElementById("addModuleButton").addEventListener("click",function(){
-    moduleForm.reset();
-    moduleId.value = "";
-    const nextNumber = modulesData.length ? Math.max(...modulesData.map(m => Number(m.moduleNumber || 0))) + 1 : 1;
-    const nextOrder = modulesData.length ? Math.max(...modulesData.map(m => Number(m.order || m.moduleNumber || 0))) + 1 : 1;
-    moduleNumber.value = nextNumber;
-    moduleOrder.value = nextOrder;
-    moduleProgram.value = "Cyber Security & Digital Skills";
-    moduleStatus.value = "Upcoming";
-    moduleModalTitle.textContent = "Add Learning Module";
-    saveModuleButton.textContent = "Save Module";
-    moduleModal.classList.add("open");
-});
-
-document.getElementById("closeModuleModal").addEventListener("click",closeModuleModal);
-document.getElementById("cancelModule").addEventListener("click",closeModuleModal);
-moduleModal.addEventListener("click",function(event){ if(event.target === moduleModal) closeModuleModal(); });
-
-moduleForm.addEventListener("submit",async function(event){
-    event.preventDefault();
-    const id = moduleId.value.trim();
-    const number = Number(moduleNumber.value);
-    const order = Number(moduleOrder.value);
-    const title = moduleTitle.value.trim();
-    const program = moduleProgram.value.trim();
-    const status = moduleStatus.value;
-    const description = moduleDescription.value.trim();
-
-    if(!number || !order || !title || !program){
-        showToast("Please enter module number, order, title and program.","error");
-        return;
-    }
-
-    saveModuleButton.disabled = true;
-    saveModuleButton.textContent = id ? "Updating..." : "Saving...";
-    try{
-        const data = {moduleNumber:number,order:order,title:title,program:program,status:status,description:description,updatedAt:serverTimestamp()};
-        if(id){
-            await updateDoc(doc(db,"LearningModules",id),data);
-            showToast("Learning module updated successfully ✓","success");
-        }else{
-            data.createdAt = serverTimestamp();
-            await addDoc(collection(db,"LearningModules"),data);
-            showToast("New learning module created ✓","success");
-        }
-        closeModuleModal();
-        await loadModules();
-    }catch(error){
-        console.error("Module save error:",error);
-        showToast("Unable to save learning module.","error");
-    }finally{
-        saveModuleButton.disabled = false;
-        saveModuleButton.textContent = "Save Module";
-    }
-});
-
-document.getElementById("modulesContainer").addEventListener("click",async function(event){
-    const button = event.target.closest("[data-module-action]");
-    if(!button) return;
-    const id = button.dataset.id;
-    const action = button.dataset.moduleAction;
-    const module = modulesData.find(item => item.id === id);
-    if(!module) return;
-
-    if(action === "edit"){
-        moduleId.value = module.id;
-        moduleNumber.value = Number(module.moduleNumber || 1);
-        moduleOrder.value = Number(module.order || module.moduleNumber || 1);
-        moduleTitle.value = module.title || "";
-        moduleProgram.value = module.program || "Cyber Security & Digital Skills";
-        moduleStatus.value = module.status || "Upcoming";
-        moduleDescription.value = module.description || "";
-        moduleModalTitle.textContent = "Edit Learning Module";
-        saveModuleButton.textContent = "Update Module";
-        moduleModal.classList.add("open");
-    }else if(action === "delete"){
-        if(!confirm(`Delete "${module.title || "this module"}"?\n\nThis action cannot be undone.`)) return;
-        try{
-            button.disabled = true;
-            button.textContent = "Deleting...";
-            await deleteDoc(doc(db,"LearningModules",id));
-            showToast("Learning module deleted successfully.","success");
-            await loadModules();
-        }catch(error){
-            console.error("Module delete error:",error);
-            button.disabled = false;
-            button.textContent = "🗑 Delete";
-            showToast("Unable to delete learning module.","error");
-        }
-    }
-});
-
-document.getElementById("moduleRefresh").addEventListener("click",async function(){
-    await loadModules();
-    showToast("Learning modules refreshed.","success");
-});
-
 /* ATTENDANCE */
 .attendance-controls{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;padding:20px 21px;border-bottom:1px solid #e8edf2;background:#fbfcfe;}
 .attendance-controls label{display:block;font-size:10px;font-weight:bold;color:#52647a;margin-bottom:6px;}
@@ -2820,6 +2645,181 @@ async function(event){
 
 });
 
+
+/* LEARNING MODULES */
+
+async function loadModules(){
+    const container = document.getElementById("modulesContainer");
+    if(container){ container.innerHTML = `<div class="empty">Loading learning modules...</div>`; }
+
+    try{
+        const snapshot = await getDocs(collection(db,"LearningModules"));
+        modulesData = [];
+        snapshot.forEach(function(item){ modulesData.push({id:item.id,...item.data()}); });
+        modulesData.sort(function(a,b){
+            const ao = Number(a.order ?? a.moduleNumber ?? 9999);
+            const bo = Number(b.order ?? b.moduleNumber ?? 9999);
+            return ao - bo;
+        });
+        renderModuleStatistics();
+        renderModules();
+    }catch(error){
+        console.error("Module load error:",error);
+        if(container){
+            container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Unable to Load Modules</h3><p>Please check Firestore permissions.</p></div>`;
+        }
+        showToast("Unable to load learning modules.","error");
+    }
+}
+
+function renderModuleStatistics(){
+    const inProgress = modulesData.filter(m => normalize(m.status) === "in progress").length;
+    const completed = modulesData.filter(m => normalize(m.status) === "completed").length;
+    document.getElementById("moduleTotalCount").textContent = modulesData.length;
+    document.getElementById("moduleProgressCount").textContent = inProgress;
+    document.getElementById("moduleCompletedCount").textContent = completed;
+}
+
+function renderModules(){
+    const container = document.getElementById("modulesContainer");
+    if(modulesData.length === 0){
+        container.innerHTML = `<div class="empty"><div class="empty-icon">🧩</div><h3>No Learning Modules Yet</h3><p>Click "+ Add Module" to create your first module.</p></div>`;
+        return;
+    }
+
+    let rows = "";
+    modulesData.forEach(function(module){
+        const status = String(module.status || "Upcoming").trim();
+        const n = normalize(status);
+        let statusClass = "upcoming";
+        if(n === "in progress") statusClass = "current";
+        else if(n === "completed") statusClass = "completed";
+
+        rows += `<tr>
+            <td><div class="session-title">Module ${Number(module.moduleNumber || 0)} — ${escapeHTML(module.title || "Learning Module")}</div><div class="small-text">${escapeHTML(module.description || "No description")}</div></td>
+            <td>${escapeHTML(module.program || "-")}</td>
+            <td>${Number(module.order || module.moduleNumber || 0)}</td>
+            <td><span class="status ${statusClass}">${escapeHTML(status)}</span></td>
+            <td>
+                <button class="btn edit" data-module-action="edit" data-id="${module.id}">✎ Edit</button>
+                <button class="btn delete" data-module-action="delete" data-id="${module.id}">🗑 Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    container.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Module</th><th>Program</th><th>Order</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+const moduleModal = document.getElementById("moduleModal");
+const moduleForm = document.getElementById("moduleForm");
+const moduleId = document.getElementById("moduleId");
+const moduleNumber = document.getElementById("moduleNumber");
+const moduleOrder = document.getElementById("moduleOrder");
+const moduleTitle = document.getElementById("moduleTitle");
+const moduleProgram = document.getElementById("moduleProgram");
+const moduleStatus = document.getElementById("moduleStatus");
+const moduleDescription = document.getElementById("moduleDescription");
+const moduleModalTitle = document.getElementById("moduleModalTitle");
+const saveModuleButton = document.getElementById("saveModuleButton");
+
+function closeModuleModal(){ moduleModal.classList.remove("open"); }
+
+document.getElementById("addModuleButton").addEventListener("click",function(){
+    moduleForm.reset();
+    moduleId.value = "";
+    const nextNumber = modulesData.length ? Math.max(...modulesData.map(m => Number(m.moduleNumber || 0))) + 1 : 1;
+    const nextOrder = modulesData.length ? Math.max(...modulesData.map(m => Number(m.order || m.moduleNumber || 0))) + 1 : 1;
+    moduleNumber.value = nextNumber;
+    moduleOrder.value = nextOrder;
+    moduleProgram.value = "Cyber Security & Digital Skills";
+    moduleStatus.value = "Upcoming";
+    moduleModalTitle.textContent = "Add Learning Module";
+    saveModuleButton.textContent = "Save Module";
+    moduleModal.classList.add("open");
+});
+
+document.getElementById("closeModuleModal").addEventListener("click",closeModuleModal);
+document.getElementById("cancelModule").addEventListener("click",closeModuleModal);
+moduleModal.addEventListener("click",function(event){ if(event.target === moduleModal) closeModuleModal(); });
+
+moduleForm.addEventListener("submit",async function(event){
+    event.preventDefault();
+    const id = moduleId.value.trim();
+    const number = Number(moduleNumber.value);
+    const order = Number(moduleOrder.value);
+    const title = moduleTitle.value.trim();
+    const program = moduleProgram.value.trim();
+    const status = moduleStatus.value;
+    const description = moduleDescription.value.trim();
+
+    if(!number || !order || !title || !program){
+        showToast("Please enter module number, order, title and program.","error");
+        return;
+    }
+
+    saveModuleButton.disabled = true;
+    saveModuleButton.textContent = id ? "Updating..." : "Saving...";
+    try{
+        const data = {moduleNumber:number,order:order,title:title,program:program,status:status,description:description,updatedAt:serverTimestamp()};
+        if(id){
+            await updateDoc(doc(db,"LearningModules",id),data);
+            showToast("Learning module updated successfully ✓","success");
+        }else{
+            data.createdAt = serverTimestamp();
+            await addDoc(collection(db,"LearningModules"),data);
+            showToast("New learning module created ✓","success");
+        }
+        closeModuleModal();
+        await loadModules();
+    }catch(error){
+        console.error("Module save error:",error);
+        showToast("Unable to save learning module.","error");
+    }finally{
+        saveModuleButton.disabled = false;
+        saveModuleButton.textContent = "Save Module";
+    }
+});
+
+document.getElementById("modulesContainer").addEventListener("click",async function(event){
+    const button = event.target.closest("[data-module-action]");
+    if(!button) return;
+    const id = button.dataset.id;
+    const action = button.dataset.moduleAction;
+    const module = modulesData.find(item => item.id === id);
+    if(!module) return;
+
+    if(action === "edit"){
+        moduleId.value = module.id;
+        moduleNumber.value = Number(module.moduleNumber || 1);
+        moduleOrder.value = Number(module.order || module.moduleNumber || 1);
+        moduleTitle.value = module.title || "";
+        moduleProgram.value = module.program || "Cyber Security & Digital Skills";
+        moduleStatus.value = module.status || "Upcoming";
+        moduleDescription.value = module.description || "";
+        moduleModalTitle.textContent = "Edit Learning Module";
+        saveModuleButton.textContent = "Update Module";
+        moduleModal.classList.add("open");
+    }else if(action === "delete"){
+        if(!confirm(`Delete "${module.title || "this module"}"?\n\nThis action cannot be undone.`)) return;
+        try{
+            button.disabled = true;
+            button.textContent = "Deleting...";
+            await deleteDoc(doc(db,"LearningModules",id));
+            showToast("Learning module deleted successfully.","success");
+            await loadModules();
+        }catch(error){
+            console.error("Module delete error:",error);
+            button.disabled = false;
+            button.textContent = "🗑 Delete";
+            showToast("Unable to delete learning module.","error");
+        }
+    }
+});
+
+document.getElementById("moduleRefresh").addEventListener("click",async function(){
+    await loadModules();
+    showToast("Learning modules refreshed.","success");
+});
 
 /* ATTENDANCE */
 
