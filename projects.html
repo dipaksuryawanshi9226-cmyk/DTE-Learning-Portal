@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Projects | DTE</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    background:#f3f6fa;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f3f6fa;
+    color:#172033;
+    visibility:hidden;
+}
+
+a{
+    text-decoration:none;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:255px;
+    height:100vh;
+    background:#06152e;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:25px 18px;
+    color:white;
+    overflow-y:auto;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:25px;
+    border-bottom:1px solid #18304e;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    background:linear-gradient(135deg,#19b9f2,#0756a5);
+    border:2px solid #ffc532;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.brand h2{
+    font-size:17px;
+}
+
+.brand p{
+    font-size:9px;
+    color:#8fa7c7;
+}
+
+.menu-title{
+    font-size:10px;
+    color:#627995;
+    letter-spacing:1.5px;
+    margin:25px 10px 10px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#aebed1;
+    padding:12px 13px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:13px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu .active{
+    background:#0b3158;
+    color:white;
+}
+
+.logout{
+    margin-top:30px;
+}
+
+.logout a{
+    display:block;
+    padding:12px;
+    border:1px solid #344b67;
+    color:#aebed1;
+    border-radius:8px;
+    text-align:center;
+    font-size:13px;
+}
+
+.logout a:hover{
+    background:#c83b3b;
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:255px;
+    min-height:100vh;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    background:white;
+    min-height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 35px;
+    border-bottom:1px solid #e1e7ef;
+}
+
+.topbar-left h2{
+    color:#10213b;
+    font-size:20px;
+}
+
+.topbar-left p{
+    color:#8492a6;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.top-user{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.top-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#dff4fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+    overflow:hidden;
+}
+
+.top-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.top-user h4{
+    font-size:13px;
+}
+
+.top-user p{
+    color:#8290a3;
+    font-size:10px;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:30px 35px 50px;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    background:linear-gradient(110deg,#071a38,#0b4771);
+    border-radius:17px;
+    padding:32px;
+    color:white;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(7,35,70,.12);
+}
+
+.hero-tag{
+    color:#54cfff;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:1.5px;
+}
+
+.hero h1{
+    margin:7px 0;
+    font-size:28px;
+}
+
+.hero h1 span{
+    color:#ffc532;
+}
+
+.hero p{
+    color:#b7c8db;
+    font-size:13px;
+    line-height:1.7;
+    max-width:700px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid #e1e7ef;
+    border-radius:12px;
+    padding:21px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-label{
+    font-size:10px;
+    color:#1488b9;
+    font-weight:bold;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:9px;
+    background:#eaf7fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+}
+
+.stat-card h2{
+    font-size:26px;
+    margin-top:14px;
+    color:#0c2442;
+}
+
+.stat-card p{
+    color:#8492a6;
+    font-size:11px;
+    margin-top:2px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    background:white;
+    border:1px solid #e0e6ee;
+    border-radius:13px;
+    padding:24px;
+    margin-bottom:22px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    color:#12243e;
+    font-size:16px;
+}
+
+.card-header p{
+    color:#7b899c;
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* ================= FILTER ================= */
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.filter-btn{
+    border:1px solid #dce4ed;
+    background:white;
+    color:#607086;
+    padding:8px 13px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:11px;
+    transition:.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+    background:#0b3158;
+    color:white;
+    border-color:#0b3158;
+}
+
+/* ================= PROJECT GRID ================= */
+
+.projects-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.project-card{
+    border:1px solid #e0e6ee;
+    border-radius:13px;
+    padding:21px;
+    background:#fbfcfe;
+    transition:.25s;
+}
+
+.project-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(14,42,75,.08);
+}
+
+.project-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:flex-start;
+}
+
+.project-icon{
+    width:48px;
+    height:48px;
+    border-radius:11px;
+    background:#e6f5fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+}
+
+.project-main{
+    flex:1;
+}
+
+.project-main h3{
+    color:#10233f;
+    font-size:15px;
+    line-height:1.4;
+}
+
+.project-description{
+    color:#748297;
+    font-size:11px;
+    line-height:1.7;
+    margin-top:10px;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.status.active{
+    background:#e5f4ff;
+    color:#0878b7;
+}
+
+.status.in-progress{
+    background:#fff4d7;
+    color:#946600;
+}
+
+.status.completed{
+    background:#e7f8ee;
+    color:#16814b;
+}
+
+.status.upcoming{
+    background:#f0edff;
+    color:#6750b5;
+}
+
+.status.closed{
+    background:#ffeded;
+    color:#bd3e3e;
+}
+
+.project-info{
+    margin-top:17px;
+    border-top:1px solid #e7ebf0;
+    padding-top:14px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.info-box label{
+    display:block;
+    color:#909bab;
+    font-size:9px;
+    margin-bottom:4px;
+    text-transform:uppercase;
+}
+
+.info-box span{
+    color:#2c3e55;
+    font-size:11px;
+    font-weight:600;
+    line-height:1.4;
+}
+
+.due-warning{
+    margin-top:13px;
+    padding:9px 11px;
+    border-radius:7px;
+    background:#fff6dd;
+    color:#896200;
+    font-size:10px;
+}
+
+.due-over{
+    background:#ffeded;
+    color:#b43b3b;
+}
+
+.project-number{
+    color:#0787c2;
+    font-size:10px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty-state{
+    text-align:center;
+    padding:55px 20px;
+}
+
+.empty-icon{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:#eaf7fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    margin:0 auto 16px;
+}
+
+.empty-state h3{
+    color:#263a54;
+    font-size:16px;
+}
+
+.empty-state p{
+    color:#8794a5;
+    font-size:11px;
+    line-height:1.7;
+    margin-top:7px;
+}
+
+/* ================= ERROR ================= */
+
+.error-box{
+    display:none;
+    background:#fff3f3;
+    border:1px solid #f1b8b8;
+    color:#a82d2d;
+    padding:15px 18px;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-size:12px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:50px;
+    color:#8390a3;
+    font-size:12px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#8a97a7;
+    font-size:10px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1000px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .projects-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .topbar{
+        padding:15px 18px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .card-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .project-info{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:480px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:23px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="logo">
+            DTE
+        </div>
+
+        <div>
+            <h2>Student Portal</h2>
+            <p>DIGITAL TECH ECOSYSTEM</p>
+        </div>
+
+    </div>
+
+    <p class="menu-title">MAIN MENU</p>
+
+    <ul class="menu">
+
+        <li>
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="profile.html">
+                👤 My Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="courses.html">
+                📚 My Learning
+            </a>
+        </li>
+
+        <li>
+            <a href="attendance.html">
+                📅 Attendance
+            </a>
+        </li>
+
+        <li>
+            <a href="assignments.html">
+                📝 Assignments
+            </a>
+        </li>
+
+        <li>
+            <a href="projects.html" class="active">
+                🚀 Projects
+            </a>
+        </li>
+
+        <li>
+            <a href="certificates.html">
+                🏆 Certificates
+            </a>
+        </li>
+
+    </ul>
+
+    <p class="menu-title">SUPPORT</p>
+
+    <ul class="menu">
+
+        <li>
+            <a href="index.html#contact">
+                💬 Contact DTE
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="logout">
+
+        <a href="#" id="logoutButton">
+            ↪ Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div class="topbar-left">
+            <h2>My Projects</h2>
+            <p>DTE Digital Tech Ecosystem</p>
+        </div>
+
+        <div class="top-user">
+
+            <div class="top-avatar" id="topAvatar">
+                👨‍🎓
+            </div>
+
+            <div>
+                <h4 id="topName">Loading...</h4>
+                <p id="topProgram">DTE Student</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <div class="error-box" id="errorBox">
+            Unable to load projects. Please try again or contact DTE Support.
+        </div>
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <span class="hero-tag">
+                PRACTICAL LEARNING
+            </span>
+
+            <h1>
+                My <span>Projects</span> 🚀
+            </h1>
+
+            <p>
+                Build practical skills through DTE projects.
+                Projects assigned to your learning program will appear here.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span class="stat-label">TOTAL</span>
+                    <div class="stat-icon">🚀</div>
+                </div>
+
+                <h2 id="totalProjects">0</h2>
+                <p>Total Projects</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span class="stat-label">ACTIVE</span>
+                    <div class="stat-icon">⚡</div>
+                </div>
+
+                <h2 id="activeProjects">0</h2>
+                <p>Active Projects</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span class="stat-label">IN PROGRESS</span>
+                    <div class="stat-icon">🛠️</div>
+                </div>
+
+                <h2 id="progressProjects">0</h2>
+                <p>Projects In Progress</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+                    <span class="stat-label">COMPLETED</span>
+                    <div class="stat-icon">✅</div>
+                </div>
+
+                <h2 id="completedProjects">0</h2>
+                <p>Completed Projects</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROJECTS -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h3>Project Workspace</h3>
+                    <p>
+                        Projects published for your DTE learning program.
+                    </p>
+                </div>
+
+                <div class="filters">
+
+                    <button
+                        class="filter-btn active"
+                        data-filter="all">
+                        All
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="active">
+                        Active
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="in progress">
+                        In Progress
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="completed">
+                        Completed
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div id="projectsContainer">
+
+                <div class="loading">
+                    Loading your projects...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 DTE — Digital Tech Ecosystem |
+        Student Learning Portal
+    </div>
+
+</div>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB9baNNbsawnpeZRqmTCsNG6MKpNd2FyHc",
+
+    authDomain:
+    "dte-learning-portal.firebaseapp.com",
+
+    projectId:
+    "dte-learning-portal",
+
+    storageBucket:
+    "dte-learning-portal.firebasestorage.app",
+
+    messagingSenderId:
+    "229529830631",
+
+    appId:
+    "1:229529830631:web:970c1c827d05795bca4e42"
+
+};
+
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+
+/* ================= GLOBAL DATA ================= */
+
+let allProjects = [];
+
+let currentStudent = null;
+
+
+/* ================= NORMALIZE ================= */
+
+function normalize(value){
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* ================= ESCAPE HTML ================= */
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* ================= DATE ================= */
+
+function formatDate(value){
+
+    if(!value){
+        return "Not Assigned";
+    }
+
+    const parts =
+    String(value).split("-");
+
+    if(parts.length !== 3){
+        return value;
+    }
+
+    const date =
+    new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+    );
+
+    if(Number.isNaN(date.getTime())){
+        return value;
+    }
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* ================= DUE STATUS ================= */
+
+function getDueMessage(dueDate){
+
+    if(!dueDate){
+        return null;
+    }
+
+    const parts =
+    String(dueDate).split("-");
+
+    if(parts.length !== 3){
+        return null;
+    }
+
+    const due =
+    new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+    );
+
+    due.setHours(23,59,59,999);
+
+
+    const today =
+    new Date();
+
+    today.setHours(0,0,0,0);
+
+
+    if(Number.isNaN(due.getTime())){
+        return null;
+    }
+
+
+    const difference =
+    Math.ceil(
+        (due - today) /
+        (1000 * 60 * 60 * 24)
+    );
+
+
+    if(difference < 0){
+
+        return {
+            type:"over",
+            text:"Due date has passed"
+        };
+
+    }
+
+
+    if(difference === 0){
+
+        return {
+            type:"warning",
+            text:"Due today"
+        };
+
+    }
+
+
+    if(difference <= 3){
+
+        return {
+            type:"warning",
+            text:`Due in ${difference} day${difference === 1 ? "" : "s"}`
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ================= STATUS ================= */
+
+function projectStatus(project){
+
+    return String(
+        project.status ||
+        "Active"
+    ).trim();
+
+}
+
+
+function statusClass(status){
+
+    const value =
+    normalize(status);
+
+    if(value === "in progress"){
+        return "in-progress";
+    }
+
+    if(value === "completed"){
+        return "completed";
+    }
+
+    if(value === "upcoming"){
+        return "upcoming";
+    }
+
+    if(value === "closed"){
+        return "closed";
+    }
+
+    return "active";
+
+}
+
+
+/* ================= DENY ACCESS ================= */
+
+async function denyAccess(){
+
+    document.body.style.visibility =
+    "hidden";
+
+    try{
+
+        if(auth.currentUser){
+
+            await signOut(auth);
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "DTE Sign Out Error:",
+            error
+        );
+
+    }
+
+
+    window.location.replace(
+        "login.html"
+    );
+
+}
+
+
+/* ================= LOAD STUDENT ================= */
+
+async function loadStudent(user){
+
+    const studentReference =
+    doc(
+        db,
+        "Students",
+        user.uid
+    );
+
+
+    const studentSnapshot =
+    await getDoc(
+        studentReference
+    );
+
+
+    if(!studentSnapshot.exists()){
+
+        return false;
+
+    }
+
+
+    const student =
+    studentSnapshot.data();
+
+
+    if(
+        normalize(student.role) !==
+        "student"
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        normalize(student.status) !==
+        "active"
+    ){
+
+        return false;
+
+    }
+
+
+    currentStudent = {
+        id:user.uid,
+        ...student
+    };
+
+
+    const name =
+    student.name ||
+    user.displayName ||
+    "DTE Student";
+
+
+    const program =
+    student.program ||
+    "DTE Learning Program";
+
+
+    document.getElementById(
+        "topName"
+    ).textContent =
+    name;
+
+
+    document.getElementById(
+        "topProgram"
+    ).textContent =
+    program;
+
+
+    /* PROFILE PHOTO */
+
+    const photoURL =
+    String(
+        student.profilePhotoURL || ""
+    ).trim();
+
+
+    if(photoURL){
+
+        document.getElementById(
+            "topAvatar"
+        ).innerHTML =
+        `<img
+            src="${escapeHTML(photoURL)}"
+            alt="Student Profile">`;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* ================= LOAD PROJECTS ================= */
+
+async function loadProjects(){
+
+    try{
+
+        const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "Projects"
+            )
+        );
+
+
+        const projects = [];
+
+
+        snapshot.forEach(
+            item => {
+
+                projects.push({
+                    id:item.id,
+                    ...item.data()
+                });
+
+            }
+        );
+
+
+        /*
+            Only projects for student's
+            learning program are displayed.
+
+            Empty project program =
+            visible to all active students.
+        */
+
+        const studentProgram =
+        normalize(
+            currentStudent.program
+        );
+
+
+        allProjects =
+        projects.filter(
+            project => {
+
+                const projectProgram =
+                normalize(
+                    project.program
+                );
+
+
+                return (
+                    !projectProgram ||
+                    projectProgram ===
+                    studentProgram
+                );
+
+            }
+        );
+
+
+        /* SORT */
+
+        allProjects.sort(
+            (a,b) => {
+
+                const orderA =
+                Number(
+                    a.order || 9999
+                );
+
+                const orderB =
+                Number(
+                    b.order || 9999
+                );
+
+
+                if(orderA !== orderB){
+
+                    return orderA -
+                    orderB;
+
+                }
+
+
+                return String(
+                    a.dueDate || ""
+                ).localeCompare(
+                    String(
+                        b.dueDate || ""
+                    )
+                );
+
+            }
+        );
+
+
+        updateStats();
+
+        renderProjects(
+            allProjects
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "DTE Projects Load Error:",
+            error
+        );
+
+
+        document.getElementById(
+            "errorBox"
+        ).style.display =
+        "block";
+
+
+        showEmptyState(
+            "Unable to Load Projects",
+            "Your projects could not be loaded right now."
+        );
+
+    }
+
+}
+
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+    const total =
+    allProjects.length;
+
+
+    const active =
+    allProjects.filter(
+        project =>
+        normalize(
+            projectStatus(project)
+        ) === "active"
+    ).length;
+
+
+    const progress =
+    allProjects.filter(
+        project =>
+        normalize(
+            projectStatus(project)
+        ) === "in progress"
+    ).length;
+
+
+    const completed =
+    allProjects.filter(
+        project =>
+        normalize(
+            projectStatus(project)
+        ) === "completed"
+    ).length;
+
+
+    document.getElementById(
+        "totalProjects"
+    ).textContent =
+    total;
+
+
+    document.getElementById(
+        "activeProjects"
+    ).textContent =
+    active;
+
+
+    document.getElementById(
+        "progressProjects"
+    ).textContent =
+    progress;
+
+
+    document.getElementById(
+        "completedProjects"
+    ).textContent =
+    completed;
+
+}
+
+
+/* ================= EMPTY ================= */
+
+function showEmptyState(
+    title,
+    description
+){
+
+    document.getElementById(
+        "projectsContainer"
+    ).innerHTML = `
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                🚀
+            </div>
+
+            <h3>
+                ${escapeHTML(title)}
+            </h3>
+
+            <p>
+                ${escapeHTML(description)}
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================= RENDER PROJECTS ================= */
+
+function renderProjects(projects){
+
+    const container =
+    document.getElementById(
+        "projectsContainer"
+    );
+
+
+    if(!projects.length){
+
+        showEmptyState(
+            "No Projects Yet",
+            "No project has been assigned to your learning program yet. New DTE projects will appear here."
+        );
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+    `<div class="projects-grid">
+
+        ${projects.map(
+            (project,index) => {
+
+                const status =
+                projectStatus(
+                    project
+                );
+
+
+                const due =
+                getDueMessage(
+                    project.dueDate
+                );
+
+
+                const moduleName =
+                project.moduleTitle ||
+                project.module ||
+                project.learningModule ||
+                "General Project";
+
+
+                const projectNumber =
+                project.projectNumber ||
+                project.order ||
+                (index + 1);
+
+
+                return `
+
+                <div class="project-card">
+
+                    <div class="project-top">
+
+                        <div class="project-icon">
+                            🚀
+                        </div>
+
+                        <div class="project-main">
+
+                            <div class="project-number">
+                                PROJECT ${escapeHTML(projectNumber)}
+                            </div>
+
+                            <h3>
+                                ${escapeHTML(
+                                    project.title ||
+                                    "DTE Project"
+                                )}
+                            </h3>
+
+                        </div>
+
+                        <span
+                            class="status ${statusClass(status)}">
+
+                            ${escapeHTML(status)}
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="project-description">
+
+                        ${escapeHTML(
+                            project.description ||
+                            "Project instructions will be provided by DTE."
+                        )}
+
+                    </p>
+
+
+                    <div class="project-info">
+
+                        <div class="info-box">
+
+                            <label>
+                                Learning Module
+                            </label>
+
+                            <span>
+                                ${escapeHTML(moduleName)}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <label>
+                                Due Date
+                            </label>
+
+                            <span>
+                                ${escapeHTML(
+                                    formatDate(
+                                        project.dueDate
+                                    )
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <label>
+                                Program
+                            </label>
+
+                            <span>
+                                ${escapeHTML(
+                                    project.program ||
+                                    currentStudent.program ||
+                                    "DTE Learning Program"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <label>
+                                Project Status
+                            </label>
+
+                            <span>
+                                ${escapeHTML(status)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        due
+                        ?
+                        `<div class="due-warning ${due.type === "over" ? "due-over" : ""}">
+                            ⏰ ${escapeHTML(due.text)}
+                        </div>`
+                        :
+                        ""
+                    }
+
+                </div>
+
+                `;
+
+            }
+        ).join("")}
+
+    </div>`;
+
+}
+
+
+/* ================= FILTERS ================= */
+
+document.querySelectorAll(
+    ".filter-btn"
+).forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                document.querySelectorAll(
+                    ".filter-btn"
+                ).forEach(
+                    item =>
+                    item.classList.remove(
+                        "active"
+                    )
+                );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                const filter =
+                normalize(
+                    this.dataset.filter
+                );
+
+
+                if(filter === "all"){
+
+                    renderProjects(
+                        allProjects
+                    );
+
+                    return;
+
+                }
+
+
+                const filtered =
+                allProjects.filter(
+                    project =>
+                    normalize(
+                        projectStatus(
+                            project
+                        )
+                    ) === filter
+                );
+
+
+                if(!filtered.length){
+
+                    showEmptyState(
+                        "No Projects Found",
+                        `There are no ${this.textContent.trim()} projects right now.`
+                    );
+
+                    return;
+
+                }
+
+
+                renderProjects(
+                    filtered
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if(!user){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            const allowed =
+            await loadStudent(
+                user
+            );
+
+
+            if(!allowed){
+
+                await denyAccess();
+
+                return;
+
+            }
+
+
+            document.body.style.visibility =
+            "visible";
+
+
+            await loadProjects();
+
+        }
+        catch(error){
+
+            console.error(
+                "DTE Project Page Verification Error:",
+                error
+            );
+
+
+            await denyAccess();
+
+        }
+
+    }
+);
+
+
+/* ================= LOGOUT ================= */
+
+const logoutButton =
+document.getElementById(
+    "logoutButton"
+);
+
+
+logoutButton.addEventListener(
+    "click",
+    async event => {
+
+        event.preventDefault();
+
+
+        logoutButton.style.pointerEvents =
+        "none";
+
+
+        logoutButton.textContent =
+        "Logging out...";
+
+
+        try{
+
+            await signOut(
+                auth
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "DTE Logout Error:",
+                error
+            );
+
+
+            logoutButton.style.pointerEvents =
+            "auto";
+
+
+            logoutButton.textContent =
+            "↪ Logout";
+
+
+            alert(
+                "Unable to logout. Please try again."
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
