@@ -780,6 +780,17 @@ a{
     Please contact DTE Support.
 </div>
 
+<div id="applicationCard" style="display:none;background:#fff8e6;border:1px solid #f0d58a;border-radius:13px;padding:22px;margin-bottom:22px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;">
+        <div>
+            <div style="font-size:10px;font-weight:bold;letter-spacing:1px;color:#9a6a00;margin-bottom:6px;">ACTION REQUIRED</div>
+            <h3 style="color:#10233f;font-size:18px;margin-bottom:6px;">Complete Your Application</h3>
+            <p style="color:#66758a;font-size:12px;line-height:1.6;">Your application form is mandatory. Please complete it to continue using the DTE Learning Portal.</p>
+        </div>
+        <a href="application.html" style="display:inline-block;background:#0b4771;color:#fff;padding:11px 18px;border-radius:8px;font-size:12px;font-weight:bold;">Fill This Application</a>
+    </div>
+</div>
+
 
 <!-- WELCOME -->
 
@@ -1675,6 +1686,27 @@ async function loadStudentData(user){
 
         const data =
         studentSnapshot.data();
+
+        /* ================= MANDATORY APPLICATION ================= */
+        try{
+            const applicationSnapshot = await getDoc(
+                doc(db,"Applications",user.uid)
+            );
+
+            const applicationCard =
+                document.getElementById("applicationCard");
+
+            if(applicationCard){
+                applicationCard.style.display =
+                    applicationSnapshot.exists() ? "none" : "block";
+            }
+        }
+        catch(applicationError){
+            console.error(
+                "DTE Application Check Error:",
+                applicationError
+            );
+        }
 
 
         /*
