@@ -761,6 +761,22 @@ td{
     .management-controls{grid-template-columns:1fr;}
 }
 
+
+/* APPLICATIONS */
+.application-controls{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:12px;align-items:end;padding:20px 21px;border-bottom:1px solid #e8edf2;background:#fbfcfe;}
+.application-controls label{display:block;font-size:10px;font-weight:bold;color:#52647a;margin-bottom:6px;}
+.application-controls input{width:100%;padding:11px 12px;border:1px solid #d7e0e9;border-radius:8px;background:white;font-size:12px;}
+.application-profile{display:grid;grid-template-columns:110px 1fr;gap:20px;align-items:start;margin-bottom:20px;}
+.application-photo{width:100px;height:100px;border-radius:12px;object-fit:cover;border:1px solid #dbe3eb;background:#f3f6fa;display:flex;align-items:center;justify-content:center;font-size:34px;}
+.application-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.application-detail{background:#f8fafc;border:1px solid #e6ebf0;border-radius:8px;padding:11px;}
+.application-detail span{display:block;font-size:9px;color:#8290a3;margin-bottom:4px;text-transform:uppercase;}
+.application-detail strong{font-size:12px;color:#24374f;word-break:break-word;}
+.application-detail.full{grid-column:1/-1;}
+.application-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.application-link{display:inline-block;padding:9px 12px;border-radius:7px;background:#e8f3ff;color:#0871b5;font-size:10px;font-weight:bold;text-decoration:none;}
+@media(max-width:700px){.application-controls{grid-template-columns:1fr;}.application-profile{grid-template-columns:1fr;}.application-detail-grid{grid-template-columns:1fr;}.application-detail.full{grid-column:auto;}}
+
 /* RESPONSIVE */
 
 @media(max-width:1100px){
@@ -872,6 +888,11 @@ td{
         <div class="menu-item" data-page="approvalsPage">
             <span>✅</span>
             Approvals
+        </div>
+
+        <div class="menu-item" data-page="applicationsPage">
+            <span>📄</span>
+            Applications
         </div>
 
         <div class="menu-title">LEARNING MANAGEMENT</div>
@@ -1290,6 +1311,34 @@ td{
     </div>
 </section>
 
+<!-- APPLICATIONS PAGE -->
+<section class="page" id="applicationsPage">
+    <div class="session-summary">
+        <div class="session-box"><span>Total Applications</span><h3 id="applicationTotalCount">0</h3></div>
+        <div class="session-box"><span>Submitted</span><h3 id="applicationSubmittedCount">0</h3></div>
+        <div class="session-box"><span>With Photo Link</span><h3 id="applicationPhotoCount">0</h3></div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <div><h2>Student Applications</h2><p>Review submitted DTE student applications and complete application details.</p></div>
+            <div class="header-actions">
+                <button class="refresh" id="applicationRefresh">↻ Refresh</button>
+            </div>
+        </div>
+
+        <div class="application-controls">
+            <div>
+                <label>SEARCH APPLICATIONS</label>
+                <input id="applicationSearch" type="search" placeholder="Search by name, email, mobile or college...">
+            </div>
+            <button class="primary-btn" id="clearApplicationSearch">Clear Search</button>
+        </div>
+
+        <div id="applicationsContainer"><div class="empty">Loading applications...</div></div>
+    </div>
+</section>
+
 <!-- ANNOUNCEMENTS PAGE -->
 <section class="page" id="announcementsPage">
     <div class="session-summary">
@@ -1619,11 +1668,6 @@ td{
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-emailjs.init({ publicKey: "ufE6MMaBrbZlqaRvo" });
-</script>
-
 <script type="module">
 
 import {
@@ -1710,6 +1754,7 @@ let progressData = [];
 let projectsData = [];
 let certificatesData = [];
 let announcementsData = [];
+let applicationsData = [];
 
 
 /* ADMIN SECURITY */
@@ -1774,7 +1819,8 @@ onAuthStateChanged(auth, async function(user){
             loadAssignments(),
             loadProgressRecords(),
             loadProjects(),
-            loadCertificatesAdmin()
+            loadCertificatesAdmin(),
+            loadApplications()
         ]);
 
     }
@@ -1910,6 +1956,12 @@ menuItems.forEach(function(item){
                 pageTitle.textContent = "Certificate Management";
                 pageSubtitle.textContent = "Issue and manage student certificates";
                 loadCertificatesAdmin();
+            }
+
+            else if(target === "applicationsPage"){
+                pageTitle.textContent = "Application Management";
+                pageSubtitle.textContent = "Review submitted DTE student applications";
+                loadApplications();
             }
 
             else if(target === "announcementsPage"){
@@ -2306,30 +2358,6 @@ async function(event){
 });
 
 
-async function sendApprovalEmail(student){
-
-    if(!window.emailjs){
-        throw new Error("EmailJS SDK not loaded.");
-    }
-
-    const studentEmail = String(student.email || "").trim();
-
-    if(!studentEmail){
-        throw new Error("Student email is missing.");
-    }
-
-    return window.emailjs.send(
-        "service_1hev019",
-        "template_miwvvwl",
-        {
-            student_name: student.name || "Student",
-            student_email: studentEmail,
-            program: student.program || "Cyber Security & Digital Skills"
-        }
-    );
-}
-
-
 async function changeStudentStatus(
 studentId,
 newStatus
@@ -2351,39 +2379,17 @@ newStatus
             serverTimestamp();
         }
 
-        const studentRef = doc(db,"Students",studentId);
-        const studentSnap = await getDoc(studentRef);
-        const student = studentSnap.exists() ? studentSnap.data() : null;
-
         await updateDoc(
-            studentRef,
+            doc(db,"Students",studentId),
             data
         );
 
-        if(newStatus === "Active" && student){
-            try{
-                await sendApprovalEmail(student);
-                showToast(
-                    "Student approved and approval email sent ✓",
-                    "success"
-                );
-            }
-            catch(emailError){
-                console.error("Approval email error:", emailError);
-                showToast(
-                    "Student approved, but approval email could not be sent.",
-                    "error"
-                );
-            }
-        }
-        else{
-            showToast(
-                newStatus === "Active"
-                ? "Student approved successfully ✓"
-                : "Student registration rejected.",
-                "success"
-            );
-        }
+        showToast(
+            newStatus === "Active"
+            ? "Student approved successfully ✓"
+            : "Student registration rejected.",
+            "success"
+        );
 
         await loadStudents();
 
@@ -3963,6 +3969,270 @@ document.addEventListener("click",async function(event){
         catch(error){console.error(error);showToast("Unable to delete certificate.","error");}
     }
 });
+
+/* APPLICATIONS */
+
+async function loadApplications(){
+    const container = document.getElementById("applicationsContainer");
+    if(!container) return;
+
+    container.innerHTML = `<div class="empty">Loading applications...</div>`;
+
+    try{
+        const snapshot = await getDocs(collection(db,"Applications"));
+
+        applicationsData = [];
+
+        snapshot.forEach(function(item){
+            applicationsData.push({
+                id:item.id,
+                ...item.data()
+            });
+        });
+
+        applicationsData.sort(function(a,b){
+            const ta = a.submittedAt && a.submittedAt.toMillis ? a.submittedAt.toMillis() : 0;
+            const tb = b.submittedAt && b.submittedAt.toMillis ? b.submittedAt.toMillis() : 0;
+            return tb - ta;
+        });
+
+        renderApplicationStatistics();
+        renderApplications();
+    }
+    catch(error){
+        console.error("Application load error:",error);
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠️</div>
+                <h3>Unable to Load Applications</h3>
+                <p>Check Firestore Applications rules and try again.</p>
+            </div>`;
+        showToast("Unable to load applications.","error");
+    }
+}
+
+function renderApplicationStatistics(){
+    const total = applicationsData.length;
+    const submitted = applicationsData.filter(function(a){
+        return normalize(a.status || "") === "submitted";
+    }).length;
+    const photo = applicationsData.filter(function(a){
+        return !!(a.photoDriveLink || a.photoData);
+    }).length;
+
+    document.getElementById("applicationTotalCount").textContent = total;
+    document.getElementById("applicationSubmittedCount").textContent = submitted;
+    document.getElementById("applicationPhotoCount").textContent = photo;
+}
+
+function applicationDate(value){
+    if(!value) return "-";
+    try{
+        const date = value.toDate ? value.toDate() : new Date(value);
+        if(isNaN(date.getTime())) return "-";
+        return date.toLocaleString("en-IN",{
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        });
+    }catch(error){
+        return "-";
+    }
+}
+
+function applicationPhotoLink(app){
+    if(app.photoDriveLink){
+        return `<a class="application-link" href="${escapeHTML(app.photoDriveLink)}" target="_blank" rel="noopener">📷 View Photo</a>`;
+    }
+
+    if(app.photoData){
+        return `<a class="application-link" href="${escapeHTML(app.photoData)}" target="_blank" rel="noopener">📷 View Photo</a>`;
+    }
+
+    return `<span class="small-text">No photo link</span>`;
+}
+
+function renderApplications(){
+    const container = document.getElementById("applicationsContainer");
+    if(!container) return;
+
+    const searchInput = document.getElementById("applicationSearch");
+    const query = normalize(searchInput ? searchInput.value : "");
+
+    const filtered = applicationsData.filter(function(app){
+        if(!query) return true;
+
+        const haystack = [
+            app.name,
+            app.email,
+            app.mobile,
+            app.college,
+            app.course,
+            app.city,
+            app.district,
+            app.id
+        ].map(function(value){
+            return normalize(String(value || ""));
+        }).join(" ");
+
+        return haystack.includes(query);
+    });
+
+    if(filtered.length === 0){
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📄</div>
+                <h3>No Applications Found</h3>
+                <p>Submitted student applications will appear here.</p>
+            </div>`;
+        return;
+    }
+
+    let rows = "";
+
+    filtered.forEach(function(app){
+        const status = String(app.status || "Submitted");
+        const statusClass = normalize(status) === "submitted" ? "active" : "pending";
+
+        rows += `
+            <tr>
+                <td>
+                    <div class="student-name">${escapeHTML(app.name || "Student")}</div>
+                    <div class="student-email">${escapeHTML(app.email || "-")}</div>
+                </td>
+                <td>${escapeHTML(app.mobile || "-")}</td>
+                <td>${escapeHTML(app.course || "-")}</td>
+                <td>${escapeHTML(app.college || "-")}</td>
+                <td><span class="status ${statusClass}">${escapeHTML(status)}</span></td>
+                <td>${escapeHTML(applicationDate(app.submittedAt))}</td>
+                <td>
+                    <button class="btn edit" data-application-view="${escapeHTML(app.id)}">View Details</button>
+                </td>
+            </tr>`;
+    });
+
+    container.innerHTML = `
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Mobile</th>
+                        <th>Course</th>
+                        <th>College</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>`;
+}
+
+function showApplicationDetails(applicationId){
+    const app = applicationsData.find(function(item){
+        return item.id === applicationId;
+    });
+
+    if(!app) return;
+
+    const photo = app.photoDriveLink || app.photoData || "";
+    const photoHtml = photo
+        ? `<a href="${escapeHTML(photo)}" target="_blank" rel="noopener"><div class="application-photo">📷</div></a>`
+        : `<div class="application-photo">📷</div>`;
+
+    const html = `
+        <div class="modal" id="applicationDetailModal" style="display:flex;">
+            <div class="modal-card" style="max-width:850px;">
+                <div class="modal-header">
+                    <div>
+                        <h2>Application Details</h2>
+                        <div class="small-text">Application ID: ${escapeHTML(app.id)}</div>
+                    </div>
+                    <button class="close-modal" id="closeApplicationDetail">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="application-profile">
+                        <div>${photoHtml}</div>
+                        <div>
+                            <h2 style="font-size:20px;margin-bottom:5px;">${escapeHTML(app.name || "Student")}</h2>
+                            <div class="small-text">${escapeHTML(app.email || "-")}</div>
+                            <div class="application-actions">${applicationPhotoLink(app)}</div>
+                        </div>
+                    </div>
+
+                    <div class="application-detail-grid">
+                        ${applicationDetail("Mobile / WhatsApp",app.mobile)}
+                        ${applicationDetail("Date of Birth",app.dob)}
+                        ${applicationDetail("Gender",app.gender)}
+                        ${applicationDetail("Course / Education",app.course)}
+                        ${applicationDetail("Year / Semester",app.yearSemester)}
+                        ${applicationDetail("College / Institute",app.college)}
+                        ${applicationDetail("City / Village",app.city)}
+                        ${applicationDetail("District",app.district)}
+                        ${applicationDetail("State",app.state)}
+                        ${applicationDetail("PIN Code",app.pincode)}
+                        ${applicationDetail("Laptop",app.laptop)}
+                        ${applicationDetail("Learning Mode",app.mode)}
+                        ${applicationDetail("Interests",app.interests,true)}
+                        ${applicationDetail("Reason for Joining",app.reason,true)}
+                        ${applicationDetail("Address",app.address,true)}
+                        ${applicationDetail("Status",app.status)}
+                        ${applicationDetail("Submitted At",applicationDate(app.submittedAt))}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.body.insertAdjacentHTML("beforeend",html);
+
+    document.getElementById("closeApplicationDetail").addEventListener("click",function(){
+        document.getElementById("applicationDetailModal").remove();
+    });
+
+    document.getElementById("applicationDetailModal").addEventListener("click",function(event){
+        if(event.target.id === "applicationDetailModal"){
+            event.currentTarget.remove();
+        }
+    });
+}
+
+function applicationDetail(label,value,full=false){
+    return `
+        <div class="application-detail ${full ? "full" : ""}">
+            <span>${escapeHTML(label)}</span>
+            <strong>${escapeHTML(String(value || "-"))}</strong>
+        </div>`;
+}
+
+document.addEventListener("click",function(event){
+    const button = event.target.closest("[data-application-view]");
+    if(button){
+        showApplicationDetails(button.dataset.applicationView);
+    }
+});
+
+const applicationRefresh = document.getElementById("applicationRefresh");
+if(applicationRefresh){
+    applicationRefresh.addEventListener("click",loadApplications);
+}
+
+const applicationSearch = document.getElementById("applicationSearch");
+if(applicationSearch){
+    applicationSearch.addEventListener("input",renderApplications);
+}
+
+const clearApplicationSearch = document.getElementById("clearApplicationSearch");
+if(clearApplicationSearch){
+    clearApplicationSearch.addEventListener("click",function(){
+        applicationSearch.value = "";
+        renderApplications();
+    });
+}
+
 
 /* ANNOUNCEMENTS */
 async function loadAnnouncements(){
